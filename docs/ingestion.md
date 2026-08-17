@@ -19,6 +19,7 @@ Recommendation:
 
 - primary extraction tool: `Docling`
 - fallback/debug tool: `PyMuPDF`
+- rapid LLM-oriented extraction option: `PyMuPDF4LLM`
 - store both document-level and chunk-level records
 - preserve section lineage so hierarchical retrieval remains possible later
 
@@ -39,6 +40,28 @@ Use `PyMuPDF` as a secondary tool for:
 - fast debugging
 - extraction sanity checks
 - custom page-level fixes if needed
+
+`PyMuPDF4LLM` is also worth considering when we want:
+
+- quick Markdown or JSON output for RAG experiments
+- a lightweight local extraction path
+- an additional benchmark against Docling on the same manuals
+
+Recommendation on `PyMuPDF4LLM`:
+
+- `Yes`, consider it
+- but not as the primary structured extraction path for this repo
+
+Why:
+
+- it is optimized for LLM-ready extraction and can produce useful Markdown, JSON, OCR-assisted output, and page chunks quickly
+- but `Docling` is still a stronger fit for our current goal of preserving structure deliberately for ingestion, metadata design, and future hierarchical retrieval
+
+Best role for `PyMuPDF4LLM` in this project:
+
+- a rapid prototyping extractor
+- a fallback comparison tool
+- a useful local benchmark for extraction quality on tricky pages, tables, and OCR cases
 
 Do not optimize for the simplest text dump. Optimize for future structure retention.
 
@@ -306,7 +329,7 @@ The recommended ingestion path is:
 
 1. Extract PDFs into a structured document format.
 2. Preserve headings, sections, page spans, tables, and image references.
-3. Create section-aware child chunks with parent lineage.
+3. Use parent-child hierarchical chunking with semantic splitting only inside oversized units.
 4. Store metadata that supports both current hybrid and future hierarchical hybrid retrieval.
 5. Add ingestion validation and versioning from the beginning.
 
@@ -317,3 +340,5 @@ The recommended ingestion path is:
 - Docling document hierarchy and structure: <https://github.com/docling-project/docling/blob/main/docs/concepts/docling_document.md>
 - PyMuPDF basics and table extraction: <https://pymupdf.readthedocs.io/en/latest/the-basics.html>
 - PyMuPDF table extraction FAQ: <https://pymupdf.readthedocs.io/en/latest/faq/index.html>
+- PyMuPDF4LLM: <https://github.com/pymupdf/pymupdf4llm>
+- PyMuPDF4LLM docs: <https://pymupdf.readthedocs.io/en/latest/pymupdf4llm>

@@ -75,6 +75,36 @@ Tradeoffs:
 - less transparent for learning the mechanics than a simpler stack
 - still another service with its own operating model
 
+### Option 5: Pinecone
+
+Strengths:
+
+- fully managed service with strong vector search ergonomics
+- supports integrated embeddings and hosted reranking
+- supports dense, sparse, and full-text-style ranking fields in newer document-oriented indexing flows
+- good fit if we want managed infrastructure and faster hosted experimentation
+
+Tradeoffs:
+
+- less transparent than Postgres for relational metadata modeling and joins
+- some richer document-style indexing capabilities are newer and should be adopted carefully
+- less educational than an explicit app-managed retrieval pipeline if learning internals is a priority
+
+### Option 6: Chroma
+
+Strengths:
+
+- simple developer experience
+- good for local prototyping and quick iteration
+- supports embedding functions, sparse embeddings, and hybrid ranking expressions
+- easy to use when we want to test retrieval ideas quickly
+
+Tradeoffs:
+
+- less natural than Postgres for rich hierarchy, ingestion bookkeeping, and relational queries
+- better suited to experimentation than to our preferred production-minded default
+- reranking is more naturally handled in the application layer than treated as a core integrated database feature
+
 ## Recommendation
 
 Recommendation: `PostgreSQL + pgvector + PostgreSQL full-text search`.
@@ -87,6 +117,12 @@ Why this is the best fit now:
 - it leaves room for hierarchical metadata without redesigning the data model
 
 For this repo, the best first tradeoff is not the most specialized retrieval engine. It is the one that gives strong retrieval, clean metadata modeling, and easy observability in one place.
+
+Practical note:
+
+- `Weaviate/Chroma` are reasonable if we want faster experimentation with more built-in abstractions
+- `Pinecone` is a strong managed option if we want more hosted retrieval components with less infrastructure work
+- `PostgreSQL + pgvector` still remains the clearest default for this repo because of metadata modeling, inspectability, and learning value
 
 ## Decision Details
 
@@ -183,6 +219,8 @@ If that happens, the most likely next candidates are:
 
 - `Qdrant` for vector-first and multi-stage retrieval experiments
 - `OpenSearch` for search-heavy production scale
+- `Pinecone` for a more managed hosted retrieval stack
+- `Weaviate/Chroma` for faster experimentation with more built-in retrieval abstractions
 
 ## Chosen Path
 
@@ -204,3 +242,7 @@ The recommended datastore path is:
 - Qdrant hybrid and multi-stage queries: <https://qdrant.tech/documentation/search/hybrid-queries/>
 - OpenSearch hybrid search tutorial: <https://docs.opensearch.org/latest/tutorials/vector-search/neural-search-tutorial/>
 - Weaviate hybrid search: <https://docs.weaviate.io/weaviate/concepts/search/hybrid-search>
+- Pinecone index creation and integrated embedding: <https://docs.pinecone.io/guides/index-data/create-an-index>
+- Pinecone reranking: <https://docs.pinecone.io/guides/search/rerank-results>
+- Chroma embedding functions: <https://docs.trychroma.com/docs/embeddings/embedding-functions>
+- Chroma ranking and hybrid search: <https://docs.trychroma.com/cloud/search-api/ranking>
