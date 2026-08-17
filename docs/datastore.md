@@ -148,11 +148,27 @@ This helps exact matches like warning labels, maintenance terms, fluid names, an
 
 Recommendation:
 
-- primary chunk text
+- an `embedding_text` field built from primary chunk text plus selected heading context
 - optionally section summaries later
 - table text renderings when they contain question-answerable content
 
-Do not embed everything blindly. Preserve control over what becomes semantically searchable.
+Do not embed the full metadata blob blindly. Preserve control over what becomes semantically searchable.
+
+### 5A. How should chunks be stored?
+
+Recommendation: use relational rows as the primary storage format.
+
+Suggested chunk record shape:
+
+- structured columns for ids, page spans, hierarchy, and searchable text
+- one vector column for embeddings
+- optional `jsonb` column for raw extractor output or extended attributes
+
+This gives us:
+
+- fast metadata filters
+- easy debugging of hierarchy and sibling relationships
+- room for raw structured payloads without making JSON the only source of truth
 
 ### 6. When should we consider another datastore later?
 

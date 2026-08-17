@@ -14,16 +14,17 @@ Choose a chunking strategy that:
 
 ## Recommendation
 
-Recommendation: `Section-aware child chunking with parent lineage`.
+Recommendation: `Parent-child hierarchical chunking with semantic splitting inside oversized units`.
 
 What this means:
 
 - treat each manual section as a parent unit
-- split long sections into smaller child chunks for retrieval
-- keep each child chunk linked to its parent section
+- create child chunks inside each parent for retrieval
+- if a child is still too large, split it semantically inside that same parent
+- never let semantic splitting cross parent boundaries
 - preserve heading path and page span for every child chunk
 
-This is the best default for this project because it balances retrieval quality, interpretability, and future extensibility.
+This is the best default for this project because it keeps the manual's real structure while still giving us flexibility when a section is too large or too mixed.
 
 ## Overlap Policy
 
@@ -45,21 +46,90 @@ In practice, overlap should be a supporting mechanism, not the main way context 
 
 ## Should We Use Semantic Chunking?
 
-Recommendation: `Not as the primary chunking strategy in v1`.
+Recommendation: `Yes, but only inside the hierarchical structure`.
 
 Why:
 
 - semantic chunking can produce more coherent chunks than pure fixed-size splitting
-- but embedding-driven or model-driven chunk boundaries are harder to inspect and reproduce
-- for manuals, section headings, warnings, procedures, and tables already provide strong natural boundaries
+- manuals already have strong structural boundaries, so semantic chunking should refine structure rather than replace it
+- this keeps the system more inspectable than fully semantic chunking everywhere
 
 Recommended position:
 
 - use document structure first
-- use semantic cues inside a section when deciding where to split long content
-- defer fully semantic chunking until we have a baseline and evaluation data
+- use semantic cues inside a parent when deciding where to split oversized content
+- do not use semantic chunking across unrelated sections
+- defer fully semantic chunking as a standalone default until we have evaluation data
 
-So the answer is `yes, semantic signals are useful`, but `no, full semantic chunking should not be the primary strategy yet`.
+So the answer is `yes, semantic splitting is part of the plan`, but it should operate inside a parent-child hierarchy rather than replace it.
+
+## Parent-Child Strategy
+
+Recommendation: `Use parent-child hierarchy as the primary chunk model`.
+
+Parent units:
+
+- document sections
+- subsection blocks when the manual clearly provides them
+- table or procedure containers when they behave like standalone units
+
+Child units:
+
+- retrieval-sized chunks inside a parent
+- semantically split only when the initial child would be too large
+
+This gives us:
+
+- faithful structure from the manual
+- better retrieval precision than whole-section chunks
+- a clean path to hierarchical hybrid retrieval later
+
+## How Do We Know If A Chunk Has Siblings?
+
+Recommendation: store sibling relationships explicitly in metadata.
+
+Useful fields:
+
+- `parent_section_id`
+- `chunk_index_within_parent`
+- `sibling_count`
+- `prev_chunk_id` when present
+- `next_chunk_id` when present
+
+This makes it easy to know:
+
+- whether a chunk is the only child in a parent
+- whether adjacent chunks should be expanded for context
+- how to reconstruct the local neighborhood around a retrieved chunk
+
+The simplest rule is:
+
+- if two chunks share the same `parent_section_id`, they are siblings
+- `chunk_index_within_parent` gives their order
+
+## Chunk Size Guidance
+
+Recommendation: use a target size plus a hard ceiling.
+
+Suggested v1 values:
+
+- target child chunk size: `300-500 tokens`
+- preferred soft ceiling: `650 tokens`
+- hard ceiling: `800 tokens`
+
+Why this range:
+
+- it is large enough to preserve short procedures and warnings
+- it is small enough to keep retrieval specific
+- it leaves room for multiple chunks in the final LLM context window
+
+Exceptions:
+
+- do not split small tables just to hit the target size
+- do not break short warning blocks or tightly coupled step sequences unnecessarily
+- if a large procedure must be split, split by logical step groups
+
+So the policy is not "everything must be the same size." It is "keep chunks coherent, but keep them under a reasonable upper bound."
 
 ## Chunking Strategies Considered
 
@@ -139,7 +209,7 @@ Cons:
 - requires more ingestion logic
 - needs good section detection
 
-Recommendation: `Yes`, this is the primary strategy.
+Recommendation: `Yes`, but now folded into the parent-child primary design.
 
 ### 5. Fully semantic chunking
 
@@ -158,7 +228,7 @@ Cons:
 - harder to inspect and tune
 - may not add much value when manuals already have strong structure
 
-Recommendation: `Maybe later`, after baseline evaluation.
+Recommendation: `No` as the primary strategy.
 
 ### 6. Parent-child hierarchical chunking
 
@@ -178,17 +248,18 @@ Cons:
 - more complex than flat chunking
 - needs careful metadata and retrieval design
 
-Recommendation: `Design for it now, compare it later`.
+Recommendation: `Yes`, this is the primary structure.
 
 ## Recommended v1 Chunking Rules
 
 - use headings and section boundaries whenever available
 - use TOC as a structural hint, not a single source of truth
 - keep one coherent procedure, warning block, or explanation together where possible
-- split oversized sections into child chunks for retrieval
+- create children inside each parent section
+- if a child is too large, split it semantically inside that same parent
 - keep table content chunkable and traceable
 - keep figure references attached to nearby explanatory text when useful
-- preserve parent section id, heading path, and page span on every chunk
+- preserve parent section id, heading path, page span, and sibling order on every chunk
 
 ## How Tables And Special Content Affect Chunking
 
@@ -212,7 +283,6 @@ Procedures:
 
 Defer these until we have baseline measurements:
 
-- fully semantic chunking as the default
 - query-adaptive chunking
 - LLM-generated chunk summaries during ingestion
 - multimodal chunking centered on diagrams
@@ -221,8 +291,8 @@ Defer these until we have baseline measurements:
 
 The recommended path is:
 
-1. Start with section-aware child chunking.
-2. Preserve parent-child lineage from day one.
-3. Use structure first and semantic cues second.
+1. Start with parent-child hierarchical chunking.
+2. Preserve parent-child lineage and sibling order from day one.
+3. Use structure first and semantic splitting second.
 4. Keep overlap small and intentional.
-5. Compare this later against a more hierarchical retrieval strategy on the same evaluation set.
+5. Compare this later against alternative chunking variants on the same evaluation set.

@@ -64,7 +64,8 @@ Recommendation: see [chunking.md](/Users/konark/Desktop/Personal/automotive-rag/
 
 Short answer:
 
-- use section-aware child chunking with parent lineage
+- use parent-child hierarchical chunking
+- use semantic splitting only when a child chunk is still too large
 - keep overlap modest
 - preserve section and page provenance
 - make the chunk format compatible with future hierarchical retrieval
@@ -92,6 +93,8 @@ Each chunk should know its:
 - document id
 - parent section id
 - chunk id
+- sibling order
+- sibling count
 - page span
 - heading path
 - source text location
@@ -132,7 +135,12 @@ Chunk-level fields:
 - `doc_id`
 - `section_id`
 - `chunk_index`
+- `chunk_index_within_parent`
+- `sibling_count`
+- `prev_chunk_id`
+- `next_chunk_id`
 - `chunk_text`
+- `embedding_text`
 - `chunk_text_for_keyword_search`
 - `page_start`
 - `page_end`
@@ -144,6 +152,12 @@ Chunk-level fields:
 - `char_count`
 - `token_count_estimate`
 
+Notes:
+
+- `chunk_text` is the canonical chunk content
+- `embedding_text` is the text actually sent to the embedding model
+- `chunk_text_for_keyword_search` can include search-friendly normalization or table renderings
+
 Recommended `content_type` examples:
 
 - `procedure`
@@ -154,6 +168,47 @@ Recommended `content_type` examples:
 - `overview`
 
 This metadata shape should work for both current hybrid retrieval and later hierarchical retrieval.
+
+### 5A. What gets embedded?
+
+Recommendation: embed `content-centric text`, not the full metadata blob.
+
+Embed:
+
+- chunk content
+- useful heading context
+- table text renderings when relevant
+
+Do not embed directly:
+
+- ids
+- timestamps
+- ingestion bookkeeping
+- most filter metadata such as `doc_id`, `year`, or `manual_type`
+
+The practical pattern should be:
+
+- keep structured metadata in columns or fields for filtering
+- build an `embedding_text` field from the chunk content plus selected heading context
+
+### 5B. What format should chunks be stored in?
+
+Recommendation: store chunks as structured records, not just raw JSON blobs.
+
+Recommended storage shape:
+
+- one row per chunk in the main datastore
+- explicit columns for key metadata and text fields
+- vector column for embeddings
+- optional `jsonb` or raw-structure field for extractor output or extra attributes
+
+Why:
+
+- easier filtering and querying
+- easier joins with sections and documents
+- easier debugging than opaque JSON-only storage
+
+JSON is still useful as a secondary representation, but it should not be the only format.
 
 ### 6. What should we do with tables?
 
