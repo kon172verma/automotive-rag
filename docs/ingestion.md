@@ -89,7 +89,8 @@ Short answer:
 
 - use parent-child hierarchical chunking
 - use semantic splitting only when a child chunk is still too large
-- keep overlap modest
+- prefer zero overlap
+- use small overlap only when splitting long prose with weak internal boundaries
 - preserve section and page provenance
 - make the chunk format compatible with future hierarchical retrieval
 

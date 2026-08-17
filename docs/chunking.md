@@ -28,21 +28,24 @@ This is the best default for this project because it keeps the manual's real str
 
 ## Overlap Policy
 
-Recommendation: `Keep overlap modest`.
+Recommendation: `Prefer zero overlap; use small overlap only as a fallback`.
 
 Why:
 
 - overlap helps preserve context across chunk boundaries
 - too much overlap creates duplicate candidates and noisier ranking
+- parent-child hierarchy already preserves broader context through the parent
+- sibling relationships already preserve local neighborhood context
 - hybrid retrieval and reranking usually work better when chunks are distinct enough
 
 Suggested v1 approach:
 
-- use small overlap only when splitting long prose
+- use no overlap when splitting at a clean structural or semantic boundary
+- use small overlap only when splitting long prose with weak internal boundaries
 - prefer structural boundaries over arbitrary overlap
 - do not overlap across section boundaries
 
-In practice, overlap should be a supporting mechanism, not the main way context is preserved.
+In practice, overlap should be a fallback mechanism, not the main way context is preserved.
 
 ## Should We Use Semantic Chunking?
 
@@ -83,6 +86,14 @@ This gives us:
 - faithful structure from the manual
 - better retrieval precision than whole-section chunks
 - a clean path to hierarchical hybrid retrieval later
+
+Why overlap is usually unnecessary here:
+
+- parent sections preserve broader context
+- sibling ordering preserves local neighborhood context
+- semantic splits aim to break at meaningful boundaries rather than arbitrary token counts
+
+If additional context is needed later, retrieval-time expansion to adjacent siblings is usually cleaner than duplicating text across stored chunks.
 
 ## How Do We Know If A Chunk Has Siblings?
 
