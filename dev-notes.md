@@ -1,6 +1,6 @@
 # Dev Notes
 
-This document records the main local commands for rerunning the current ingestion and chunking workflow.
+This document records the main local commands for rerunning the current ingestion, chunking, and embedding workflow.
 
 ## Environment Setup
 
@@ -53,6 +53,37 @@ Generated files go to:
 - `artifacts/chunks`: final chunk artifacts
 - `artifacts/reports`: per-manual reports and aggregate summary
 
+Embedding artifacts go to:
+
+- `artifacts/embeddings`: one JSONL file per manual with chunk vectors
+- `artifacts/embedding-reports`: per-manual embedding reports and aggregate summary
+
+## Embeddings
+
+Generate embeddings for all chunk files:
+
+```bash
+.venv/bin/python scripts/create_embeddings.py
+```
+
+Generate embeddings for a single manual:
+
+```bash
+.venv/bin/python scripts/create_embeddings.py --match '2020-toyota-yaris.json'
+```
+
+Regenerate embeddings if output files already exist:
+
+```bash
+.venv/bin/python scripts/create_embeddings.py --overwrite
+```
+
+Tune batching:
+
+```bash
+.venv/bin/python scripts/create_embeddings.py --batch-size 32
+```
+
 Inspect the summary report:
 
 ```bash
@@ -63,6 +94,12 @@ Inspect one chunk artifact:
 
 ```bash
 sed -n '1,200p' artifacts/chunks/2020-toyota-yaris.json
+```
+
+Inspect one embedding artifact:
+
+```bash
+sed -n '1,5p' artifacts/embeddings/2020-toyota-yaris.jsonl
 ```
 
 Print a compact report summary:

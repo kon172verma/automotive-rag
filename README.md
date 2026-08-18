@@ -80,6 +80,7 @@ Key documents:
 
 - [docs/architecture.md](/Users/konark/Desktop/Personal/automotive-rag/docs/architecture.md): top-level architecture choices
 - [docs/dev-notes.md](/Users/konark/Desktop/Personal/automotive-rag/docs/dev-notes.md): local rerun commands for setup, chunk generation, inspection, and checks
+- [docs/embeddings.md](/Users/konark/Desktop/Personal/automotive-rag/docs/embeddings.md): embedding model choices, dimensions, and current recommendation
 - [docs/ingestion.md](/Users/konark/Desktop/Personal/automotive-rag/docs/ingestion.md): extraction, metadata, tables, images, TOC, and ingestion quality checks
 - [docs/chunking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/chunking.md): chunking strategy options and the recommended approach
 - [docs/datastore.md](/Users/konark/Desktop/Personal/automotive-rag/docs/datastore.md): storage options for vector and keyword search

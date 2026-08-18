@@ -87,6 +87,45 @@ Why:
 - users should be able to inspect the grounding evidence
 - citations make debugging and evaluation much easier
 
+### 6. Should we use a framework like LlamaIndex or LangChain?
+
+Recommendation: `Not in the core v1 pipeline`.
+
+Why:
+
+- the main project value is custom ingestion, chunking, metadata, and retrieval behavior
+- frameworks can reduce boilerplate, but they can also hide retrieval failures
+- we want the first version to stay easy to inspect and debug
+
+Current position:
+
+- keep ingestion, chunking, retrieval fusion, and reranking mostly custom
+- consider `LlamaIndex` later for evaluation helpers or retrieval experiments
+- use `LangChain` only later if we need broader app orchestration
+
+### 7. What embedding model should we choose?
+
+Recommendation: start with `text-embedding-3-small`.
+
+Why:
+
+- it is a strong default embedding model with lower cost and easier iteration than larger options
+- it fits the current project stage, where we want to tune chunking, metadata, and retrieval behavior quickly
+- it keeps the first working system simple while still giving us a credible production-style path
+
+What to consider alongside it:
+
+- `text-embedding-3-large`: the stronger quality-focused upgrade path if later evaluation shows the need
+- `BAAI/bge-m3`: the main open-model alternative if we later want self-hosting or unified dense/sparse retrieval experiments
+
+Why not start with `BAAI/bge-m3`:
+
+- it is powerful, but it adds hosting and operational complexity
+- we already plan to do hybrid retrieval using keyword search plus dense vectors, so we do not need unified sparse+dense modeling on day one
+- it is better as a later comparison option than the first default
+
+See also: [docs/embeddings.md](/Users/konark/Desktop/Personal/automotive-rag/docs/embeddings.md)
+
 ## Chosen Path
 
 The recommended path for this repo is:
