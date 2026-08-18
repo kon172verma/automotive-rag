@@ -1,0 +1,14 @@
+{
+  "doc_id": "2020-toyota-yaris",
+  "source_chunk_file": "artifacts/chunks/2020-toyota-yaris.json",
+  "embedding_file": "artifacts/embeddings/2020-toyota-yaris.jsonl",
+  "chunk_count": 874,
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dimensions": 1536,
+  "embedding_version": "v0.1.0",
+  "prompt_tokens_total": 126307,
+  "embedded_at": "2026-08-18T06:39:04.408243+00:00",
+  "source_hash": "97aa6eb494588db031b0a2cf0f30f25a740dec6bad7a1b7ae9767ba60771c678",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "ingestion_version": "v0.1.0"
+}

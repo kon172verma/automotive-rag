@@ -1,0 +1,14 @@
+{
+  "doc_id": "2023-toyota-highlander",
+  "source_chunk_file": "artifacts/chunks/2023-toyota-highlander.json",
+  "embedding_file": "artifacts/embeddings/2023-toyota-highlander.jsonl",
+  "chunk_count": 1320,
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dimensions": 1536,
+  "embedding_version": "v0.1.0",
+  "prompt_tokens_total": 174270,
+  "embedded_at": "2026-08-18T06:40:19.669993+00:00",
+  "source_hash": "85c77aeca4ba2e49c7830d9e03911fd801aba2d6365c809242e3f931439d73a3",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "ingestion_version": "v0.1.0"
+}

@@ -1,0 +1,14 @@
+{
+  "doc_id": "2026-toyota-corolla",
+  "source_chunk_file": "artifacts/chunks/2026-toyota-corolla.json",
+  "embedding_file": "artifacts/embeddings/2026-toyota-corolla.jsonl",
+  "chunk_count": 981,
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dimensions": 1536,
+  "embedding_version": "v0.1.0",
+  "prompt_tokens_total": 134483,
+  "embedded_at": "2026-08-18T06:40:49.270420+00:00",
+  "source_hash": "b57dd6768c9ffe74580b6fe62fb633375a508086d4e85961ef23e148d501a6dc",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "ingestion_version": "v0.1.0"
+}

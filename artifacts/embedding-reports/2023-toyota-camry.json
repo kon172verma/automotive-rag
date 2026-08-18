@@ -1,0 +1,14 @@
+{
+  "doc_id": "2023-toyota-camry",
+  "source_chunk_file": "artifacts/chunks/2023-toyota-camry.json",
+  "embedding_file": "artifacts/embeddings/2023-toyota-camry.jsonl",
+  "chunk_count": 1202,
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dimensions": 1536,
+  "embedding_version": "v0.1.0",
+  "prompt_tokens_total": 156161,
+  "embedded_at": "2026-08-18T06:39:41.329360+00:00",
+  "source_hash": "cacb1afaa5fe4feb758d63613910435dcd4aed0c8590089b124855e44bcbb94f",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "ingestion_version": "v0.1.0"
+}
