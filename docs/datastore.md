@@ -31,6 +31,12 @@ Tradeoffs:
 - hybrid scoring may require more application-side fusion logic
 - search tuning is less turnkey than dedicated search engines
 
+What `pgvector` is in this option:
+
+- a PostgreSQL extension that adds vector column types and vector similarity operators
+- supports exact search by default and approximate nearest neighbor indexing with `HNSW` and `IVFFlat`
+- lets us keep embeddings, relational metadata, and keyword search in the same database
+
 ### Option 2: Qdrant + sparse and dense vectors
 
 Strengths:
@@ -123,6 +129,7 @@ Practical note:
 - `Weaviate/Chroma` are reasonable if we want faster experimentation with more built-in abstractions
 - `Pinecone` is a strong managed option if we want more hosted retrieval components with less infrastructure work
 - `PostgreSQL + pgvector` still remains the clearest default for this repo because of metadata modeling, inspectability, and learning value
+- for local development, we will run PostgreSQL in Docker using the `pgvector/pgvector` image so the extension is available immediately
 
 ## Decision Details
 
@@ -231,6 +238,7 @@ The recommended datastore path is:
 3. Use PostgreSQL full-text search for keyword retrieval.
 4. Keep hybrid fusion and reranking logic in the application layer.
 5. Model data so sections and chunks preserve hierarchy and provenance.
+6. Run the first local development setup in Docker before considering cloud hosting.
 
 ## References
 

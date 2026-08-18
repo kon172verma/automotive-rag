@@ -1,6 +1,6 @@
 # Dev Notes
 
-This document records the main local commands for rerunning the current ingestion, chunking, and embedding workflow.
+This document records the main local commands for rerunning the current ingestion, chunking, embedding, and local database workflow.
 
 ## Environment Setup
 
@@ -15,6 +15,68 @@ Install dependencies:
 ```bash
 .venv/bin/pip install -r requirements.txt
 ```
+
+## Local Postgres
+
+The Docker setup reads credentials from `.env`:
+
+- `POSTGRES_DB`
+- `POSTGRES_USER`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_PORT`
+
+Start the local PostgreSQL + `pgvector` container:
+
+```bash
+docker compose up -d
+```
+
+Stop the container:
+
+```bash
+docker compose down
+```
+
+Stop the container and remove the database volume:
+
+```bash
+docker compose down -v
+```
+
+View database logs:
+
+```bash
+docker compose logs -f postgres
+```
+
+Connect with `psql` inside the container:
+
+```bash
+set -a
+source .env
+set +a
+docker compose exec -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
+  psql -U "$POSTGRES_USER" -d "${POSTGRES_DB:-automotive_rag}"
+```
+
+Check that `pgvector` is enabled:
+
+```bash
+set -a
+source .env
+set +a
+docker compose exec -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
+  psql -U "$POSTGRES_USER" -d "${POSTGRES_DB:-automotive_rag}" -c "\\dx"
+```
+
+The local defaults in [docker-compose.yml](/Users/konark/Desktop/Personal/automotive-rag/docker-compose.yml) are:
+
+- database: `automotive_rag`
+- user: read from `POSTGRES_USER`
+- password: read from `POSTGRES_PASSWORD`
+- port: `5432`
+
+You can override all four values with `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_PORT`.
 
 ## Chunk Generation
 
@@ -58,6 +120,21 @@ Embedding artifacts go to:
 - `artifacts/embeddings`: one JSONL file per manual with chunk vectors
 - `artifacts/embedding-reports`: per-manual embedding reports and aggregate summary
 
+Database init files live in:
+
+- `db/init`: SQL files run automatically on first container startup
+
+Apply the schema manually to an existing local container:
+
+```bash
+set -a
+source .env
+set +a
+docker compose exec -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
+  psql -U "$POSTGRES_USER" -d "${POSTGRES_DB:-automotive_rag}" \
+  -f /docker-entrypoint-initdb.d/002-create-schema.sql
+```
+
 ## Embeddings
 
 Generate embeddings for all chunk files:
@@ -82,6 +159,26 @@ Tune batching:
 
 ```bash
 .venv/bin/python scripts/create_embeddings.py --batch-size 32
+```
+
+## PostgreSQL Load
+
+Load all chunk and embedding artifacts into PostgreSQL:
+
+```bash
+.venv/bin/python scripts/load_postgres.py
+```
+
+Load one document:
+
+```bash
+.venv/bin/python scripts/load_postgres.py --match '2020-toyota-yaris.json'
+```
+
+If the schema is already applied and you only want to reload data:
+
+```bash
+.venv/bin/python scripts/load_postgres.py --skip-schema
 ```
 
 Inspect the summary report:
