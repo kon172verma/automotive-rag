@@ -1,0 +1,13 @@
+{
+  "doc_id": "2026-toyota-corolla",
+  "source_file": "manuals/2026-toyota-corolla.pdf",
+  "document_json": "artifacts/documents/2026-toyota-corolla.json",
+  "section_count": 903,
+  "chunk_count": 981,
+  "page_count": 473,
+  "source_hash": "b57dd6768c9ffe74580b6fe62fb633375a508086d4e85961ef23e148d501a6dc",
+  "ingestion_version": "v0.1.0",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "max_chunk_tokens": 743,
+  "avg_chunk_tokens": 150.21
+}

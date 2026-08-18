@@ -1,0 +1,13 @@
+{
+  "doc_id": "2023-toyota-highlander",
+  "source_file": "manuals/2023-toyota-highlander.pdf",
+  "document_json": "artifacts/documents/2023-toyota-highlander.json",
+  "section_count": 1237,
+  "chunk_count": 1320,
+  "page_count": 568,
+  "source_hash": "85c77aeca4ba2e49c7830d9e03911fd801aba2d6365c809242e3f931439d73a3",
+  "ingestion_version": "v0.1.0",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "max_chunk_tokens": 769,
+  "avg_chunk_tokens": 146.06
+}

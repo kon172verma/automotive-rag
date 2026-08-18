@@ -1,0 +1,13 @@
+{
+  "doc_id": "2023-toyota-camry",
+  "source_file": "manuals/2023-toyota-camry.pdf",
+  "document_json": "artifacts/documents/2023-toyota-camry.json",
+  "section_count": 1158,
+  "chunk_count": 1202,
+  "page_count": 664,
+  "source_hash": "cacb1afaa5fe4feb758d63613910435dcd4aed0c8590089b124855e44bcbb94f",
+  "ingestion_version": "v0.1.0",
+  "chunking_strategy": "parent_child_semantic_split_v1",
+  "max_chunk_tokens": 649,
+  "avg_chunk_tokens": 137.01
+}
