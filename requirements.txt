@@ -1,2 +1,3 @@
 docling
 openai
+psycopg[binary]

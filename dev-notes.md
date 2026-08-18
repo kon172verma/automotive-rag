@@ -24,8 +24,11 @@ The Docker setup reads credentials from `.env`:
 - `POSTGRES_USER`
 - `POSTGRES_PASSWORD`
 - `POSTGRES_PORT`
+- `PGADMIN_DEFAULT_EMAIL`
+- `PGADMIN_DEFAULT_PASSWORD`
+- `PGADMIN_PORT`
 
-Start the local PostgreSQL + `pgvector` container:
+Start the local PostgreSQL + `pgvector` + `pgAdmin` containers:
 
 ```bash
 docker compose up -d
@@ -48,6 +51,31 @@ View database logs:
 ```bash
 docker compose logs -f postgres
 ```
+
+View `pgAdmin` logs:
+
+```bash
+docker compose logs -f pgadmin
+```
+
+Open `pgAdmin` in the browser:
+
+```text
+http://localhost:${PGADMIN_PORT:-5050}
+```
+
+Login with:
+
+- email: `PGADMIN_DEFAULT_EMAIL`
+- password: `PGADMIN_DEFAULT_PASSWORD`
+
+In `pgAdmin`, register the local Postgres server with:
+
+- host: `postgres`
+- port: `5432`
+- database: `POSTGRES_DB`
+- username: `POSTGRES_USER`
+- password: `POSTGRES_PASSWORD`
 
 Connect with `psql` inside the container:
 
@@ -74,9 +102,10 @@ The local defaults in [docker-compose.yml](/Users/konark/Desktop/Personal/automo
 - database: `automotive_rag`
 - user: read from `POSTGRES_USER`
 - password: read from `POSTGRES_PASSWORD`
-- port: `5432`
+- postgres port: `5432`
+- pgAdmin port: `5050`
 
-You can override all four values with `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_PORT`.
+You can override the database values with `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_PORT`, and the `pgAdmin` login and port with `PGADMIN_DEFAULT_EMAIL`, `PGADMIN_DEFAULT_PASSWORD`, and `PGADMIN_PORT`.
 
 ## Chunk Generation
 
