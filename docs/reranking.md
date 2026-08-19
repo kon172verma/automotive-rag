@@ -45,6 +45,64 @@ This differs from the embedding model:
 - embeddings support fast independent encoding for large-scale retrieval
 - rerankers support slower but more precise scoring on a small candidate set
 
+## Rerankers To Consider
+
+### 1. `cross-encoder/ms-marco-MiniLM-L6-v2`
+
+Recommendation: `Default v1 reranker to try first`.
+
+Why it fits now:
+
+- simple and well-known cross-encoder baseline
+- easy to run locally with Sentence Transformers
+- strong enough to validate whether reranking is helping at all
+- lighter than larger rerankers, which makes early iteration easier
+
+Why it is not automatically the long-term choice:
+
+- it is primarily an English MS MARCO-style reranker
+- it is a practical baseline, not necessarily the best production endpoint for every future manual set
+
+### 2. `BAAI/bge-reranker-v2-m3`
+
+Recommendation: `Main stronger open-model comparison`.
+
+Why it is interesting:
+
+- purpose-built reranker rather than a generic embedding model
+- multilingual
+- stronger long-term fit if we later support more languages or want a more retrieval-focused open reranker
+
+Why not start here immediately:
+
+- larger and a bit heavier operationally than a small MiniLM reranker
+- adds more inference complexity before we have measured whether reranking helps enough to matter
+
+### 3. Cohere `rerank-v4.0` or `rerank-v3.5`
+
+Recommendation: `Main hosted reranker option if we want an API-managed second stage`.
+
+Why it is interesting:
+
+- easy hosted integration
+- designed specifically for second-stage reranking
+- useful if we want to compare local open rerankers against a managed API option
+
+Why not make it the default right now:
+
+- introduces another external vendor into the pipeline
+- adds usage cost and another API dependency
+- we should first confirm the value of reranking with a simpler baseline
+
+## Current Recommendation
+
+Recommendation for this repo:
+
+1. start with `cross-encoder/ms-marco-MiniLM-L6-v2`
+2. measure before-vs-after reranking on the current eval set
+3. compare later against `BAAI/bge-reranker-v2-m3`
+4. consider Cohere rerank only if we specifically want a hosted reranker path
+
 ## Candidate Pool Size
 
 Recommendation: rerank only the top `20-30` fused candidates first.
@@ -144,3 +202,12 @@ Not in the first reranking phase:
 - answer-aware reranking
 - multi-stage learned ranking stacks
 - LLM reranking in the main baseline
+
+## References
+
+- Sentence Transformers retrieve-and-rerank guide: <https://www.sbert.net/examples/sentence_transformer/applications/retrieve_rerank/README.html>
+- Sentence Transformers cross-encoder pretrained models: <https://www.sbert.net/docs/cross_encoder/pretrained_models.html>
+- `cross-encoder/ms-marco-MiniLM-L6-v2` model card: <https://huggingface.co/cross-encoder/ms-marco-MiniLM-L6-v2>
+- `BAAI/bge-reranker-v2-m3` model card: <https://huggingface.co/BAAI/bge-reranker-v2-m3>
+- Cohere rerank overview: <https://docs.cohere.com/docs/rerank-overview>
+- Cohere reranking best practices: <https://docs.cohere.com/docs/reranking-best-practices>

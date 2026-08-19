@@ -6,7 +6,7 @@ This document defines the first retrieval pipeline we should build before adding
 
 Build a retrieval pipeline that:
 
-- takes a user question plus vehicle context
+- takes a user question plus structured vehicle identity
 - filters to the correct vehicle manual or manual set
 - combines keyword and dense retrieval
 - returns inspectable evidence with page-aware metadata
@@ -39,18 +39,15 @@ Why:
 Each retrieval request should start with:
 
 - `question`
-- `vehicle_context`
-- optional structured vehicle fields if available:
-  - `make`
-  - `model`
-  - `year`
+- `make`
+- `model`
+- `year`
 
 Example:
 
 ```json
 {
   "question": "How do I check the engine oil?",
-  "vehicle_context": "2023 Toyota Camry",
   "make": "toyota",
   "model": "camry",
   "year": 2023
@@ -65,8 +62,9 @@ First narrow the candidate set using metadata.
 
 Recommended minimum filter behavior:
 
-- filter by `doc_id` when the user already selected a vehicle
-- otherwise filter by `make`, `model`, and `year` if the request provides them
+- require `make`, `model`, and `year` on every request
+- resolve those fields to the expected manual or manual set
+- filter retrieval candidates using those required vehicle fields before keyword or vector search
 - never search across unrelated manuals unless the product intentionally supports that mode
 
 Why:
@@ -173,7 +171,7 @@ A good retrieval result should:
 For every retrieval experiment, log:
 
 - input question
-- vehicle context
+- input `make`, `model`, and `year`
 - metadata filter used
 - keyword candidates
 - vector candidates
