@@ -42,6 +42,15 @@ It should not:
 - blend answers across the wrong model or year
 - hide uncertainty
 - cite irrelevant pages
+- read like an annotation note instead of an answer
+
+For the eval set specifically:
+
+- `question` should read like a natural user question
+- `question` should usually not repeat the full vehicle name if `vehicle_context` already carries it
+- `reference_answer` should answer the question directly
+- `reference_answer` should avoid repetitive phrasing such as `the manual says`
+- `reference_answer` should include the actual value, instruction, or conclusion when the manual provides one
 
 ## What Citations Should Look Like
 

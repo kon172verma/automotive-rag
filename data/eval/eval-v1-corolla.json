@@ -1,0 +1,669 @@
+{
+  "dataset_id": "eval-v1-corolla",
+  "version": "0.1.0",
+  "status": "pilot",
+  "scope": "First manually curated evaluation subset for the 2026 Toyota Corolla manual. Balanced across five categories with five questions per category.",
+  "doc_ids": [
+    "2026-toyota-corolla"
+  ],
+  "categories": [
+    "maintenance",
+    "warning_lights",
+    "troubleshooting",
+    "specifications",
+    "procedures"
+  ],
+  "target_examples": 25,
+  "examples": [
+    {
+      "question_id": "corolla-2026-maintenance-001",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "maintenance",
+      "question": "What does the maintenance and care overview include?",
+      "reference_answer": "Maintenance and care overview points to the maintenance requirements, general maintenance, and do-it-yourself maintenance sections, including items such as tires, air conditioning filter, battery, fuses, and light bulbs.",
+      "expected_sections": [
+        "Maintenance and care"
+      ],
+      "expected_pages": [
+        {
+          "start": 286,
+          "end": 287
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0576::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Useful overview question for the Corolla maintenance area."
+    },
+    {
+      "question_id": "corolla-2026-maintenance-002",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "maintenance",
+      "question": "How often should general maintenance be performed?",
+      "reference_answer": "General maintenance should be performed on a daily basis and may be done by the owner or a Toyota dealer.",
+      "expected_sections": [
+        "General maintenance"
+      ],
+      "expected_pages": [
+        {
+          "start": 293,
+          "end": 295
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0595::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good direct comparison with the other manuals."
+    },
+    {
+      "question_id": "corolla-2026-maintenance-003",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "maintenance",
+      "question": "How should scheduled maintenance be handled?",
+      "reference_answer": "Scheduled maintenance should be performed at specified intervals. For maintenance items and schedule details, use the Scheduled Maintenance Guide or Owner's Manual Supplement.",
+      "expected_sections": [
+        "Scheduled maintenance"
+      ],
+      "expected_pages": [
+        {
+          "start": 293,
+          "end": 293
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0596::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good referral-style maintenance question."
+    },
+    {
+      "question_id": "corolla-2026-maintenance-004",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "maintenance",
+      "question": "How do I check the engine oil?",
+      "reference_answer": "Park on level ground, warm up and shut off the engine, wait about 5 minutes, remove and wipe the dipstick, reinsert it fully, then pull it out again to check whether the level is above the low mark.",
+      "expected_sections": [
+        "Checking the engine oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 303,
+          "end": 304
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0610::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Ordered oil-check procedure."
+    },
+    {
+      "question_id": "corolla-2026-maintenance-005",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "maintenance",
+      "question": "What should I do if the engine oil is low?",
+      "reference_answer": "If the oil level is below or near the low mark, confirm the oil type, remove the filler cap, add engine oil slowly while checking the dipstick, and make sure the level stays between the low and refill upper limit marks.",
+      "expected_sections": [
+        "Adding engine oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 304,
+          "end": 305
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0615::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good low-oil corrective-action question."
+    },
+    {
+      "question_id": "corolla-2026-warning-001",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "warning_lights",
+      "question": "What should I do if a warning light turns on or a warning buzzer sounds?",
+      "reference_answer": "Calmly perform the appropriate actions. If the warning continues to occur, have the vehicle inspected by a Toyota dealer.",
+      "expected_sections": [
+        "If a warning light turns on or a warning buzzer sounds"
+      ],
+      "expected_pages": [
+        {
+          "start": 351,
+          "end": 351
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0725::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Broad warning-section entry point."
+    },
+    {
+      "question_id": "corolla-2026-warning-002",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "warning_lights",
+      "question": "What can the tire pressure warning light mean?",
+      "reference_answer": "It can indicate a malfunction in the tire pressure warning system, low tire inflation pressure from natural causes, or low pressure due to a flat tire.",
+      "expected_sections": [
+        "Tire pressure warning light"
+      ],
+      "expected_pages": [
+        {
+          "start": 355,
+          "end": 355
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0741::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Multi-cause warning-light case."
+    },
+    {
+      "question_id": "corolla-2026-warning-003",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "warning_lights",
+      "question": "What does the brake hold operated indicator mean if it flashes?",
+      "reference_answer": "A flashing brake hold operated indicator means there is a malfunction in the brake hold system. Have the vehicle inspected by a Toyota dealer immediately.",
+      "expected_sections": [
+        "Brake hold operated indicator"
+      ],
+      "expected_pages": [
+        {
+          "start": 358,
+          "end": 358
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0751::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "System-specific warning example."
+    },
+    {
+      "question_id": "corolla-2026-warning-004",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "warning_lights",
+      "question": "What should I do if both the ABS and brake system warning lights remain on?",
+      "reference_answer": "Stop the vehicle in a safe place immediately and contact a Toyota dealer because braking stability may be severely affected.",
+      "expected_sections": [
+        "If both the ABS and the brake system warning lights remain on"
+      ],
+      "expected_pages": [
+        {
+          "start": 359,
+          "end": 359
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0756::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "High-severity braking case."
+    },
+    {
+      "question_id": "corolla-2026-warning-005",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "warning_lights",
+      "question": "What does it mean if a warning message is displayed?",
+      "reference_answer": "Warning messages may indicate system malfunctions, incorrect operations, or a need for maintenance, and the driver should follow the corrective action for the displayed message.",
+      "expected_sections": [
+        "If a warning message is displayed"
+      ],
+      "expected_pages": [
+        {
+          "start": 361,
+          "end": 361
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0759::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Warning-message counterpart to the warning-light section."
+    },
+    {
+      "question_id": "corolla-2026-troubleshooting-001",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "troubleshooting",
+      "question": "What does the manual suggest checking if the vehicle engine will not start?",
+      "reference_answer": "If the engine will not start even though correct starting procedures are being followed, the driver should consider the listed possible causes in the troubleshooting section.",
+      "expected_sections": [
+        "If the engine will not start"
+      ],
+      "expected_pages": [
+        {
+          "start": 374,
+          "end": 375
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0789::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "No-start entry question."
+    },
+    {
+      "question_id": "corolla-2026-troubleshooting-002",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "troubleshooting",
+      "question": "What are some possible causes if the starter motor operates normally but the vehicle still will not start?",
+      "reference_answer": "Possible causes include insufficient fuel, a flooded engine, a malfunction in the immobilizer system, a discharged battery, or loose or corroded battery terminals.",
+      "expected_sections": [
+        "If the engine will not start"
+      ],
+      "expected_pages": [
+        {
+          "start": 374,
+          "end": 375
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0789::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Specific subcase from the no-start section."
+    },
+    {
+      "question_id": "corolla-2026-troubleshooting-003",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "troubleshooting",
+      "question": "What happens if the key battery is depleted?",
+      "reference_answer": "The smart key system and wireless remote control may not function properly and the operational range may be reduced.",
+      "expected_sections": [
+        "If the key battery is depleted"
+      ],
+      "expected_pages": [
+        {
+          "start": 328,
+          "end": 328
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0676::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Short key-battery troubleshooting case."
+    },
+    {
+      "question_id": "corolla-2026-troubleshooting-004",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "troubleshooting",
+      "question": "What should I do if the battery is discharged?",
+      "reference_answer": "Use the discharged-battery starting procedure, or contact a Toyota dealer or qualified repair shop.",
+      "expected_sections": [
+        "If the vehicle battery is discharged"
+      ],
+      "expected_pages": [
+        {
+          "start": 378,
+          "end": 378
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0799::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Battery-troubleshooting case."
+    },
+    {
+      "question_id": "corolla-2026-troubleshooting-005",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "troubleshooting",
+      "question": "What signs indicate the vehicle may be overheating?",
+      "reference_answer": "Overheating may be indicated by the coolant temperature gauge being in the red zone, a loss of engine power, a high coolant temperature message, or steam coming from under the hood.",
+      "expected_sections": [
+        "The following may indicate that your vehicle is overheating."
+      ],
+      "expected_pages": [
+        {
+          "start": 382,
+          "end": 382
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0806::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Symptom-identification overheating question."
+    },
+    {
+      "question_id": "corolla-2026-specifications-001",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "specifications",
+      "question": "What are the vehicle dimensions and weight?",
+      "reference_answer": "Overall length is 182.3 or 182.5 in. depending on configuration, overall width is 70.1 in., overall height is 56.5 or 57.3 in., and wheelbase is 106.3 in. Vehicle capacity weight is 860 lb.",
+      "expected_sections": [
+        "Dimensions and weight"
+      ],
+      "expected_pages": [
+        {
+          "start": 387,
+          "end": 387
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0813::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Core vehicle-dimensions lookup."
+    },
+    {
+      "question_id": "corolla-2026-specifications-002",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "specifications",
+      "question": "What is the VIN and where is it located?",
+      "reference_answer": "The VIN is the legal identifier for the vehicle. it is stamped under the right-hand front seat on some models and also on the top left of the instrument panel.",
+      "expected_sections": [
+        "Vehicle identification number"
+      ],
+      "expected_pages": [
+        {
+          "start": 387,
+          "end": 388
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0815::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Location-plus-definition spec question."
+    },
+    {
+      "question_id": "corolla-2026-specifications-003",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "specifications",
+      "question": "What fuel type, octane rating, and fuel tank capacity are specified?",
+      "reference_answer": "Use unleaded gasoline only with an octane rating of 87 or higher. Fuel tank capacity is 12.4 gal. on vehicles without 18-inch tires and 13.2 gal. on vehicles with 18-inch tires.",
+      "expected_sections": [
+        "Fuel"
+      ],
+      "expected_pages": [
+        {
+          "start": 388,
+          "end": 389
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0817::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Multi-field fuel specification question."
+    },
+    {
+      "question_id": "corolla-2026-specifications-004",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "specifications",
+      "question": "What engine oil capacity is listed?",
+      "reference_answer": "4.4 qt with filter and 4.1 qt without filter, and notes that the actual oil level should be checked on the dipstick after warming the engine and waiting about 5 minutes.",
+      "expected_sections": [
+        "Oil capacity (Drain and refill [Reference * ])"
+      ],
+      "expected_pages": [
+        {
+          "start": 389,
+          "end": 389
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0818::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Table-style oil-capacity retrieval."
+    },
+    {
+      "question_id": "corolla-2026-specifications-005",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "specifications",
+      "question": "What do the tire dimensions refer to?",
+      "reference_answer": "Tire dimensions in terms of section width, tire height, and wheel diameter.",
+      "expected_sections": [
+        "Tire dimensions"
+      ],
+      "expected_pages": [
+        {
+          "start": 399,
+          "end": 399
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0843::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Simple terminology lookup."
+    },
+    {
+      "question_id": "corolla-2026-procedures-001",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "procedures",
+      "question": "What does the manual say about refueling?",
+      "reference_answer": "Do not spill fuel during refueling. Spilled fuel can damage the emission control system, fuel system components, or painted surfaces.",
+      "expected_sections": [
+        "Refueling"
+      ],
+      "expected_pages": [
+        {
+          "start": 174,
+          "end": 174
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0363::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Short refueling procedure/safety question."
+    },
+    {
+      "question_id": "corolla-2026-procedures-002",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "procedures",
+      "question": "How do I open the fuel tank cap?",
+      "reference_answer": "Pull up the opener to open the fuel filler door, then turn the fuel tank cap slowly, remove it, and hang it on the back of the fuel filler door.",
+      "expected_sections": [
+        "Opening the fuel tank cap"
+      ],
+      "expected_pages": [
+        {
+          "start": 174,
+          "end": 174
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0364::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Ordered fuel-cap procedure."
+    },
+    {
+      "question_id": "corolla-2026-procedures-003",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "procedures",
+      "question": "How do I close the fuel tank cap after refueling?",
+      "reference_answer": "Turn the fuel tank cap until you hear a click. After it is released, it will turn slightly in the opposite direction.",
+      "expected_sections": [
+        "Closing the fuel tank cap"
+      ],
+      "expected_pages": [
+        {
+          "start": 174,
+          "end": 174
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0365::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Post-refueling procedure step."
+    },
+    {
+      "question_id": "corolla-2026-procedures-004",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "procedures",
+      "question": "How do I open the trunk?",
+      "reference_answer": "Pull the trunk opener lever upward to release the trunk lid. On smart key models, the trunk release button on the trunk lid can also be used while carrying the electronic key.",
+      "expected_sections": [
+        "Trunk opener"
+      ],
+      "expected_pages": [
+        {
+          "start": 111,
+          "end": 111
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0197::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Useful access-procedure question."
+    },
+    {
+      "question_id": "corolla-2026-procedures-005",
+      "doc_id": "2026-toyota-corolla",
+      "make": "toyota",
+      "model": "corolla",
+      "year": 2026,
+      "vehicle_context": "2026 Toyota Corolla",
+      "category": "procedures",
+      "question": "How do I replace the key battery?",
+      "reference_answer": "Separate procedures for vehicles with and without a smart key system, but both involve opening the key, removing the depleted battery with a small flathead screwdriver, installing a new battery with the positive side up, and reassembling the key.",
+      "expected_sections": [
+        "Replacing the battery"
+      ],
+      "expected_pages": [
+        {
+          "start": 328,
+          "end": 330
+        }
+      ],
+      "expected_chunk_ids": [
+        "2026-toyota-corolla::p0678::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Key-battery replacement procedure."
+    }
+  ]
+}

@@ -1,0 +1,669 @@
+{
+  "dataset_id": "eval-v1-yaris",
+  "version": "0.1.0",
+  "status": "pilot",
+  "scope": "First manually curated evaluation subset for the 2020 Toyota Yaris manual. Balanced across five categories with five questions per category.",
+  "doc_ids": [
+    "2020-toyota-yaris"
+  ],
+  "categories": [
+    "maintenance",
+    "warning_lights",
+    "troubleshooting",
+    "specifications",
+    "procedures"
+  ],
+  "target_examples": 25,
+  "examples": [
+    {
+      "question_id": "yaris-2020-maintenance-001",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "maintenance",
+      "question": "What does the maintenance and care overview include?",
+      "reference_answer": "The maintenance and care overview lists the major maintenance sections, including maintenance monitor, owner maintenance, engine oil, battery, key battery replacement, tires, light bulbs, and appearance care.",
+      "expected_sections": [
+        "Maintenance and Care"
+      ],
+      "expected_pages": [
+        {
+          "start": 385,
+          "end": 385
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0581::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Manual-specific maintenance overview question."
+    },
+    {
+      "question_id": "yaris-2020-maintenance-002",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "maintenance",
+      "question": "How does the maintenance monitor work?",
+      "reference_answer": "The maintenance monitor is accessed through the Applications screen. It lets the user manage scheduled maintenance and tire rotation reminders, and it must be reset after maintenance is performed.",
+      "expected_sections": [
+        "Maintenance Monitor"
+      ],
+      "expected_pages": [
+        {
+          "start": 388,
+          "end": 388
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0583::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good manual-specific maintenance-system question."
+    },
+    {
+      "question_id": "yaris-2020-maintenance-003",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "maintenance",
+      "question": "What owner maintenance precautions should I follow?",
+      "reference_answer": "The owner or a qualified service technician should inspect the vehicle at the indicated intervals to ensure safe and dependable operation, and any problem should be brought to a Toyota dealer or qualified technician as soon as possible.",
+      "expected_sections": [
+        "Owner Maintenance Precautions"
+      ],
+      "expected_pages": [
+        {
+          "start": 390,
+          "end": 390
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0584::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "General maintenance-responsibility question."
+    },
+    {
+      "question_id": "yaris-2020-maintenance-004",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "maintenance",
+      "question": "What engine oil should I use?",
+      "reference_answer": "Use SAE 0W-20 engine oil. Toyota Genuine Motor Oil 0W-20 is recommended for optimum fuel economy, and the oil should be certified for gasoline engines.",
+      "expected_sections": [
+        "Recommended Oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 395,
+          "end": 395
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0595::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Manual-specific oil recommendation question."
+    },
+    {
+      "question_id": "yaris-2020-maintenance-005",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "maintenance",
+      "question": "How do I inspect the engine oil level?",
+      "reference_answer": "Park on a level surface, warm up and shut off the engine, wait at least 5 minutes, remove and wipe the dipstick, reinsert it fully, then pull it out again to confirm the level is between Low and Full.",
+      "expected_sections": [
+        "Inspecting Engine Oil Level"
+      ],
+      "expected_pages": [
+        {
+          "start": 397,
+          "end": 397
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0597::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Ordered engine-oil inspection procedure."
+    },
+    {
+      "question_id": "yaris-2020-warning-001",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "warning_lights",
+      "question": "What are the warning lights used for?",
+      "reference_answer": "These lights turn on or flash to notify the driver of system operating status or a system malfunction.",
+      "expected_sections": [
+        "Warning Lights"
+      ],
+      "expected_pages": [
+        {
+          "start": 173,
+          "end": 174
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0258::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Basic Yaris warning-light overview."
+    },
+    {
+      "question_id": "yaris-2020-warning-002",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "warning_lights",
+      "question": "What should I do if a warning light turns on or flashes?",
+      "reference_answer": "Take the appropriate action for the specific light. If the light does not turn off or turns on or flashes again, consult a Toyota dealer. Some warning details can also be viewed on the center display.",
+      "expected_sections": [
+        "If a Warning Light Turns On or Flashes"
+      ],
+      "expected_pages": [
+        {
+          "start": 489,
+          "end": 489
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0712::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Broad warning-handling question."
+    },
+    {
+      "question_id": "yaris-2020-warning-003",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "warning_lights",
+      "question": "What does the ABS warning light mean?",
+      "reference_answer": "If the ABS warning light stays on while driving, the ABS control unit has detected a malfunction. The brakes will still function normally as if the vehicle had no ABS, and a Toyota dealer should be consulted as soon as possible.",
+      "expected_sections": [
+        "ABS Warning Light"
+      ],
+      "expected_pages": [
+        {
+          "start": 493,
+          "end": 493
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0720::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "System-specific warning-light case."
+    },
+    {
+      "question_id": "yaris-2020-warning-004",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "warning_lights",
+      "question": "What can cause the check engine light to illuminate?",
+      "reference_answer": "Possible causes include a very low fuel level, a problem with the engine electrical system, a problem with the emission control system, or a missing or loose fuel-filler cap.",
+      "expected_sections": [
+        "Check Engine Light"
+      ],
+      "expected_pages": [
+        {
+          "start": 493,
+          "end": 493
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0721::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good multi-cause warning-light example."
+    },
+    {
+      "question_id": "yaris-2020-warning-005",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "warning_lights",
+      "question": "What should I know about the tire pressure monitoring system warning light?",
+      "reference_answer": "Adjust tire pressure when the tires are cold. Temperature changes can affect the warning light, and if the light comes on because pressure is low, the tire pressures should be checked and adjusted.",
+      "expected_sections": [
+        "Tire Pressure Monitoring System Warning Light"
+      ],
+      "expected_pages": [
+        {
+          "start": 498,
+          "end": 499
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0731::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Yaris-specific TPMS behavior question."
+    },
+    {
+      "question_id": "yaris-2020-troubleshooting-001",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "troubleshooting",
+      "question": "What can I do if the vehicle will not start because the key battery is dead?",
+      "reference_answer": "The engine can still be started by following the emergency start procedure, including firmly holding the brake, making sure the green start indication flashes, and touching the push button start with the back side of the key.",
+      "expected_sections": [
+        "Engine Start Function When Key Battery is Dead"
+      ],
+      "expected_pages": [
+        {
+          "start": 161,
+          "end": 162
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0236::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Manual-specific smart-key troubleshooting case."
+    },
+    {
+      "question_id": "yaris-2020-troubleshooting-002",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "troubleshooting",
+      "question": "What should I know about jump-starting?",
+      "reference_answer": "Jump-starting is dangerous if done incorrectly and should be done carefully. It instructs the driver to position the booster vehicle close to the battery, turn off electrical loads, remove the battery cover, and then connect jumper cables in the specified order.",
+      "expected_sections": [
+        "Jump-Starting"
+      ],
+      "expected_pages": [
+        {
+          "start": 478,
+          "end": 479
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0703::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Troubleshooting plus emergency procedure."
+    },
+    {
+      "question_id": "yaris-2020-troubleshooting-003",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "troubleshooting",
+      "question": "What should I do if the engine is flooded?",
+      "reference_answer": "Wait 10 seconds after the first failed start, make sure the parking brake is on, depress the accelerator fully, then press the push button start while holding the brake or clutch as appropriate.",
+      "expected_sections": [
+        "Starting a Flooded Engine"
+      ],
+      "expected_pages": [
+        {
+          "start": 482,
+          "end": 482
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0705::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Procedure-heavy troubleshooting question."
+    },
+    {
+      "question_id": "yaris-2020-troubleshooting-004",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "troubleshooting",
+      "question": "What signs indicate the vehicle may be overheating, and what should I do first?",
+      "reference_answer": "The engine is probably too hot if the high engine coolant temperature warning light turns on, the vehicle loses power, or loud knocking or pinging is heard. It says to drive safely to the side of the road and park off the right-of-way.",
+      "expected_sections": [
+        "Overheating"
+      ],
+      "expected_pages": [
+        {
+          "start": 484,
+          "end": 485
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0708::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Symptom-plus-first-action overheating case."
+    },
+    {
+      "question_id": "yaris-2020-troubleshooting-005",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "troubleshooting",
+      "question": "What can I do if the liftgate or trunk lid cannot be opened?",
+      "reference_answer": "If the battery is dead or there is an electrical-system malfunction, the liftgate or trunk lid can be opened using an emergency procedure, and it cautions the user to protect their hands and surrounding trim while doing it.",
+      "expected_sections": [
+        "When Liftgate/Trunk Lid Cannot be Opened"
+      ],
+      "expected_pages": [
+        {
+          "start": 506,
+          "end": 506
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0746::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good emergency-access troubleshooting case."
+    },
+    {
+      "question_id": "yaris-2020-specifications-001",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "specifications",
+      "question": "What fuel is required?",
+      "reference_answer": "The vehicle must use regular unleaded fuel with an octane rating of 87 or above, and warns that lower-octane fuel could reduce emission-control effectiveness and damage the engine.",
+      "expected_sections": [
+        "Fuel Requirements"
+      ],
+      "expected_pages": [
+        {
+          "start": 121,
+          "end": 121
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0179::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Fuel requirement spec question."
+    },
+    {
+      "question_id": "yaris-2020-specifications-002",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "specifications",
+      "question": "What is the VIN and where is it located?",
+      "reference_answer": "The VIN legally identifies the vehicle and is shown on a plate attached to the cowl panel at the left corner of the dashboard, visible through the windshield.",
+      "expected_sections": [
+        "Vehicle Identification Number"
+      ],
+      "expected_pages": [
+        {
+          "start": 546,
+          "end": 546
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0794::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Location-plus-definition spec question."
+    },
+    {
+      "question_id": "yaris-2020-specifications-003",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "specifications",
+      "question": "What engine specifications are listed?",
+      "reference_answer": "A DOHC 16-valve inline 4-cylinder engine along with bore, stroke, displacement, and compression ratio values.",
+      "expected_sections": [
+        "Engine"
+      ],
+      "expected_pages": [
+        {
+          "start": 548,
+          "end": 548
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0796::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Core engine specification lookup."
+    },
+    {
+      "question_id": "yaris-2020-specifications-004",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "specifications",
+      "question": "What lubricant quality information is provided?",
+      "reference_answer": "Lubricant classifications for engine oil, coolant, manual transaxle oil, automatic transaxle fluid, and brake or clutch fluid, and refers back to the maintenance introduction for owner responsibility.",
+      "expected_sections": [
+        "Lubricant Quality"
+      ],
+      "expected_pages": [
+        {
+          "start": 549,
+          "end": 549
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0798::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good fluid-specifications question."
+    },
+    {
+      "question_id": "yaris-2020-specifications-005",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "specifications",
+      "question": "What approximate capacities are listed?",
+      "reference_answer": "Approximate capacities include 4.4 qt. of engine oil with filter replacement, 4.1 qt. without filter replacement, and an 11.6 gal. fuel tank, along with listed capacities for coolant and transaxle fluids.",
+      "expected_sections": [
+        "Approximate Quantities:"
+      ],
+      "expected_pages": [
+        {
+          "start": 549,
+          "end": 549
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0799::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Table-style capacity retrieval."
+    },
+    {
+      "question_id": "yaris-2020-procedures-001",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "procedures",
+      "question": "How do I open the trunk lid on the 4-door model?",
+      "reference_answer": "The trunk lid can be opened using the remote release button or, with the advanced keyless function, by pressing the electric trunk lid opener while carrying the key.",
+      "expected_sections": [
+        "Opening the trunk lid (4-Door)"
+      ],
+      "expected_pages": [
+        {
+          "start": 116,
+          "end": 116
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0170::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Manual-specific trunk-opening procedure."
+    },
+    {
+      "question_id": "yaris-2020-procedures-002",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "procedures",
+      "question": "How do I open the trunk lid from inside?",
+      "reference_answer": "Slide the inside trunk release lever in the direction of the arrow. The lever glows in the dark and is located on the inside of the trunk lid.",
+      "expected_sections": [
+        "Opening the Trunk Lid from the Inside"
+      ],
+      "expected_pages": [
+        {
+          "start": 119,
+          "end": 119
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0178::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Emergency-access trunk procedure."
+    },
+    {
+      "question_id": "yaris-2020-procedures-003",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "procedures",
+      "question": "How do you refuel the vehicle?",
+      "reference_answer": "Close all doors and windows and switch the ignition off, pull the remote fuel-filler release, remove the cap, attach it to the inner side of the lid, insert the nozzle fully, refuel, then reinstall the cap and close the lid securely.",
+      "expected_sections": [
+        "Refueling"
+      ],
+      "expected_pages": [
+        {
+          "start": 125,
+          "end": 125
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0183::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "End-to-end refueling procedure."
+    },
+    {
+      "question_id": "yaris-2020-procedures-004",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "procedures",
+      "question": "When should I initialize the tire pressure monitoring system?",
+      "reference_answer": "Initialization must be performed when tire pressure is adjusted, tire rotation is performed, a tire or wheel is replaced, the battery is replaced or completely drained, or the tire pressure warning light is illuminated.",
+      "expected_sections": [
+        "Tire Pressure Monitoring System Initialization"
+      ],
+      "expected_pages": [
+        {
+          "start": 244,
+          "end": 244
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0373::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good maintenance-related procedure question."
+    },
+    {
+      "question_id": "yaris-2020-procedures-005",
+      "doc_id": "2020-toyota-yaris",
+      "make": "toyota",
+      "model": "yaris",
+      "year": 2020,
+      "vehicle_context": "2020 Toyota Yaris",
+      "category": "procedures",
+      "question": "How do I replace the smart key battery?",
+      "reference_answer": "Remove the auxiliary key, open the cover carefully with a tape-wrapped flathead screwdriver, remove the battery cap and old battery, then insert a new battery with the positive pole facing up.",
+      "expected_sections": [
+        "Replacing the key battery"
+      ],
+      "expected_pages": [
+        {
+          "start": 410,
+          "end": 411
+        }
+      ],
+      "expected_chunk_ids": [
+        "2020-toyota-yaris::p0614::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Yaris key-battery replacement procedure."
+    }
+  ]
+}

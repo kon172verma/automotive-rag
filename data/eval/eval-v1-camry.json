@@ -1,0 +1,669 @@
+{
+  "dataset_id": "eval-v1-camry",
+  "version": "0.1.0",
+  "status": "pilot",
+  "scope": "First manually curated evaluation subset for the 2023 Toyota Camry manual. Balanced across five categories with five questions per category.",
+  "doc_ids": [
+    "2023-toyota-camry"
+  ],
+  "categories": [
+    "maintenance",
+    "warning_lights",
+    "troubleshooting",
+    "specifications",
+    "procedures"
+  ],
+  "target_examples": 25,
+  "examples": [
+    {
+      "question_id": "camry-2023-maintenance-001",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "maintenance",
+      "question": "What are the maintenance requirements?",
+      "reference_answer": "Day-to-day care and regular maintenance are essential for safe and economical driving. The owner is responsible for performing regular checks.",
+      "expected_sections": [
+        "Maintenance requirements"
+      ],
+      "expected_pages": [
+        {
+          "start": 447,
+          "end": 447
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0806::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good high-level maintenance grounding question."
+    },
+    {
+      "question_id": "camry-2023-maintenance-002",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "maintenance",
+      "question": "How often should general maintenance be performed?",
+      "reference_answer": "General maintenance should be performed on a daily basis, either by the owner or by a Toyota dealer.",
+      "expected_sections": [
+        "General maintenance"
+      ],
+      "expected_pages": [
+        {
+          "start": 447,
+          "end": 450
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0807::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Useful for checking whether retrieval reaches broad maintenance guidance instead of jumping only to procedures."
+    },
+    {
+      "question_id": "camry-2023-maintenance-003",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "maintenance",
+      "question": "How should scheduled maintenance be handled?",
+      "reference_answer": "Scheduled maintenance should be performed at specified intervals. For maintenance items and schedule details, use the Scheduled Maintenance Guide or Owner's Manual Supplement.",
+      "expected_sections": [
+        "Scheduled maintenance"
+      ],
+      "expected_pages": [
+        {
+          "start": 447,
+          "end": 447
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0808::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Checks whether the answer preserves the manual's referral to the supplemental maintenance guide."
+    },
+    {
+      "question_id": "camry-2023-maintenance-004",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "maintenance",
+      "question": "How do I check the engine oil?",
+      "reference_answer": "Park on level ground, warm up and shut off the engine, wait more than 5 minutes, remove and wipe the dipstick, reinsert it fully, pull it back out to check the level, then wipe and reinsert it again.",
+      "expected_sections": [
+        "Checking the engine oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 462,
+          "end": 463
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0838::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Procedure-like maintenance question with several ordered steps."
+    },
+    {
+      "question_id": "camry-2023-maintenance-005",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "maintenance",
+      "question": "What should I do if the engine oil level is low?",
+      "reference_answer": "If the oil level is below or near the low mark, add engine oil of the same type already in the engine, remove the filler cap, add oil slowly while checking the dipstick, and reinstall the cap.",
+      "expected_sections": [
+        "Adding engine oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 464,
+          "end": 464
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0839::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good check for procedure grounding plus fluid-type caution."
+    },
+    {
+      "question_id": "camry-2023-warning-001",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "warning_lights",
+      "question": "What should I do if a warning light turns on or a warning buzzer sounds?",
+      "reference_answer": "Calmly perform the appropriate actions. If a warning light comes on or flashes and continues to occur, have the vehicle inspected by a Toyota dealer.",
+      "expected_sections": [
+        "If a warning light turns on or a warning buzzer sounds"
+      ],
+      "expected_pages": [
+        {
+          "start": 528,
+          "end": 528
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0968::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Broad warning entry point for the warning-light section."
+    },
+    {
+      "question_id": "camry-2023-warning-002",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "warning_lights",
+      "question": "What can the tire pressure warning light mean?",
+      "reference_answer": "The tire pressure warning light can indicate low tire pressure from a flat tire, low pressure from natural causes, or a malfunction in the tire pressure warning system.",
+      "expected_sections": [
+        "Tire pressure warning light"
+      ],
+      "expected_pages": [
+        {
+          "start": 532,
+          "end": 532
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0983::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good for evaluating whether the answer keeps multiple possible causes."
+    },
+    {
+      "question_id": "camry-2023-warning-003",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "warning_lights",
+      "question": "What should I check if the malfunction indicator lamp comes on while driving?",
+      "reference_answer": "First check whether the fuel tank is empty and refuel if needed, and whether the fuel tank cap is loose and tighten it securely. If the light does not go off after several trips, contact a Toyota dealer as soon as possible.",
+      "expected_sections": [
+        "If the malfunction indicator lamp comes on while driving"
+      ],
+      "expected_pages": [
+        {
+          "start": 533,
+          "end": 533
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0986::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Tests actionability and whether the answer preserves the simple initial checks."
+    },
+    {
+      "question_id": "camry-2023-warning-004",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "warning_lights",
+      "question": "What should I do if both the ABS and brake system warning lights remain on?",
+      "reference_answer": "Stop the vehicle in a safe place immediately and contact a Toyota dealer because the vehicle may become extremely unstable during braking and the ABS system may fail.",
+      "expected_sections": [
+        "If both the ABS and the brake system warning lights remain on"
+      ],
+      "expected_pages": [
+        {
+          "start": 535,
+          "end": 535
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0991::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "High-severity safety case."
+    },
+    {
+      "question_id": "camry-2023-warning-005",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "warning_lights",
+      "question": "What does it mean if a warning message is displayed?",
+      "reference_answer": "Warning messages may indicate system malfunctions, incorrectly performed operations, or a need for maintenance, and the correction procedure should match the displayed message.",
+      "expected_sections": [
+        "If a warning message is displayed"
+      ],
+      "expected_pages": [
+        {
+          "start": 538,
+          "end": 538
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0995::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Useful for separating warning messages from warning lights."
+    },
+    {
+      "question_id": "camry-2023-troubleshooting-001",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "troubleshooting",
+      "question": "What does the manual suggest checking if the vehicle engine will not start?",
+      "reference_answer": "If the engine will not start even though correct starting procedures are being followed, the driver should consider the listed possible causes in the troubleshooting section.",
+      "expected_sections": [
+        "If the engine will not start"
+      ],
+      "expected_pages": [
+        {
+          "start": 557,
+          "end": 557
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1035::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Entry-point troubleshooting question."
+    },
+    {
+      "question_id": "camry-2023-troubleshooting-002",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "troubleshooting",
+      "question": "What are some possible causes if the starter motor operates normally but the vehicle engine still will not start?",
+      "reference_answer": "Possible causes include insufficient fuel, a flooded engine, a malfunction in the engine immobilizer system, a discharged battery, or loose or corroded battery terminal connections.",
+      "expected_sections": [
+        "The engine will not start even though the starter motor operates normally."
+      ],
+      "expected_pages": [
+        {
+          "start": 557,
+          "end": 557
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1036::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Retrieval should find the specific subcase rather than only the top troubleshooting heading."
+    },
+    {
+      "question_id": "camry-2023-troubleshooting-003",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "troubleshooting",
+      "question": "What can I do if the electronic key does not operate properly in the vehicle with a smart key system?",
+      "reference_answer": "If communication between the electronic key and the vehicle is interrupted or the key battery is depleted, the smart key system and wireless remote control may not work, but the doors and trunk can still be opened and the engine can be started using the manual procedure.",
+      "expected_sections": [
+        "If the electronic key does not operate properly (vehicles with a smart key system)"
+      ],
+      "expected_pages": [
+        {
+          "start": 559,
+          "end": 559
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1040::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good smart-key specific troubleshooting case."
+    },
+    {
+      "question_id": "camry-2023-troubleshooting-004",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "troubleshooting",
+      "question": "What does the manual say to do if the vehicle battery is discharged?",
+      "reference_answer": "The engine may be started using jumper cables and a second vehicle with a 12-volt battery, or the driver can contact a Toyota dealer or qualified repair shop. The procedure starts by confirming the key is being carried and opening the hood.",
+      "expected_sections": [
+        "If the vehicle battery is discharged"
+      ],
+      "expected_pages": [
+        {
+          "start": 562,
+          "end": 562
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1049::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good troubleshooting-plus-procedure case."
+    },
+    {
+      "question_id": "camry-2023-troubleshooting-005",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "troubleshooting",
+      "question": "What signs indicate the vehicle may be overheating?",
+      "reference_answer": "Overheating may be indicated by the coolant temperature gauge entering the red zone, a loss of engine power, a high coolant temperature message on the multi-information display, or steam coming from under the hood.",
+      "expected_sections": [
+        "The following may indicate that your vehicle is overheating."
+      ],
+      "expected_pages": [
+        {
+          "start": 567,
+          "end": 567
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1060::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good symptom-identification question."
+    },
+    {
+      "question_id": "camry-2023-specifications-001",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "specifications",
+      "question": "What are the vehicle dimensions and weight?",
+      "reference_answer": "Depending on configuration, 2WD models are 192.1 to 194.6 in. long, 72.4 to 73.1 in. wide, and 56.3 to 56.9 in. high. AWD models are 192.1 to 192.7 in. long, 72.4 in. wide, and 57.1 in. high. Wheelbase is 111.2 in., and vehicle capacity weight is 925 lb.",
+      "expected_sections": [
+        "Dimensions and weights (2WD models)"
+      ],
+      "expected_pages": [
+        {
+          "start": 574,
+          "end": 575
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1069::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Checks table-like specification retrieval."
+    },
+    {
+      "question_id": "camry-2023-specifications-002",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "specifications",
+      "question": "What is the VIN and where is it located?",
+      "reference_answer": "The VIN is the legal identifier and primary identification number for the vehicle. it is stamped on the top left of the instrument panel and also appears on the Certification Label.",
+      "expected_sections": [
+        "Vehicle identification number"
+      ],
+      "expected_pages": [
+        {
+          "start": 576,
+          "end": 576
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1071::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good location-plus-definition specification question."
+    },
+    {
+      "question_id": "camry-2023-specifications-003",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "specifications",
+      "question": "What fuel type, octane rating, and fuel tank capacity are specified?",
+      "reference_answer": "Use unleaded gasoline only with an octane rating of 87 or higher. Fuel tank capacity is 16.0 gal. for 2WD models and 14.4 gal. for AWD models.",
+      "expected_sections": [
+        "Fuel"
+      ],
+      "expected_pages": [
+        {
+          "start": 577,
+          "end": 577
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1074::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good multi-field specification question."
+    },
+    {
+      "question_id": "camry-2023-specifications-004",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "specifications",
+      "question": "What engine oil capacities are listed?",
+      "reference_answer": "Oil capacities for both engines. For the 2.5 L 4-cylinder engine it gives 4.8 qt with filter and 4.4 qt without filter, and for the 3.5 L V6 it gives 5.7 qt with filter and 5.6 qt without filter.",
+      "expected_sections": [
+        "Oil capacity (Drain and refill [Reference*])"
+      ],
+      "expected_pages": [
+        {
+          "start": 578,
+          "end": 578
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1075::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Table-style retrieval challenge."
+    },
+    {
+      "question_id": "camry-2023-specifications-005",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "specifications",
+      "question": "What do the tire dimensions refer to?",
+      "reference_answer": "Tire dimensions in terms of section width, tire height, and wheel diameter.",
+      "expected_sections": [
+        "Tire dimensions"
+      ],
+      "expected_pages": [
+        {
+          "start": 596,
+          "end": 596
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p1102::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Simple terminology lookup."
+    },
+    {
+      "question_id": "camry-2023-procedures-001",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "procedures",
+      "question": "How do I open the trunk from inside?",
+      "reference_answer": "Press and hold the trunk opener switch.",
+      "expected_sections": [
+        "Opening the trunk from inside the vehicle"
+      ],
+      "expected_pages": [
+        {
+          "start": 156,
+          "end": 156
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0237::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Very short procedural answer."
+    },
+    {
+      "question_id": "camry-2023-procedures-002",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "procedures",
+      "question": "What should I do before refueling?",
+      "reference_answer": "Close all doors and windows, turn the engine switch off, and confirm the fuel type before refueling.",
+      "expected_sections": [
+        "Before refueling the vehicle"
+      ],
+      "expected_pages": [
+        {
+          "start": 244,
+          "end": 244
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0450::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good precondition procedure question."
+    },
+    {
+      "question_id": "camry-2023-procedures-003",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "procedures",
+      "question": "How do I open the fuel tank cap?",
+      "reference_answer": "Press and hold the opener switch to open the fuel filler door, then slowly turn the fuel tank cap to remove it and hang it on the back of the fuel filler door.",
+      "expected_sections": [
+        "Opening the fuel tank cap"
+      ],
+      "expected_pages": [
+        {
+          "start": 246,
+          "end": 246
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0457::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Straightforward ordered-step procedure."
+    },
+    {
+      "question_id": "camry-2023-procedures-004",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "procedures",
+      "question": "How do I initialize the tire pressure warning system?",
+      "reference_answer": "Park safely and stop the engine for at least 20 minutes, adjust the tires to the specified cold pressure, start the engine, navigate to the TPWS setting in the multi-information display, and hold Set Pressure until the warning light blinks three times.",
+      "expected_sections": [
+        "How to initialize the tire pressure warning system"
+      ],
+      "expected_pages": [
+        {
+          "start": 475,
+          "end": 476
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0876::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "hard",
+      "notes": "Longer multi-step procedure that should benefit from parent-child chunking."
+    },
+    {
+      "question_id": "camry-2023-procedures-005",
+      "doc_id": "2023-toyota-camry",
+      "make": "toyota",
+      "model": "camry",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Camry",
+      "category": "procedures",
+      "question": "How do I replace the key battery?",
+      "reference_answer": "Separate procedures for vehicles with and without a smart key system, but both involve removing the key cover, removing the depleted battery with a small flathead screwdriver, inserting the new battery correctly, reassembling the key, and checking operation afterward.",
+      "expected_sections": [
+        "Replacing the battery"
+      ],
+      "expected_pages": [
+        {
+          "start": 494,
+          "end": 496
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-camry::p0921::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good comparison case because the answer must preserve variant-specific wording."
+    }
+  ]
+}

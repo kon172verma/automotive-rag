@@ -1,0 +1,669 @@
+{
+  "dataset_id": "eval-v1-highlander",
+  "version": "0.1.0",
+  "status": "pilot",
+  "scope": "First manually curated evaluation subset for the 2023 Toyota Highlander manual. Balanced across five categories with five questions per category.",
+  "doc_ids": [
+    "2023-toyota-highlander"
+  ],
+  "categories": [
+    "maintenance",
+    "warning_lights",
+    "troubleshooting",
+    "specifications",
+    "procedures"
+  ],
+  "target_examples": 25,
+  "examples": [
+    {
+      "question_id": "highlander-2023-maintenance-001",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "maintenance",
+      "question": "What are the maintenance requirements?",
+      "reference_answer": "Day-to-day care and regular maintenance are essential for safe and economical driving. The owner is responsible for performing regular checks.",
+      "expected_sections": [
+        "Maintenance requirements"
+      ],
+      "expected_pages": [
+        {
+          "start": 400,
+          "end": 400
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0874::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "High-level maintenance grounding question."
+    },
+    {
+      "question_id": "highlander-2023-maintenance-002",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "maintenance",
+      "question": "How often should general maintenance be performed?",
+      "reference_answer": "General maintenance should be performed on a daily basis, either by the owner or by a Toyota dealer.",
+      "expected_sections": [
+        "General maintenance"
+      ],
+      "expected_pages": [
+        {
+          "start": 400,
+          "end": 402
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0878::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good maintenance-frequency check."
+    },
+    {
+      "question_id": "highlander-2023-maintenance-003",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "maintenance",
+      "question": "How should scheduled maintenance be handled?",
+      "reference_answer": "Scheduled maintenance should be performed at specified intervals. For maintenance items and schedule details, use the Scheduled Maintenance Guide or Owner's Manual Supplement.",
+      "expected_sections": [
+        "Scheduled maintenance"
+      ],
+      "expected_pages": [
+        {
+          "start": 400,
+          "end": 400
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0879::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Checks whether the answer preserves the referral to the supplemental guide."
+    },
+    {
+      "question_id": "highlander-2023-maintenance-004",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "maintenance",
+      "question": "How do I check the engine oil?",
+      "reference_answer": "Park on level ground, warm up and turn off the engine, wait more than 5 minutes, remove and wipe the dipstick, reinsert it fully, pull it out again to check the level, then wipe and reinsert it.",
+      "expected_sections": [
+        "Checking the engine oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 410,
+          "end": 411
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0897::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Ordered maintenance procedure."
+    },
+    {
+      "question_id": "highlander-2023-maintenance-005",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "maintenance",
+      "question": "What should I do if the engine oil level is low?",
+      "reference_answer": "If the oil level is below or near the low mark, add engine oil of the same type already in the engine, remove the filler cap, add oil slowly while checking the dipstick, and reinstall the cap.",
+      "expected_sections": [
+        "Adding engine oil"
+      ],
+      "expected_pages": [
+        {
+          "start": 411,
+          "end": 411
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0899::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good low-oil response question."
+    },
+    {
+      "question_id": "highlander-2023-warning-001",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "warning_lights",
+      "question": "What should I do if a warning light turns on or a warning buzzer sounds?",
+      "reference_answer": "Calmly perform the appropriate actions. If the warning continues to occur, have the vehicle inspected by a Toyota dealer.",
+      "expected_sections": [
+        "If a warning light turns on or a warning buzzer sounds"
+      ],
+      "expected_pages": [
+        {
+          "start": 456,
+          "end": 456
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1027::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Broad warning-section entry point."
+    },
+    {
+      "question_id": "highlander-2023-warning-002",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "warning_lights",
+      "question": "What does the high coolant temperature warning light mean?",
+      "reference_answer": "It indicates the engine coolant temperature is too high and instructs the driver to immediately stop the vehicle in a safe place.",
+      "expected_sections": [
+        "High coolant temperature warning light"
+      ],
+      "expected_pages": [
+        {
+          "start": 456,
+          "end": 456
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1029::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "High-severity warning-light example."
+    },
+    {
+      "question_id": "highlander-2023-warning-003",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "warning_lights",
+      "question": "What does the ABS warning light indicate?",
+      "reference_answer": "The ABS warning light indicates a malfunction in the ABS or brake assist system. Have the vehicle inspected by a Toyota dealer immediately.",
+      "expected_sections": [
+        "ABS warning light"
+      ],
+      "expected_pages": [
+        {
+          "start": 458,
+          "end": 458
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1035::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Good system-specific warning-light case."
+    },
+    {
+      "question_id": "highlander-2023-warning-004",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "warning_lights",
+      "question": "What can the tire pressure warning light mean?",
+      "reference_answer": "It can indicate a malfunction in the tire pressure warning system or low tire inflation pressure caused by natural causes or a flat tire.",
+      "expected_sections": [
+        "Tire pressure warning light"
+      ],
+      "expected_pages": [
+        {
+          "start": 460,
+          "end": 460
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1042::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good multi-cause warning-light question."
+    },
+    {
+      "question_id": "highlander-2023-warning-005",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "warning_lights",
+      "question": "What does it mean if a warning message is displayed?",
+      "reference_answer": "Warning messages may indicate system malfunctions, incorrectly performed operations, or a need for maintenance, and the driver should perform the corrective action that matches the message.",
+      "expected_sections": [
+        "If a warning message is displayed"
+      ],
+      "expected_pages": [
+        {
+          "start": 466,
+          "end": 466
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1061::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Separates warning messages from warning lights."
+    },
+    {
+      "question_id": "highlander-2023-troubleshooting-001",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "troubleshooting",
+      "question": "What does the manual suggest checking if the vehicle engine will not start?",
+      "reference_answer": "If the engine will not start even though correct starting procedures are being followed, the driver should consider the listed possible causes in the troubleshooting section.",
+      "expected_sections": [
+        "If the engine will not start"
+      ],
+      "expected_pages": [
+        {
+          "start": 484,
+          "end": 484
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1104::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "High-level no-start entry question."
+    },
+    {
+      "question_id": "highlander-2023-troubleshooting-002",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "troubleshooting",
+      "question": "What are some possible causes if the starter motor operates normally but the vehicle still will not start?",
+      "reference_answer": "Possible causes include insufficient fuel, a flooded engine, a malfunction in the engine immobilizer system, a discharged battery, or loose or corroded battery terminals.",
+      "expected_sections": [
+        "If the engine will not start"
+      ],
+      "expected_pages": [
+        {
+          "start": 484,
+          "end": 484
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1104::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Specific subcase from the broader no-start section."
+    },
+    {
+      "question_id": "highlander-2023-troubleshooting-003",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "troubleshooting",
+      "question": "What can I do if the electronic key does not operate properly?",
+      "reference_answer": "If communication between the electronic key and the vehicle is interrupted or the key battery is depleted, the smart key system and wireless remote control may not work, but the doors can be opened and the engine can be started using the manual procedure.",
+      "expected_sections": [
+        "If the electronic key does not operate properly"
+      ],
+      "expected_pages": [
+        {
+          "start": 487,
+          "end": 487
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1111::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Good smart-key troubleshooting case."
+    },
+    {
+      "question_id": "highlander-2023-troubleshooting-004",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "troubleshooting",
+      "question": "What should I do if the battery is discharged?",
+      "reference_answer": "Use the discharged-battery starting procedure, or contact a Toyota dealer or qualified repair shop.",
+      "expected_sections": [
+        "If the vehicle battery is discharged"
+      ],
+      "expected_pages": [
+        {
+          "start": 489,
+          "end": 489
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1115::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Battery-troubleshooting case."
+    },
+    {
+      "question_id": "highlander-2023-troubleshooting-005",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "troubleshooting",
+      "question": "What signs indicate the vehicle may be overheating?",
+      "reference_answer": "Overheating may be indicated by the coolant temperature gauge entering the red zone, a loss of engine power, a high coolant temperature message, or steam coming from under the hood.",
+      "expected_sections": [
+        "The following may indicate that your vehicle is overheating."
+      ],
+      "expected_pages": [
+        {
+          "start": 493,
+          "end": 493
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1124::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Symptom-identification troubleshooting question."
+    },
+    {
+      "question_id": "highlander-2023-specifications-001",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "specifications",
+      "question": "What are the vehicle dimensions and weight?",
+      "reference_answer": "Overall length is 194.9 or 197.3 in., overall width is 76.0 in., overall height is 68.1 in., and wheelbase is 112.2 in. Vehicle capacity weight ranges from 1225 to 1390 lb. depending on configuration, and trailer weight rating is 5000 lb.",
+      "expected_sections": [
+        "Dimensions and weight"
+      ],
+      "expected_pages": [
+        {
+          "start": 500,
+          "end": 500
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1135::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Table-style specification retrieval."
+    },
+    {
+      "question_id": "highlander-2023-specifications-002",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "specifications",
+      "question": "What is the VIN and where is it located?",
+      "reference_answer": "The VIN is the legal identifier and primary identification number for the vehicle. it is stamped on the top left of the instrument panel and also appears on the Certification Label on the center pillar.",
+      "expected_sections": [
+        "Vehicle identification number"
+      ],
+      "expected_pages": [
+        {
+          "start": 500,
+          "end": 501
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1137::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Location-plus-definition spec question."
+    },
+    {
+      "question_id": "highlander-2023-specifications-003",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "specifications",
+      "question": "What fuel type, octane rating, and fuel tank capacity are specified?",
+      "reference_answer": "Use unleaded gasoline only with an octane rating of 87 or higher. Fuel tank capacity is 17.9 gal.",
+      "expected_sections": [
+        "Fuel"
+      ],
+      "expected_pages": [
+        {
+          "start": 501,
+          "end": 501
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1139::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Multi-field fuel specification question."
+    },
+    {
+      "question_id": "highlander-2023-specifications-004",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "specifications",
+      "question": "What engine oil should I use?",
+      "reference_answer": "Toyota Genuine Motor Oil or equivalent should satisfy the listed grade and viscosity requirements, with ILSAC GF-6A multigrade engine oil and a recommended viscosity of SAE 0W-20.",
+      "expected_sections": [
+        "Engine oil selection"
+      ],
+      "expected_pages": [
+        {
+          "start": 502,
+          "end": 502
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1142::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Oil-grade specification question."
+    },
+    {
+      "question_id": "highlander-2023-specifications-005",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "specifications",
+      "question": "What do the tire dimensions refer to?",
+      "reference_answer": "Tire dimensions in terms of section width, tire height, and wheel diameter.",
+      "expected_sections": [
+        "Tire dimensions"
+      ],
+      "expected_pages": [
+        {
+          "start": 513,
+          "end": 513
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1170::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Simple terminology lookup."
+    },
+    {
+      "question_id": "highlander-2023-procedures-001",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "procedures",
+      "question": "What should I do before refueling?",
+      "reference_answer": "Close all doors and windows, turn the engine switch off, and confirm the fuel type before refueling.",
+      "expected_sections": [
+        "Before refueling the vehicle"
+      ],
+      "expected_pages": [
+        {
+          "start": 227,
+          "end": 227
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0505::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Precondition procedure question."
+    },
+    {
+      "question_id": "highlander-2023-procedures-002",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "procedures",
+      "question": "How do I open the fuel tank cap?",
+      "reference_answer": "Press the switch to open the fuel filler door, then slowly turn the fuel tank cap to remove it and hang it on the back of the fuel filler door.",
+      "expected_sections": [
+        "Opening the fuel tank cap"
+      ],
+      "expected_pages": [
+        {
+          "start": 227,
+          "end": 228
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0504::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "easy",
+      "notes": "Straightforward fuel-cap procedure."
+    },
+    {
+      "question_id": "highlander-2023-procedures-003",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "procedures",
+      "question": "How can you open the fuel filler door if the opener switch cannot be used?",
+      "reference_answer": "Remove the cover inside the luggage compartment and pull the lever to open the fuel filler door, then remove the cap slowly because pressure may not have been reduced normally.",
+      "expected_sections": [
+        "Opening the fuel filler door"
+      ],
+      "expected_pages": [
+        {
+          "start": 486,
+          "end": 486
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p1110::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Emergency fuel-door procedure."
+    },
+    {
+      "question_id": "highlander-2023-procedures-004",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "procedures",
+      "question": "How do I initialize the tire pressure warning system?",
+      "reference_answer": "Park safely and turn the engine off, adjust the tires to the specified cold pressure, switch the engine to ON, navigate to the TPWS setting on the display, and select Set Pressure.",
+      "expected_sections": [
+        "How to initialize the tire pressure warning system"
+      ],
+      "expected_pages": [
+        {
+          "start": 424,
+          "end": 425
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0952::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "hard",
+      "notes": "Longer multi-step procedure."
+    },
+    {
+      "question_id": "highlander-2023-procedures-005",
+      "doc_id": "2023-toyota-highlander",
+      "make": "toyota",
+      "model": "highlander",
+      "year": 2023,
+      "vehicle_context": "2023 Toyota Highlander",
+      "category": "procedures",
+      "question": "How do I replace the key battery?",
+      "reference_answer": "Remove the mechanical key, open the key cover with a protected flathead screwdriver, remove the depleted battery, insert a new one with the positive side up, and reassemble the key.",
+      "expected_sections": [
+        "Replacing the battery"
+      ],
+      "expected_pages": [
+        {
+          "start": 434,
+          "end": 435
+        }
+      ],
+      "expected_chunk_ids": [
+        "2023-toyota-highlander::p0976::c0000"
+      ],
+      "answerability": "answerable",
+      "difficulty": "medium",
+      "notes": "Battery-replacement procedure with ordered steps."
+    }
+  ]
+}
