@@ -130,7 +130,38 @@ For this repo:
 
 We should treat them as separate pipeline choices. The vector database stores embeddings, but reranking usually happens in the application pipeline unless a datastore offers a hosted reranker we intentionally adopt.
 
-### 2. OpenAI v3 Embeddings Can Be Shortened
+### 2. Shared-Space Embeddings vs Query/Document-Aware Retrieval Models
+
+Important distinction:
+
+- a `bi-encoder` means the query and chunk are encoded independently
+- it does not automatically mean the model exposes separate query and document routes
+- some retrieval models support asymmetric encoding through query/document prompts, routers, or dedicated methods such as `encode_query` and `encode_document`
+
+For `text-embedding-3-small`:
+
+- we use the same model for chunk embeddings and query embeddings
+- OpenAI does not expose separate query and document encoding routes in the embeddings API
+- so for this project it acts as a shared-space embedding model used in a bi-encoder-style retrieval pipeline
+
+Why this is acceptable now:
+
+- it keeps the baseline simple
+- it reduces infrastructure and implementation complexity
+- it lets us evaluate chunking, metadata filtering, hybrid retrieval, and reranking before changing the embedding stack
+
+Why we may still compare against query/document-aware models later:
+
+- user queries and manual chunks have different text distributions
+- asymmetric retrieval models can sometimes improve ranking quality for search tasks
+- they are a strong later experiment once our evaluation set and retrieval metrics are stable
+
+Recommendation for this repo:
+
+- keep `text-embedding-3-small` as the current baseline
+- later compare it against one query/document-aware retrieval model rather than switching immediately
+
+### 3. OpenAI v3 Embeddings Can Be Shortened
 
 The `text-embedding-3-small` and `text-embedding-3-large` family supports the `dimensions` parameter.
 
@@ -142,7 +173,7 @@ That means we can:
 
 For this project, the default recommendation is still to start with the full default size rather than optimize early.
 
-### 3. Normalization Affects Similarity Choice
+### 4. Normalization Affects Similarity Choice
 
 OpenAI documents that embedding outputs are normalized to length 1, including shortened embeddings.
 
@@ -181,6 +212,20 @@ Use the same:
 for both chunk embeddings and query embeddings.
 
 If later we test instruction-tuned open models with asymmetric query/document prompts, that should be treated as a deliberate experiment rather than the default setup.
+
+### 3. When Should We Move Beyond Shared-Space Embeddings?
+
+Consider adding a query/document-aware retrieval model when all of the following are true:
+
+- we already have stable retrieval metrics on the current baseline
+- reranking and chunking have been tuned enough that dense retrieval is the main bottleneck
+- we want a stronger open-model comparison for learning or portfolio value
+
+Good candidates for that later comparison:
+
+- `BAAI/bge-m3` as a strong open retrieval model comparison
+- a Sentence Transformers retrieval model that explicitly supports asymmetric search
+- a retrieval-focused model such as `jina-embeddings-v4` if we later care more about visually rich manuals
 
 ### 3. Dense Embeddings Are Only One Part Of Hybrid RAG
 
@@ -226,7 +271,10 @@ Upgrade only after measuring:
 - OpenAI model catalog: <https://developers.openai.com/api/docs/models/all>
 - OpenAI `text-embedding-3-small` model page: <https://developers.openai.com/api/docs/models/text-embedding-3-small>
 - OpenAI `text-embedding-3-large` model page: <https://developers.openai.com/api/docs/models/text-embedding-3-large>
+- OpenAI embeddings guide: <https://developers.openai.com/api/docs/guides/embeddings>
 - OpenAI embedding model announcement: <https://openai.com/index/new-embedding-models-and-api-updates/>
 - OpenAI `text-embedding-ada-002` announcement: <https://openai.com/index/new-and-improved-embedding-model/>
 - BGE-M3 model card: <https://huggingface.co/BAAI/bge-m3>
 - BGE-M3 docs: <https://bge-model.com/bge/bge_m3.html>
+- Sentence Transformers asymmetric semantic search guide: <https://www.sbert.net/examples/sentence_transformer/applications/semantic-search/README.html>
+- Jina Embeddings v4 model card: <https://huggingface.co/jinaai/jina-embeddings-v4>
