@@ -112,25 +112,25 @@ You can override the database values with `POSTGRES_DB`, `POSTGRES_USER`, `POSTG
 Run chunk generation for all manuals:
 
 ```bash
-.venv/bin/python scripts/create_chunks.py
+.venv/bin/python src/ingestion/create_chunks.py
 ```
 
 Run chunk generation for a single manual:
 
 ```bash
-.venv/bin/python scripts/create_chunks.py --match 'filename'
+.venv/bin/python src/ingestion/create_chunks.py --match 'filename'
 ```
 
 Example:
 
 ```bash
-.venv/bin/python scripts/create_chunks.py --match '2026-toyota-corolla.pdf'
+.venv/bin/python src/ingestion/create_chunks.py --match '2026-toyota-corolla.pdf'
 ```
 
 Tune chunk sizing:
 
 ```bash
-.venv/bin/python scripts/create_chunks.py \
+.venv/bin/python src/ingestion/create_chunks.py \
   --target-tokens 450 \
   --soft-max-tokens 650 \
   --hard-max-tokens 800
@@ -169,25 +169,25 @@ docker compose exec -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
 Generate embeddings for all chunk files:
 
 ```bash
-.venv/bin/python scripts/create_embeddings.py
+.venv/bin/python src/ingestion/create_embeddings.py
 ```
 
 Generate embeddings for a single manual:
 
 ```bash
-.venv/bin/python scripts/create_embeddings.py --match '2020-toyota-yaris.json'
+.venv/bin/python src/ingestion/create_embeddings.py --match '2020-toyota-yaris.json'
 ```
 
 Regenerate embeddings if output files already exist:
 
 ```bash
-.venv/bin/python scripts/create_embeddings.py --overwrite
+.venv/bin/python src/ingestion/create_embeddings.py --overwrite
 ```
 
 Tune batching:
 
 ```bash
-.venv/bin/python scripts/create_embeddings.py --batch-size 32
+.venv/bin/python src/ingestion/create_embeddings.py --batch-size 32
 ```
 
 ## PostgreSQL Load
@@ -195,19 +195,19 @@ Tune batching:
 Load all chunk and embedding artifacts into PostgreSQL:
 
 ```bash
-.venv/bin/python scripts/load_postgres.py
+.venv/bin/python src/ingestion/load_postgres.py
 ```
 
 Load one document:
 
 ```bash
-.venv/bin/python scripts/load_postgres.py --match '2020-toyota-yaris.json'
+.venv/bin/python src/ingestion/load_postgres.py --match '2020-toyota-yaris.json'
 ```
 
 If the schema is already applied and you only want to reload data:
 
 ```bash
-.venv/bin/python scripts/load_postgres.py --skip-schema
+.venv/bin/python src/ingestion/load_postgres.py --skip-schema
 ```
 
 Inspect the summary report:
