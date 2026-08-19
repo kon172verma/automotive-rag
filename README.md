@@ -61,6 +61,7 @@ Focus:
 Key document:
 
 - [docs/evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation.md)
+- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md)
 
 ### Part 3: Retrieval And Answer Generation
 
@@ -75,6 +76,9 @@ Key documents:
 
 - [docs/architecture.md](/Users/konark/Desktop/Personal/automotive-rag/docs/architecture.md)
 - [docs/datastore.md](/Users/konark/Desktop/Personal/automotive-rag/docs/datastore.md)
+- [docs/retrieval.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval.md)
+- [docs/reranking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/reranking.md)
+- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md)
 
 ## Project Docs
 
@@ -85,6 +89,10 @@ Key documents:
 - [docs/chunking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/chunking.md): chunking strategy options and the recommended approach
 - [docs/datastore.md](/Users/konark/Desktop/Personal/automotive-rag/docs/datastore.md): storage options for vector and keyword search
 - [docs/evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation.md): answer quality and evaluation methodology
+- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md): eval dataset shape, schema, and gold-label conventions
+- [docs/retrieval.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval.md): hybrid retrieval baseline, filtering, fusion, and retrieval outputs
+- [docs/reranking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/reranking.md): reranking role, candidate pool, and evaluation expectations
+- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md): retrieval-only metrics and experiment structure
 
 ## Principles
 

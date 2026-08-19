@@ -132,9 +132,27 @@ The recommended path for this repo is:
 
 1. Design the ingestion format so it supports both basic hybrid and hierarchical hybrid later.
 2. Build a sample evaluation set early.
-3. Implement basic hybrid RAG as the first working system.
-4. Add hierarchical hybrid retrieval as the first major comparison.
-5. Keep advanced patterns deferred unless the data proves they help.
+3. Build and measure the retrieval-only hybrid baseline first.
+4. Add reranking and compare before vs after.
+5. Add answer generation only after retrieval is measurable.
+6. Add hierarchical hybrid retrieval as the first major comparison.
+7. Keep advanced patterns deferred unless the data proves they help.
+
+## Next Implementation Order
+
+The next implementation phase should be:
+
+1. retrieval-only hybrid baseline
+2. retrieval evaluation against the curated eval set
+3. reranking comparison
+4. grounded answer generation later
+
+See also:
+
+- [docs/retrieval.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval.md)
+- [docs/reranking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/reranking.md)
+- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md)
+- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md)
 
 ## What We Are Deferring
 
