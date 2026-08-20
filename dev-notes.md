@@ -219,6 +219,56 @@ sed -n '1,240p' artifacts/reports/summary.json
 Inspect one chunk artifact:
 
 ```bash
+sed -n '1,240p' artifacts/chunks/2020-toyota-yaris.json
+```
+
+## Retrieval
+
+Run keyword retrieval for one question:
+
+```bash
+.venv/bin/python src/retrieval/search.py \
+  --mode keyword \
+  --make toyota \
+  --model camry \
+  --year 2023 \
+  --question "How do I check the engine oil?"
+```
+
+Run hybrid retrieval for one question:
+
+```bash
+.venv/bin/python src/retrieval/search.py \
+  --mode hybrid \
+  --make toyota \
+  --model camry \
+  --year 2023 \
+  --question "How do I check the engine oil?" \
+  --keyword-top-k 20 \
+  --vector-top-k 20 \
+  --fused-top-k 10 \
+  --rrf-k 60
+```
+
+Run retrieval evaluation on one eval file:
+
+```bash
+.venv/bin/python src/retrieval/evaluate.py \
+  --match 'eval-v1-camry.json' \
+  --mode keyword
+```
+
+Run all retrieval evaluation modes:
+
+```bash
+.venv/bin/python src/retrieval/evaluate.py --mode all
+```
+
+Reports are written to:
+
+- `artifacts/retrieval-reports`
+
+```bash
 sed -n '1,200p' artifacts/chunks/2020-toyota-yaris.json
 ```
 
