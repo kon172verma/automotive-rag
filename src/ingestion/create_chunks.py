@@ -12,11 +12,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from docling.datamodel.base_models import InputFormat  # type: ignore[import-not-found]
+from docling.datamodel.base_models import InputFormat
 from docling.datamodel.pipeline_options import (
-    PdfPipelineOptions,  # type: ignore[import-not-found]
+    PdfPipelineOptions,
 )
-from docling.document_converter import (  # type: ignore[import-not-found]
+from docling.document_converter import (
     DocumentConverter,
     PdfFormatOption,
 )

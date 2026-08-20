@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-# mypy: disable-error-code=import-not-found
 import argparse
 import json
 import os
@@ -8,7 +7,7 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, LiteralString, cast
 
-from dotenv import load_dotenv  # type: ignore[import-not-found]
+from dotenv import load_dotenv
 from psycopg import Cursor, connect, sql
 
 DEFAULT_DB_HOST = "127.0.0.1"
@@ -309,10 +308,7 @@ def load_one_document(
         raise FileNotFoundError(f"Missing embedding artifact: {embedding_file}")
 
     embedding_rows = load_jsonl(embedding_file)
-    embedding_map = {
-        str(row["chunk_id"]): row
-        for row in embedding_rows
-    }
+    embedding_map = {str(row["chunk_id"]): row for row in embedding_rows}
     if len(embedding_map) != len(chunks):
         raise ValueError(
             f"Embedding count mismatch for {doc_id}: "

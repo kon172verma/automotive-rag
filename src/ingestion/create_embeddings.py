@@ -13,7 +13,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from dotenv import load_dotenv  # type: ignore[import-not-found]
+from dotenv import load_dotenv
 from openai import APIConnectionError, APIError, APITimeoutError, OpenAI, RateLimitError
 
 DEFAULT_MODEL = "text-embedding-3-small"
@@ -117,7 +117,9 @@ def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def batched(items: Sequence[dict[str, Any]], batch_size: int) -> Iterable[list[dict[str, Any]]]:
+def batched(
+    items: Sequence[dict[str, Any]], batch_size: int
+) -> Iterable[list[dict[str, Any]]]:
     for start in range(0, len(items), batch_size):
         yield list(items[start : start + batch_size])
 
@@ -156,7 +158,7 @@ def embed_batch(
                 raise
             if attempt >= config.max_retries:
                 raise
-            sleep_seconds = min(30.0, 2 ** attempt)
+            sleep_seconds = min(30.0, 2**attempt)
             print(
                 f"Retrying batch after API error ({exc.__class__.__name__}) in "
                 f"{sleep_seconds:.1f}s...",
@@ -166,7 +168,7 @@ def embed_batch(
         except (APIConnectionError, APIError, APITimeoutError) as exc:
             if attempt >= config.max_retries:
                 raise
-            sleep_seconds = min(30.0, 2 ** attempt)
+            sleep_seconds = min(30.0, 2**attempt)
             print(
                 f"Retrying batch after API error ({exc.__class__.__name__}) in "
                 f"{sleep_seconds:.1f}s...",
@@ -286,7 +288,9 @@ def main() -> None:
     args = parse_args()
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        raise SystemExit("OPENAI_API_KEY is not set. Add it to the environment or .env.")
+        raise SystemExit(
+            "OPENAI_API_KEY is not set. Add it to the environment or .env."
+        )
 
     if args.batch_size <= 0:
         raise SystemExit("--batch-size must be greater than 0")
