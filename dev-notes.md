@@ -250,12 +250,39 @@ Run hybrid retrieval for one question:
   --rrf-k 60
 ```
 
+Run hybrid retrieval with reranking for one question:
+
+```bash
+.venv/bin/python src/retrieval/search.py \
+  --mode hybrid-rerank \
+  --make toyota \
+  --model camry \
+  --year 2023 \
+  --question "How do I check the engine oil?" \
+  --keyword-top-k 20 \
+  --vector-top-k 20 \
+  --fused-top-k 20 \
+  --rerank-top-k 10 \
+  --rrf-k 60 \
+  --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2"
+```
+
 Run retrieval evaluation on one eval file:
 
 ```bash
 .venv/bin/python src/retrieval/evaluate.py \
   --match 'eval-v1-camry.json' \
   --mode keyword
+```
+
+Run hybrid retrieval evaluation with reranking:
+
+```bash
+.venv/bin/python src/retrieval/evaluate.py \
+  --match 'eval-v1-camry.json' \
+  --mode hybrid-rerank \
+  --rerank-top-k 10 \
+  --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2"
 ```
 
 Run all retrieval evaluation modes:
@@ -267,6 +294,11 @@ Run all retrieval evaluation modes:
 Reports are written to:
 
 - `artifacts/retrieval-reports`
+
+Note:
+
+- reranking runs locally through `sentence-transformers`
+- the reranker model downloads on first use and is then cached locally
 
 ```bash
 sed -n '1,200p' artifacts/chunks/2020-toyota-yaris.json

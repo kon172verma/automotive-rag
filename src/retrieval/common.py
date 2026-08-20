@@ -19,7 +19,9 @@ DEFAULT_EMBEDDING_DIMENSIONS = 1536
 DEFAULT_KEYWORD_TOP_K = 20
 DEFAULT_VECTOR_TOP_K = 20
 DEFAULT_FUSED_TOP_K = 20
+DEFAULT_RERANK_TOP_K = 10
 DEFAULT_RRF_K = 60
+DEFAULT_RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L6-v2"
 
 
 @dataclass(frozen=True)
@@ -42,7 +44,13 @@ class RetrievalConfig:
     keyword_top_k: int = DEFAULT_KEYWORD_TOP_K
     vector_top_k: int = DEFAULT_VECTOR_TOP_K
     fused_top_k: int = DEFAULT_FUSED_TOP_K
+    rerank_top_k: int = DEFAULT_RERANK_TOP_K
     rrf_k: int = DEFAULT_RRF_K
+
+
+@dataclass(frozen=True)
+class RerankerConfig:
+    model_name: str = DEFAULT_RERANKER_MODEL
 
 
 @dataclass(frozen=True)
@@ -72,6 +80,8 @@ class SearchResult:
     vector_rank: int | None = None
     vector_score: float | None = None
     fused_score: float | None = None
+    rerank_rank: int | None = None
+    rerank_score: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -83,6 +93,7 @@ class SearchBundle:
     keyword_results: list[SearchResult]
     vector_results: list[SearchResult]
     fused_results: list[SearchResult]
+    reranked_results: list[SearchResult]
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -128,12 +139,15 @@ class Retriever:
         db_config: DbConfig,
         retrieval_config: RetrievalConfig,
         embedding_config: EmbeddingConfig,
+        reranker_config: RerankerConfig,
     ) -> None:
         self.db_config = db_config
         self.retrieval_config = retrieval_config
         self.embedding_config = embedding_config
+        self.reranker_config = reranker_config
         self._conn: Connection[Any] | None = None
         self._client: OpenAI | None = None
+        self._reranker: Any | None = None
         self._query_cache: dict[tuple[str, str, int], list[float]] = {}
 
     def __enter__(self) -> Retriever:  # noqa: PYI034
@@ -363,6 +377,73 @@ class Retriever:
         )
         return fused[: self.retrieval_config.fused_top_k]
 
+    def get_reranker(self) -> Any:
+        if self._reranker is not None:
+            return self._reranker
+        try:
+            from sentence_transformers import CrossEncoder  # type: ignore[import-not-found]
+        except ImportError as exc:
+            raise SystemExit(
+                "sentence-transformers is required for reranking. "
+                "Install dependencies with '.venv/bin/pip install -r requirements.txt'."
+            ) from exc
+        self._reranker = CrossEncoder(self.reranker_config.model_name)
+        return self._reranker
+
+    def build_reranker_document(
+        self,
+        *,
+        request: RetrievalRequest,
+        result: SearchResult,
+    ) -> str:
+        heading_path = " > ".join(result.heading_path)
+        vehicle = f"{request.year} {request.make} {request.model}"
+        parts = [
+            f"Vehicle: {vehicle}",
+            f"Section: {result.section_title}",
+            f"Headings: {heading_path}" if heading_path else "",
+            f"Content type: {result.content_type}",
+            f"Pages: {result.page_start}-{result.page_end}"
+            if result.page_start is not None and result.page_end is not None
+            else "",
+            "",
+            result.chunk_text,
+        ]
+        return "\n".join(part for part in parts if part)
+
+    def rerank(
+        self,
+        *,
+        request: RetrievalRequest,
+        fused_results: list[SearchResult],
+    ) -> list[SearchResult]:
+        if not fused_results:
+            return []
+        reranker = self.get_reranker()
+        pairs = [
+            (request.question, self.build_reranker_document(request=request, result=result))
+            for result in fused_results
+        ]
+        raw_scores = reranker.predict(pairs)
+        reranked: list[SearchResult] = []
+        for result, raw_score in zip(fused_results, raw_scores, strict=True):
+            reranked_result = SearchResult(**result.to_dict())
+            reranked_result.rerank_score = float(raw_score)
+            reranked_result.retrieval_source = "reranked"
+            reranked_result.score = reranked_result.rerank_score
+            reranked.append(reranked_result)
+
+        reranked.sort(
+            key=lambda item: (
+                -float(item.rerank_score or 0.0),
+                -float(item.fused_score or 0.0),
+                item.chunk_index,
+            )
+        )
+        for rank, result in enumerate(reranked, start=1):
+            result.rerank_rank = rank
+        return reranked[: self.retrieval_config.rerank_top_k]
+
     def keyword_only(self, request: RetrievalRequest) -> SearchBundle:
         doc_ids = self.resolve_doc_ids(request)
         keyword_results = self.keyword_search(request=request, doc_ids=doc_ids)
@@ -371,6 +452,7 @@ class Retriever:
             keyword_results=keyword_results,
             vector_results=[],
             fused_results=[],
+            reranked_results=[],
         )
 
     def vector_only(self, request: RetrievalRequest) -> SearchBundle:
@@ -381,6 +463,7 @@ class Retriever:
             keyword_results=[],
             vector_results=vector_results,
             fused_results=[],
+            reranked_results=[],
         )
 
     def hybrid(self, request: RetrievalRequest) -> SearchBundle:
@@ -396,4 +479,19 @@ class Retriever:
             keyword_results=keyword_results,
             vector_results=vector_results,
             fused_results=fused_results,
+            reranked_results=[],
+        )
+
+    def hybrid_with_rerank(self, request: RetrievalRequest) -> SearchBundle:
+        bundle = self.hybrid(request)
+        reranked_results = self.rerank(
+            request=request,
+            fused_results=bundle.fused_results,
+        )
+        return SearchBundle(
+            doc_ids=bundle.doc_ids,
+            keyword_results=bundle.keyword_results,
+            vector_results=bundle.vector_results,
+            fused_results=bundle.fused_results,
+            reranked_results=reranked_results,
         )

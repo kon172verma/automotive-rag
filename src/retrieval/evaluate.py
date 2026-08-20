@@ -11,6 +11,7 @@ if __package__ in {None, ""}:
 
 from src.retrieval.common import (
     EmbeddingConfig,
+    RerankerConfig,
     RetrievalConfig,
     RetrievalRequest,
     Retriever,
@@ -41,7 +42,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--mode",
-        choices=("keyword", "vector", "hybrid", "all"),
+        choices=("keyword", "vector", "hybrid", "hybrid-rerank", "all"),
         default="all",
         help="Which retrieval mode to evaluate.",
     )
@@ -68,6 +69,18 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=60,
         help="RRF denominator offset.",
+    )
+    parser.add_argument(
+        "--rerank-top-k",
+        type=int,
+        default=10,
+        help="Top-k to keep after reranking.",
+    )
+    parser.add_argument(
+        "--reranker-model",
+        type=str,
+        default="cross-encoder/ms-marco-MiniLM-L6-v2",
+        help="Sentence Transformers cross-encoder model for reranking.",
     )
     parser.add_argument(
         "--report-dir",
@@ -229,6 +242,7 @@ def main() -> None:
         keyword_top_k=args.keyword_top_k,
         vector_top_k=args.vector_top_k,
         fused_top_k=args.fused_top_k,
+        rerank_top_k=args.rerank_top_k,
         rrf_k=args.rrf_k,
     )
     aggregate: dict[str, Any] = {}
@@ -239,6 +253,7 @@ def main() -> None:
         db_config=build_db_config(),
         retrieval_config=retrieval_config,
         embedding_config=EmbeddingConfig(),
+        reranker_config=RerankerConfig(model_name=args.reranker_model),
     ) as retriever:
         for dataset_file in dataset_files:
             payload = load_json(dataset_file)
@@ -287,8 +302,14 @@ def main() -> None:
                     )
                     update_aggregate(aggregate, "vector", stages["vector"], k_values)
 
-                if args.mode in {"hybrid", "all"}:
-                    bundle = retriever.hybrid(request)
+                hybrid_bundle = None
+                if args.mode in {"hybrid-rerank", "all"}:
+                    hybrid_bundle = retriever.hybrid_with_rerank(request)
+                elif args.mode == "hybrid":
+                    hybrid_bundle = retriever.hybrid(request)
+
+                if args.mode == "hybrid" and hybrid_bundle is not None:
+                    bundle = hybrid_bundle
                     doc_ids = bundle.doc_ids
                     stages["hybrid"] = evaluate_stage(
                         bundle.fused_results,
@@ -308,6 +329,46 @@ def main() -> None:
                         ]
                     }
                     update_aggregate(aggregate, "hybrid", stages["hybrid"], k_values)
+
+                if args.mode in {"hybrid-rerank", "all"} and hybrid_bundle is not None:
+                    bundle = hybrid_bundle
+                    doc_ids = bundle.doc_ids
+                    stages["hybrid"] = evaluate_stage(
+                        bundle.fused_results,
+                        expected_chunk_ids=expected_chunk_ids,
+                        expected_sections=expected_sections,
+                        expected_pages=expected_pages,
+                        k_values=k_values,
+                    )
+                    stages["hybrid_rerank"] = evaluate_stage(
+                        bundle.reranked_results,
+                        expected_chunk_ids=expected_chunk_ids,
+                        expected_sections=expected_sections,
+                        expected_pages=expected_pages,
+                        k_values=k_values,
+                    )
+                    stages["keyword_candidates"] = {
+                        "retrieved_chunk_ids": [
+                            result.chunk_id for result in bundle.keyword_results
+                        ]
+                    }
+                    stages["vector_candidates"] = {
+                        "retrieved_chunk_ids": [
+                            result.chunk_id for result in bundle.vector_results
+                        ]
+                    }
+                    stages["fused_candidates"] = {
+                        "retrieved_chunk_ids": [
+                            result.chunk_id for result in bundle.fused_results
+                        ]
+                    }
+                    update_aggregate(aggregate, "hybrid", stages["hybrid"], k_values)
+                    update_aggregate(
+                        aggregate,
+                        "hybrid_rerank",
+                        stages["hybrid_rerank"],
+                        k_values,
+                    )
 
                 per_question.append(
                     {
@@ -332,7 +393,11 @@ def main() -> None:
             "keyword_top_k": retrieval_config.keyword_top_k,
             "vector_top_k": retrieval_config.vector_top_k,
             "fused_top_k": retrieval_config.fused_top_k,
+            "rerank_top_k": retrieval_config.rerank_top_k,
             "rrf_k": retrieval_config.rrf_k,
+        },
+        "reranker_config": {
+            "model_name": args.reranker_model,
         },
         "aggregate_metrics": finalize_aggregate(aggregate, k_values),
         "per_question": per_question,

@@ -2,3 +2,4 @@ docling
 openai
 python-dotenv
 psycopg[binary]
+sentence-transformers

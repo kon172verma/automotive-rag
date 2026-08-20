@@ -11,6 +11,7 @@ if __package__ in {None, ""}:
 
 from src.retrieval.common import (
     EmbeddingConfig,
+    RerankerConfig,
     RetrievalConfig,
     RetrievalRequest,
     Retriever,
@@ -29,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--year", type=int, required=True, help="Vehicle year.")
     parser.add_argument(
         "--mode",
-        choices=("keyword", "vector", "hybrid"),
+        choices=("keyword", "vector", "hybrid", "hybrid-rerank"),
         default="hybrid",
         help="Retrieval mode to run.",
     )
@@ -57,6 +58,18 @@ def parse_args() -> argparse.Namespace:
         default=60,
         help="RRF denominator offset for hybrid fusion.",
     )
+    parser.add_argument(
+        "--rerank-top-k",
+        type=int,
+        default=10,
+        help="Top-k to keep after reranking.",
+    )
+    parser.add_argument(
+        "--reranker-model",
+        type=str,
+        default="cross-encoder/ms-marco-MiniLM-L6-v2",
+        help="Sentence Transformers cross-encoder model for reranking.",
+    )
     return parser.parse_args()
 
 
@@ -66,6 +79,7 @@ def bundle_to_dict(bundle: SearchBundle) -> dict[str, Any]:
         "keyword_results": [result.to_dict() for result in bundle.keyword_results],
         "vector_results": [result.to_dict() for result in bundle.vector_results],
         "fused_results": [result.to_dict() for result in bundle.fused_results],
+        "reranked_results": [result.to_dict() for result in bundle.reranked_results],
     }
 
 
@@ -75,6 +89,7 @@ def main() -> None:
         keyword_top_k=args.keyword_top_k,
         vector_top_k=args.vector_top_k,
         fused_top_k=args.fused_top_k,
+        rerank_top_k=args.rerank_top_k,
         rrf_k=args.rrf_k,
     )
     request = RetrievalRequest(
@@ -87,11 +102,14 @@ def main() -> None:
         db_config=build_db_config(),
         retrieval_config=retrieval_config,
         embedding_config=EmbeddingConfig(),
+        reranker_config=RerankerConfig(model_name=args.reranker_model),
     ) as retriever:
         if args.mode == "keyword":
             bundle = retriever.keyword_only(request)
         elif args.mode == "vector":
             bundle = retriever.vector_only(request)
+        elif args.mode == "hybrid-rerank":
+            bundle = retriever.hybrid_with_rerank(request)
         else:
             bundle = retriever.hybrid(request)
     print(json.dumps(bundle_to_dict(bundle), ensure_ascii=True, indent=2))

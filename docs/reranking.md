@@ -45,6 +45,28 @@ This differs from the embedding model:
 - embeddings support fast independent encoding for large-scale retrieval
 - rerankers support slower but more precise scoring on a small candidate set
 
+## How We Run It
+
+Recommendation: run the first reranker `locally in the Python retrieval service`.
+
+For this repo, the initial implementation should:
+
+- use `sentence-transformers`
+- load a `CrossEncoder` model in-process
+- score only the top fused candidates
+- keep the database responsible only for retrieval, not reranking
+
+Why this is the right starting point:
+
+- simple architecture
+- easy to debug
+- no extra vendor dependency
+- easy before-vs-after comparison against fused hybrid retrieval
+
+Operational note:
+
+- the model weights are downloaded on first use and then cached locally by the Hugging Face and Sentence Transformers stack
+
 ## Rerankers To Consider
 
 ### 1. `cross-encoder/ms-marco-MiniLM-L6-v2`
