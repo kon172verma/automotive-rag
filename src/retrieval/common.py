@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from dotenv import load_dotenv  # type: ignore[import-not-found]
+from dotenv import load_dotenv
 from openai import OpenAI
 from psycopg import Connection, connect
 
@@ -381,7 +381,9 @@ class Retriever:
         if self._reranker is not None:
             return self._reranker
         try:
-            from sentence_transformers import CrossEncoder  # type: ignore[import-not-found]
+            from sentence_transformers import (
+                CrossEncoder,
+            )
         except ImportError as exc:
             raise SystemExit(
                 "sentence-transformers is required for reranking. "
@@ -421,7 +423,10 @@ class Retriever:
             return []
         reranker = self.get_reranker()
         pairs = [
-            (request.question, self.build_reranker_document(request=request, result=result))
+            (
+                request.question,
+                self.build_reranker_document(request=request, result=result),
+            )
             for result in fused_results
         ]
         raw_scores = reranker.predict(pairs)
