@@ -290,6 +290,13 @@ Recommended use in v1:
 
 Do not make the whole pipeline depend on perfect TOC parsing. Use it as a helpful structural guide, not a brittle single point of failure.
 
+V2 note:
+
+- some manuals expose a clear multi-level hierarchy in the TOC even when body chunks only carry flat heading metadata
+- parse TOC/index pages separately, with deterministic text parsing or a multimodal fallback, to recover chapter and subsection structure
+- use TOC numbering, indentation, labels, and page references to populate deeper `section_path` values and non-null `parent_section_id` links
+- keep Docling body extraction as the source of chunk text and page spans; use the TOC as a structural overlay rather than a replacement
+
 ### 9. How should ingestion handle versioning and re-runs?
 
 Recommendation: `Make ingestion idempotent and traceable`.
