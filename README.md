@@ -2,7 +2,7 @@
 
 This repo is for building a production-minded RAG system that answers vehicle troubleshooting and maintenance questions from manufacturer documentation.
 
-The manuals currently live in [manuals](/Users/konark/Desktop/Personal/automotive-rag/manuals). The long-term goal is to support many manuals across makes, models, and years while keeping the system grounded, explainable, and production-friendly.
+The manuals currently live in [manuals](./manuals/). The long-term goal is to support many manuals across makes, models, and years while keeping the system grounded, explainable, and production-friendly.
 
 ## Goal
 
@@ -47,8 +47,8 @@ Focus:
 
 Key document:
 
-- [docs/ingestion.md](/Users/konark/Desktop/Personal/automotive-rag/docs/ingestion.md)
-- [docs/chunking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/chunking.md)
+- [docs/ingestion.md](./docs/ingestion.md)
+- [docs/chunking.md](./docs/chunking.md)
 
 ### Part 2: Sample QA And Evaluation
 
@@ -60,8 +60,8 @@ Focus:
 
 Key document:
 
-- [docs/evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation.md)
-- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md)
+- [docs/evaluation.md](./docs/evaluation.md)
+- [docs/evaluation-dataset.md](./docs/evaluation-dataset.md)
 
 ### Part 3: Retrieval And Answer Generation
 
@@ -74,25 +74,25 @@ Focus:
 
 Key documents:
 
-- [docs/architecture.md](/Users/konark/Desktop/Personal/automotive-rag/docs/architecture.md)
-- [docs/datastore.md](/Users/konark/Desktop/Personal/automotive-rag/docs/datastore.md)
-- [docs/retrieval.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval.md)
-- [docs/reranking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/reranking.md)
-- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md)
+- [docs/architecture.md](./docs/architecture.md)
+- [docs/datastore.md](./docs/datastore.md)
+- [docs/retrieval.md](./docs/retrieval.md)
+- [docs/reranking.md](./docs/reranking.md)
+- [docs/retrieval-evaluation.md](./docs/retrieval-evaluation.md)
 
 ## Project Docs
 
-- [docs/architecture.md](/Users/konark/Desktop/Personal/automotive-rag/docs/architecture.md): top-level architecture choices
-- [dev-notes.md](/Users/konark/Desktop/Personal/automotive-rag/dev-notes.md): local rerun commands for setup, chunk generation, embeddings, and local database workflow
-- [docs/embeddings.md](/Users/konark/Desktop/Personal/automotive-rag/docs/embeddings.md): embedding model choices, dimensions, and current recommendation
-- [docs/ingestion.md](/Users/konark/Desktop/Personal/automotive-rag/docs/ingestion.md): extraction, metadata, tables, images, TOC, and ingestion quality checks
-- [docs/chunking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/chunking.md): chunking strategy options and the recommended approach
-- [docs/datastore.md](/Users/konark/Desktop/Personal/automotive-rag/docs/datastore.md): storage options for vector and keyword search
-- [docs/evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation.md): answer quality and evaluation methodology
-- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md): eval dataset shape, schema, and gold-label conventions
-- [docs/retrieval.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval.md): hybrid retrieval baseline, filtering, fusion, and retrieval outputs
-- [docs/reranking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/reranking.md): reranking role, candidate pool, and evaluation expectations
-- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md): retrieval-only metrics and experiment structure
+- [docs/architecture.md](./docs/architecture.md): top-level architecture choices
+- [dev-notes.md](./dev-notes.md): local rerun commands for setup, chunk generation, embeddings, and local database workflow
+- [docs/embeddings.md](./docs/embeddings.md): embedding model choices, dimensions, and current recommendation
+- [docs/ingestion.md](./docs/ingestion.md): extraction, metadata, tables, images, TOC, and ingestion quality checks
+- [docs/chunking.md](./docs/chunking.md): chunking strategy options and the recommended approach
+- [docs/datastore.md](./docs/datastore.md): storage options for vector and keyword search
+- [docs/evaluation.md](./docs/evaluation.md): answer quality and evaluation methodology
+- [docs/evaluation-dataset.md](./docs/evaluation-dataset.md): eval dataset shape, schema, and gold-label conventions
+- [docs/retrieval.md](./docs/retrieval.md): hybrid retrieval baseline, filtering, fusion, and retrieval outputs
+- [docs/reranking.md](./docs/reranking.md): reranking role, candidate pool, and evaluation expectations
+- [docs/retrieval-evaluation.md](./docs/retrieval-evaluation.md): retrieval-only metrics and experiment structure
 
 ## Principles
 

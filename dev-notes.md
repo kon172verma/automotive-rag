@@ -97,7 +97,7 @@ docker compose exec -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
   psql -U "$POSTGRES_USER" -d "${POSTGRES_DB:-automotive_rag}" -c "\\dx"
 ```
 
-The local defaults in [docker-compose.yml](/Users/konark/Desktop/Personal/automotive-rag/docker-compose.yml) are:
+The local defaults in [docker-compose.yml](./docker-compose.yml) are:
 
 - database: `automotive_rag`
 - user: read from `POSTGRES_USER`

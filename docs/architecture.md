@@ -124,7 +124,7 @@ Why not start with `BAAI/bge-m3`:
 - we already plan to do hybrid retrieval using keyword search plus dense vectors, so we do not need unified sparse+dense modeling on day one
 - it is better as a later comparison option than the first default
 
-See also: [docs/embeddings.md](/Users/konark/Desktop/Personal/automotive-rag/docs/embeddings.md)
+See also: [docs/embeddings.md](./embeddings.md)
 
 ## Chosen Path
 
@@ -149,10 +149,10 @@ The next implementation phase should be:
 
 See also:
 
-- [docs/retrieval.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval.md)
-- [docs/reranking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/reranking.md)
-- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md)
-- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md)
+- [docs/retrieval.md](./retrieval.md)
+- [docs/reranking.md](./reranking.md)
+- [docs/retrieval-evaluation.md](./retrieval-evaluation.md)
+- [docs/evaluation-dataset.md](./evaluation-dataset.md)
 
 ## What We Are Deferring
 

@@ -83,7 +83,7 @@ Recommended policy:
 
 ### 3. How should we chunk the manuals?
 
-Recommendation: see [chunking.md](/Users/konark/Desktop/Personal/automotive-rag/docs/chunking.md).
+Recommendation: see [chunking.md](./chunking.md).
 
 Short answer:
 

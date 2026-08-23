@@ -65,7 +65,7 @@ Why:
 
 For retrieval-only metrics and reporting, see:
 
-- [docs/retrieval-evaluation.md](/Users/konark/Desktop/Personal/automotive-rag/docs/retrieval-evaluation.md)
+- [docs/retrieval-evaluation.md](./retrieval-evaluation.md)
 
 ## How Should We Evaluate Final Answers?
 
@@ -117,7 +117,7 @@ Recommendation: keep the eval dataset design separate from metric definitions.
 
 For dataset shape, schema, and gold-label guidance, see:
 
-- [docs/evaluation-dataset.md](/Users/konark/Desktop/Personal/automotive-rag/docs/evaluation-dataset.md)
+- [docs/evaluation-dataset.md](./evaluation-dataset.md)
 
 ## Current Example
 
