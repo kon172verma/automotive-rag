@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -18,6 +19,7 @@ from src.generation.models import (
     GenerationConfig,
 )
 from src.vector_retrieval.models import (
+    DEFAULT_RERANKER_SERVICE_URL,
     EmbeddingConfig,
     RerankerConfig,
     RetrievalConfig,
@@ -64,7 +66,13 @@ def parse_args() -> argparse.Namespace:
         "--reranker-model",
         type=str,
         default="cross-encoder/ms-marco-MiniLM-L6-v2",
-        help="Sentence Transformers cross-encoder model for reranking.",
+        help="Reranker model name expected by the reranker service.",
+    )
+    parser.add_argument(
+        "--reranker-url",
+        type=str,
+        default=os.getenv("RERANKER_URL", DEFAULT_RERANKER_SERVICE_URL),
+        help="Base URL for the host reranker service.",
     )
     parser.add_argument(
         "--answer-model",
@@ -156,7 +164,10 @@ def main() -> None:
         db_config=build_db_config(),
         retrieval_config=retrieval_config,
         embedding_config=EmbeddingConfig(),
-        reranker_config=RerankerConfig(model_name=args.reranker_model),
+        reranker_config=RerankerConfig(
+            model_name=args.reranker_model,
+            service_url=args.reranker_url,
+        ),
     ) as retriever:
         bundle = run_retrieval_mode(
             retriever,

@@ -1,1 +1,1 @@
-"""Vector retrieval, hybrid fusion, and reranking."""
+"""Vector retrieval and orchestration."""

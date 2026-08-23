@@ -14,6 +14,8 @@ DEFAULT_FUSED_TOP_K = 20
 DEFAULT_RERANK_TOP_K = 10
 DEFAULT_RRF_K = 60
 DEFAULT_RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L6-v2"
+DEFAULT_RERANKER_SERVICE_URL = "http://127.0.0.1:8001"
+DEFAULT_RERANKER_TIMEOUT_SECONDS = 30.0
 
 
 @dataclass(frozen=True)
@@ -43,6 +45,8 @@ class RetrievalConfig:
 @dataclass(frozen=True)
 class RerankerConfig:
     model_name: str = DEFAULT_RERANKER_MODEL
+    service_url: str = DEFAULT_RERANKER_SERVICE_URL
+    timeout_seconds: float = DEFAULT_RERANKER_TIMEOUT_SECONDS
 
 
 @dataclass(frozen=True)

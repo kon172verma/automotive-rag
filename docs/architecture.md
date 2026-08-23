@@ -16,8 +16,10 @@ Current `src/` layout:
 
 - `src/chunking`: manual parsing and chunk creation
 - `src/ingestion`: embeddings and PostgreSQL loading
+- `src/fusion`: fusion strategies such as reciprocal-rank fusion
 - `src/keyword_retrieval`: keyword retrieval helpers
-- `src/vector_retrieval`: dense retrieval, fusion, reranking, and retrieval CLI
+- `src/vector_retrieval`: dense retrieval and retrieval orchestration
+- `src/reranking`: reranker scoring, service client, and host service
 - `src/generation`: answer-context packaging and future answer generation
 - `src/evaluation`: retrieval evaluation and future answer evaluation
 

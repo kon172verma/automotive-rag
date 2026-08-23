@@ -9,7 +9,10 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from psycopg import Connection, connect
 
+from src.fusion.rrf import fuse_results
 from src.keyword_retrieval.service import keyword_search, resolve_doc_ids
+from src.reranking.client import rerank_scores
+from src.reranking.scoring import build_reranker_documents, rerank_results
 from src.vector_retrieval.models import (
     DbConfig,
     EmbeddingConfig,
@@ -20,9 +23,8 @@ from src.vector_retrieval.models import (
     SearchBundle,
     SearchResult,
 )
-from src.vector_retrieval.reranking import rerank_results
 from src.vector_retrieval.runtime import elapsed_ms
-from src.vector_retrieval.vector_search import embed_query, fuse_results, vector_search
+from src.vector_retrieval.vector_search import embed_query, vector_search
 
 
 class Retriever:
@@ -40,7 +42,6 @@ class Retriever:
         self.reranker_config = reranker_config
         self._conn: Connection[Any] | None = None
         self._client: OpenAI | None = None
-        self._reranker: Any | None = None
         self._query_cache: dict[tuple[str, str, int], list[float]] = {}
 
     def __enter__(self) -> Retriever:  # noqa: PYI034
@@ -72,19 +73,6 @@ class Retriever:
             raise SystemExit("OPENAI_API_KEY is not set.")
         self._client = OpenAI()
         return self._client
-
-    def get_reranker(self) -> Any:
-        if self._reranker is not None:
-            return self._reranker
-        try:
-            from sentence_transformers import CrossEncoder
-        except ImportError as exc:
-            raise SystemExit(
-                "sentence-transformers is required for reranking. "
-                "Install dependencies with '.venv/bin/pip install -r requirements.txt'."
-            ) from exc
-        self._reranker = CrossEncoder(self.reranker_config.model_name)
-        return self._reranker
 
     def resolve_doc_ids(self, request: RetrievalRequest) -> list[str]:
         doc_ids, _ = resolve_doc_ids(self.conn, request)
@@ -139,13 +127,36 @@ class Retriever:
         request: RetrievalRequest,
         fused_results: list[SearchResult],
     ) -> list[SearchResult]:
-        reranked, _ = rerank_results(
-            reranker=self.get_reranker(),
+        reranked, _ = self._rerank_with_service(
             request=request,
+            fused_results=fused_results,
+        )
+        return reranked
+
+    def _rerank_with_service(
+        self,
+        *,
+        request: RetrievalRequest,
+        fused_results: list[SearchResult],
+    ) -> tuple[list[SearchResult], float]:
+        started_at = perf_counter()
+        if not fused_results:
+            return [], elapsed_ms(started_at)
+        documents = build_reranker_documents(
+            request=request,
+            fused_results=fused_results,
+        )
+        raw_scores = rerank_scores(
+            config=self.reranker_config,
+            question=request.question,
+            documents=documents,
+        )
+        reranked = rerank_results(
+            raw_scores=raw_scores,
             fused_results=fused_results,
             rerank_top_k=self.retrieval_config.rerank_top_k,
         )
-        return reranked
+        return reranked, elapsed_ms(started_at)
 
     def keyword_only(self, request: RetrievalRequest) -> SearchBundle:
         started_at = perf_counter()
@@ -247,11 +258,9 @@ class Retriever:
     def hybrid_with_rerank(self, request: RetrievalRequest) -> SearchBundle:
         started_at = perf_counter()
         bundle = self.hybrid(request)
-        reranked_results, rerank_ms = rerank_results(
-            reranker=self.get_reranker(),
+        reranked_results, rerank_ms = self._rerank_with_service(
             request=request,
             fused_results=bundle.fused_results,
-            rerank_top_k=self.retrieval_config.rerank_top_k,
         )
         return SearchBundle(
             doc_ids=bundle.doc_ids,

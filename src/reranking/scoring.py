@@ -1,10 +1,6 @@
 from __future__ import annotations
 
-from time import perf_counter
-from typing import Any
-
 from src.vector_retrieval.models import RetrievalRequest, SearchResult
-from src.vector_retrieval.runtime import elapsed_ms
 
 
 def build_reranker_document(
@@ -30,24 +26,26 @@ def build_reranker_document(
     return "\n".join(part for part in parts if part)
 
 
-def rerank_results(
+def build_reranker_documents(
     *,
-    reranker: Any,
     request: RetrievalRequest,
     fused_results: list[SearchResult],
-    rerank_top_k: int,
-) -> tuple[list[SearchResult], float]:
-    started_at = perf_counter()
-    if not fused_results:
-        return [], elapsed_ms(started_at)
-    pairs = [
-        (
-            request.question,
-            build_reranker_document(request=request, result=result),
-        )
+) -> list[str]:
+    return [
+        build_reranker_document(request=request, result=result)
         for result in fused_results
     ]
-    raw_scores = reranker.predict(pairs)
+
+
+def rerank_results(
+    *,
+    raw_scores: list[float],
+    fused_results: list[SearchResult],
+    rerank_top_k: int,
+) -> list[SearchResult]:
+    if len(raw_scores) != len(fused_results):
+        raise ValueError("Reranker score count does not match fused result count.")
+
     reranked: list[SearchResult] = []
     for result, raw_score in zip(fused_results, raw_scores, strict=True):
         reranked_result = SearchResult(**result.to_dict())
@@ -65,4 +63,4 @@ def rerank_results(
     )
     for rank, result in enumerate(reranked, start=1):
         result.rerank_rank = rank
-    return reranked[:rerank_top_k], elapsed_ms(started_at)
+    return reranked[:rerank_top_k]

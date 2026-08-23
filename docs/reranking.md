@@ -47,25 +47,28 @@ This differs from the embedding model:
 
 ## How We Run It
 
-Recommendation: run the first reranker `locally in the Python retrieval service`.
+Recommendation: run the first reranker as a `separate host service`.
 
-For this repo, the initial implementation should:
+For this repo, the implementation should:
 
 - use `sentence-transformers`
-- load a `CrossEncoder` model in-process
+- run a long-lived `CrossEncoder` process on the host
+- let the retrieval code call that service over local HTTP
 - score only the top fused candidates
 - keep the database responsible only for retrieval, not reranking
 
-Why this is the right starting point:
+Why this is the right fit now:
 
-- simple architecture
-- easy to debug
-- no extra vendor dependency
-- easy before-vs-after comparison against fused hybrid retrieval
+- avoids loading reranker weights on every retrieval run
+- keeps the reranker lifecycle isolated from retrieval orchestration
+- lets Apple Silicon Macs use `MPS` when the service runs on the host
+- stays simple enough for local debugging and before-vs-after evaluation
 
-Operational note:
+Operational notes:
 
-- the model weights are downloaded on first use and then cached locally by the Hugging Face and Sentence Transformers stack
+- the model weights are downloaded on first service startup and then cached locally
+- the service should prefer `MPS` on compatible macOS hosts, then `CUDA`, then `CPU`
+- we are not making Docker the default reranker runtime on macOS because that would give up `MPS`
 
 ## Rerankers To Consider
 

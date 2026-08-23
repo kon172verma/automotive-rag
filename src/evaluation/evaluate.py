@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -21,6 +22,7 @@ from src.evaluation.retrieval_metrics import (
     update_aggregate,
 )
 from src.vector_retrieval.models import (
+    DEFAULT_RERANKER_SERVICE_URL,
     EmbeddingConfig,
     RerankerConfig,
     RetrievalConfig,
@@ -71,7 +73,13 @@ def parse_args() -> argparse.Namespace:
         "--reranker-model",
         type=str,
         default="cross-encoder/ms-marco-MiniLM-L6-v2",
-        help="Sentence Transformers cross-encoder model for reranking.",
+        help="Reranker model name expected by the reranker service.",
+    )
+    parser.add_argument(
+        "--reranker-url",
+        type=str,
+        default=os.getenv("RERANKER_URL", DEFAULT_RERANKER_SERVICE_URL),
+        help="Base URL for the host reranker service.",
     )
     parser.add_argument(
         "--report-dir",
@@ -244,7 +252,10 @@ def main() -> None:
         db_config=build_db_config(),
         retrieval_config=retrieval_config,
         embedding_config=EmbeddingConfig(),
-        reranker_config=RerankerConfig(model_name=args.reranker_model),
+        reranker_config=RerankerConfig(
+            model_name=args.reranker_model,
+            service_url=args.reranker_url,
+        ),
     ) as retriever:
         for dataset_file in dataset_files:
             payload = load_json(dataset_file)
@@ -270,7 +281,10 @@ def main() -> None:
             "rerank_top_k": retrieval_config.rerank_top_k,
             "rrf_k": retrieval_config.rrf_k,
         },
-        "reranker_config": {"model_name": args.reranker_model},
+        "reranker_config": {
+            "model_name": args.reranker_model,
+            "service_url": args.reranker_url,
+        },
         "aggregate_metrics": finalize_aggregate(aggregate, DEFAULT_K_VALUES),
         "aggregate_latency_ms": finalize_latency_aggregate(latency_aggregate),
         "per_question": per_question,

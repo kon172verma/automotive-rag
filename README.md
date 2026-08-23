@@ -102,8 +102,10 @@ The codebase is organized under `src/` with Python package names that use unders
 
 - `src/chunking`: Docling conversion and chunk artifact creation
 - `src/ingestion`: embedding generation and PostgreSQL loading
+- `src/fusion`: fusion strategies such as reciprocal-rank fusion
 - `src/keyword_retrieval`: lexical retrieval helpers
-- `src/vector_retrieval`: dense retrieval, fusion, reranking, and retrieval CLI
+- `src/vector_retrieval`: dense retrieval and retrieval CLI orchestration
+- `src/reranking`: reranker scoring, host service, and service client
 - `src/generation`: answer-context packaging and the future answer-generation layer
 - `src/evaluation`: retrieval evaluation and future answer evaluation
 

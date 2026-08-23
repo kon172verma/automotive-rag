@@ -27,11 +27,28 @@ The Docker setup reads credentials from `.env`:
 - `PGADMIN_DEFAULT_EMAIL`
 - `PGADMIN_DEFAULT_PASSWORD`
 - `PGADMIN_PORT`
+- `RERANKER_URL`
+- `RERANKER_HOST`
+- `RERANKER_PORT`
+- `RERANKER_MODEL`
+- `RERANKER_DEVICE`
 
 Start the local PostgreSQL + `pgvector` + `pgAdmin` containers:
 
 ```bash
 docker compose up -d
+```
+
+Start the host reranker service:
+
+```bash
+.venv/bin/python -m src.reranking.service
+```
+
+Check reranker health:
+
+```bash
+curl http://127.0.0.1:${RERANKER_PORT:-8001}/health
 ```
 
 Stop the container:
@@ -264,7 +281,8 @@ Run hybrid retrieval with reranking for one question:
   --fused-top-k 20 \
   --rerank-top-k 10 \
   --rrf-k 60 \
-  --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2"
+  --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2" \
+  --reranker-url "http://127.0.0.1:8001"
 ```
 
 Run hybrid retrieval and package QA-ready answer context:
@@ -322,7 +340,8 @@ Run hybrid retrieval evaluation with reranking:
   --match 'eval-v1-camry.json' \
   --mode hybrid-rerank \
   --rerank-top-k 10 \
-  --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2"
+  --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2" \
+  --reranker-url "http://127.0.0.1:8001"
 ```
 
 Run all retrieval evaluation modes:
@@ -337,8 +356,9 @@ Reports are written to:
 
 Note:
 
-- reranking runs locally through `sentence-transformers`
-- the reranker model downloads on first use and is then cached locally
+- reranking runs through the host reranker service in `src/reranking/service.py`
+- the reranker model downloads on first service startup and is then cached locally
+- on Apple Silicon Macs, the service can use `MPS` when `RERANKER_DEVICE=auto`
 
 ```bash
 sed -n '1,200p' artifacts/chunks/2020-toyota-yaris.json
