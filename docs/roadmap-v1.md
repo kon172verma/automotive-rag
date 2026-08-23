@@ -107,7 +107,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Implement hybrid fusion | `Complete` | Implemented |
 | Implement reranking | `Complete` | Implemented |
 | Provide a CLI entry point for retrieval experiments | `Complete` | Implemented in `src/vector_retrieval/search.py` |
-| Add answer-context packaging for the future QA layer | `Remaining` | Needed for end-to-end RAG completion |
+| Add answer-context packaging for the future QA layer | `Complete` | Retrieval output can now be packaged into QA-ready evidence with citations and combined context text |
 
 ## Phase 4: Retrieval Evaluation
 

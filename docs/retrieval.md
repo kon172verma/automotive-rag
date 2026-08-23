@@ -145,6 +145,29 @@ The retrieval layer should return:
 
 This makes retrieval debugging much easier than returning only IDs.
 
+### 6. Package Answer Context For The QA Layer
+
+Before full answer generation exists, retrieval should be able to package the final
+evidence set into a QA-ready payload.
+
+Recommended behavior:
+
+- select the best final ranking for the current mode
+- prefer `reranked` results when present
+- otherwise use `fused`, then `keyword` or `vector`
+- preserve citation fields per evidence chunk
+- build one combined `context_text` block for the future answer model
+
+This packaging layer should include:
+
+- the original request and vehicle identity
+- the retrieval mode and selected result stage
+- latency metadata
+- ranked evidence chunks
+- prompt-ready combined context text
+
+This keeps the boundary between retrieval and generation explicit and testable.
+
 ## Suggested v1 Retrieval Parameters
 
 Use these only as a starting point:

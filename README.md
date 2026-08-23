@@ -102,7 +102,7 @@ The codebase is organized under `src/` with Python package names that use unders
 - `src/ingestion`: embedding generation and PostgreSQL loading
 - `src/keyword_retrieval`: lexical retrieval helpers
 - `src/vector_retrieval`: dense retrieval, fusion, reranking, and retrieval CLI
-- `src/generation`: future answer-generation layer
+- `src/generation`: answer-context packaging and the future answer-generation layer
 - `src/evaluation`: retrieval evaluation and future answer evaluation
 
 We are also keeping a simple file-size guideline for Python modules:

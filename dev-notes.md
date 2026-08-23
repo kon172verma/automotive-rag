@@ -267,6 +267,19 @@ Run hybrid retrieval with reranking for one question:
   --reranker-model "cross-encoder/ms-marco-MiniLM-L6-v2"
 ```
 
+Run hybrid retrieval and package QA-ready answer context:
+
+```bash
+.venv/bin/python src/vector_retrieval/search.py \
+  --mode hybrid-rerank \
+  --make toyota \
+  --model camry \
+  --year 2023 \
+  --question "How do I check the engine oil?" \
+  --package-answer-context \
+  --max-evidence-chunks 5
+```
+
 Run retrieval evaluation on one eval file:
 
 ```bash

@@ -9,6 +9,7 @@ from typing import Any
 if __package__ in {None, ""}:
     sys.path.append(str(Path(__file__).resolve().parents[2]))
 
+from src.generation.context_builder import package_answer_context
 from src.vector_retrieval.models import (
     EmbeddingConfig,
     RerankerConfig,
@@ -58,6 +59,17 @@ def parse_args() -> argparse.Namespace:
         default="cross-encoder/ms-marco-MiniLM-L6-v2",
         help="Sentence Transformers cross-encoder model for reranking.",
     )
+    parser.add_argument(
+        "--package-answer-context",
+        action="store_true",
+        help="Include QA-ready answer context in the JSON output.",
+    )
+    parser.add_argument(
+        "--max-evidence-chunks",
+        type=int,
+        default=None,
+        help="Optional limit for packaged evidence chunks.",
+    )
     return parser.parse_args()
 
 
@@ -74,6 +86,8 @@ def bundle_to_dict(bundle: SearchBundle) -> dict[str, Any]:
 
 def main() -> None:
     args = parse_args()
+    if args.max_evidence_chunks is not None and args.max_evidence_chunks <= 0:
+        raise SystemExit("--max-evidence-chunks must be greater than 0")
     retrieval_config = RetrievalConfig(
         keyword_top_k=args.keyword_top_k,
         vector_top_k=args.vector_top_k,
@@ -101,7 +115,15 @@ def main() -> None:
             bundle = retriever.hybrid_with_rerank(request)
         else:
             bundle = retriever.hybrid(request)
-    print(json.dumps(bundle_to_dict(bundle), ensure_ascii=True, indent=2))
+    payload = bundle_to_dict(bundle)
+    if args.package_answer_context:
+        payload["answer_context"] = package_answer_context(
+            request=request,
+            bundle=bundle,
+            mode=args.mode,
+            max_evidence_chunks=args.max_evidence_chunks,
+        ).to_dict()
+    print(json.dumps(payload, ensure_ascii=True, indent=2))
 
 
 if __name__ == "__main__":

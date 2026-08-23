@@ -1,1 +1,1 @@
-"""Generation package placeholder for the future answer layer."""
+"""Answer-context packaging and future answer-generation components."""

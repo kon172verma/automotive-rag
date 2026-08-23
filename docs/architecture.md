@@ -18,7 +18,7 @@ Current `src/` layout:
 - `src/ingestion`: embeddings and PostgreSQL loading
 - `src/keyword_retrieval`: keyword retrieval helpers
 - `src/vector_retrieval`: dense retrieval, fusion, reranking, and retrieval CLI
-- `src/generation`: future answer generation
+- `src/generation`: answer-context packaging and future answer generation
 - `src/evaluation`: retrieval evaluation and future answer evaluation
 
 Implementation guideline:
@@ -149,9 +149,10 @@ The recommended path for this repo is:
 2. Build a sample evaluation set early.
 3. Build and measure the retrieval-only hybrid baseline first.
 4. Add reranking and compare before vs after.
-5. Add answer generation only after retrieval is measurable.
-6. Add hierarchical hybrid retrieval as the first major comparison.
-7. Keep advanced patterns deferred unless the data proves they help.
+5. Add answer-context packaging before full answer generation.
+6. Add answer generation only after retrieval is measurable.
+7. Add hierarchical hybrid retrieval as the first major comparison.
+8. Keep advanced patterns deferred unless the data proves they help.
 
 ## Next Implementation Order
 
