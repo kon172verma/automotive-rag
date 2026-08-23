@@ -80,6 +80,7 @@ def bundle_to_dict(bundle: SearchBundle) -> dict[str, Any]:
         "vector_results": [result.to_dict() for result in bundle.vector_results],
         "fused_results": [result.to_dict() for result in bundle.fused_results],
         "reranked_results": [result.to_dict() for result in bundle.reranked_results],
+        "latency_ms": bundle.latency.to_dict(),
     }
 
 

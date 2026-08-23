@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -22,6 +23,15 @@ from src.retrieval.common import (
 )
 
 DEFAULT_K_VALUES = (1, 3, 5, 10)
+LATENCY_KEYS = (
+    "total_ms",
+    "doc_resolution_ms",
+    "keyword_search_ms",
+    "query_embedding_ms",
+    "vector_search_ms",
+    "fusion_ms",
+    "rerank_ms",
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -231,6 +241,81 @@ def finalize_aggregate(
     return finalized
 
 
+def percentile(values: list[float], quantile: float) -> float | None:
+    if not values:
+        return None
+    sorted_values = sorted(values)
+    position = (len(sorted_values) - 1) * quantile
+    lower = math.floor(position)
+    upper = math.ceil(position)
+    if lower == upper:
+        return float(sorted_values[lower])
+    lower_value = sorted_values[lower]
+    upper_value = sorted_values[upper]
+    weight = position - lower
+    return float(lower_value + (upper_value - lower_value) * weight)
+
+
+def update_latency_aggregate(
+    aggregate: dict[str, Any],
+    mode_name: str,
+    latency: dict[str, Any],
+) -> None:
+    stage = aggregate.setdefault(
+        mode_name,
+        {
+            "metrics": defaultdict(list),
+            "embedding_cache_hits": 0,
+            "embedding_cache_observations": 0,
+        },
+    )
+    for key in LATENCY_KEYS:
+        value = latency.get(key)
+        if value is not None:
+            stage["metrics"][key].append(float(value))
+    cache_hit = latency.get("embedding_cache_hit")
+    if cache_hit is not None:
+        stage["embedding_cache_observations"] += 1
+        if bool(cache_hit):
+            stage["embedding_cache_hits"] += 1
+
+
+def finalize_latency_aggregate(aggregate: dict[str, Any]) -> dict[str, Any]:
+    finalized: dict[str, Any] = {}
+    for mode_name, stage in aggregate.items():
+        metrics_summary: dict[str, Any] = {}
+        for key in LATENCY_KEYS:
+            values = list(stage["metrics"].get(key, []))
+            if not values:
+                continue
+            metrics_summary[key] = {
+                "sample_count": len(values),
+                "avg_ms": round(sum(values) / len(values), 3),
+                "p50_ms": round(percentile(values, 0.50) or 0.0, 3),
+                "p95_ms": round(percentile(values, 0.95) or 0.0, 3),
+                "min_ms": round(min(values), 3),
+                "max_ms": round(max(values), 3),
+            }
+        cache_observations = int(stage["embedding_cache_observations"])
+        finalized[mode_name] = {
+            "metrics": metrics_summary,
+            "embedding_cache_hit_rate": (
+                None
+                if cache_observations == 0
+                else round(stage["embedding_cache_hits"] / cache_observations, 4)
+            ),
+        }
+    return finalized
+
+
+def hybrid_latency_without_rerank(latency: dict[str, Any]) -> dict[str, Any]:
+    rerank_ms = float(latency.get("rerank_ms") or 0.0)
+    hybrid_latency = dict(latency)
+    hybrid_latency["total_ms"] = round(max(0.0, float(latency["total_ms"]) - rerank_ms), 3)
+    hybrid_latency["rerank_ms"] = None
+    return hybrid_latency
+
+
 def main() -> None:
     args = parse_args()
     dataset_files = sorted(args.eval_dir.glob(args.match))
@@ -246,6 +331,7 @@ def main() -> None:
         rrf_k=args.rrf_k,
     )
     aggregate: dict[str, Any] = {}
+    latency_aggregate: dict[str, Any] = {}
     per_question: list[dict[str, Any]] = []
     k_values = DEFAULT_K_VALUES
 
@@ -259,6 +345,7 @@ def main() -> None:
             payload = load_json(dataset_file)
             examples = payload["examples"]
             for example in examples:
+                latency_by_mode: dict[str, Any] = {}
                 request = RetrievalRequest(
                     question=str(example["question"]),
                     make=str(example["make"]),
@@ -288,6 +375,12 @@ def main() -> None:
                         expected_pages=expected_pages,
                         k_values=k_values,
                     )
+                    update_latency_aggregate(
+                        latency_aggregate,
+                        "keyword",
+                        bundle.latency.to_dict(),
+                    )
+                    latency_by_mode["keyword"] = bundle.latency.to_dict()
                     update_aggregate(aggregate, "keyword", stages["keyword"], k_values)
 
                 if args.mode in {"vector", "all"}:
@@ -300,6 +393,12 @@ def main() -> None:
                         expected_pages=expected_pages,
                         k_values=k_values,
                     )
+                    update_latency_aggregate(
+                        latency_aggregate,
+                        "vector",
+                        bundle.latency.to_dict(),
+                    )
+                    latency_by_mode["vector"] = bundle.latency.to_dict()
                     update_aggregate(aggregate, "vector", stages["vector"], k_values)
 
                 hybrid_bundle = None
@@ -328,11 +427,20 @@ def main() -> None:
                             result.chunk_id for result in bundle.vector_results
                         ]
                     }
+                    update_latency_aggregate(
+                        latency_aggregate,
+                        "hybrid",
+                        bundle.latency.to_dict(),
+                    )
+                    latency_by_mode["hybrid"] = bundle.latency.to_dict()
                     update_aggregate(aggregate, "hybrid", stages["hybrid"], k_values)
 
                 if args.mode in {"hybrid-rerank", "all"} and hybrid_bundle is not None:
                     bundle = hybrid_bundle
                     doc_ids = bundle.doc_ids
+                    hybrid_latency = hybrid_latency_without_rerank(
+                        bundle.latency.to_dict()
+                    )
                     stages["hybrid"] = evaluate_stage(
                         bundle.fused_results,
                         expected_chunk_ids=expected_chunk_ids,
@@ -362,6 +470,18 @@ def main() -> None:
                             result.chunk_id for result in bundle.fused_results
                         ]
                     }
+                    update_latency_aggregate(
+                        latency_aggregate,
+                        "hybrid",
+                        hybrid_latency,
+                    )
+                    update_latency_aggregate(
+                        latency_aggregate,
+                        "hybrid_rerank",
+                        bundle.latency.to_dict(),
+                    )
+                    latency_by_mode["hybrid"] = hybrid_latency
+                    latency_by_mode["hybrid_rerank"] = bundle.latency.to_dict()
                     update_aggregate(aggregate, "hybrid", stages["hybrid"], k_values)
                     update_aggregate(
                         aggregate,
@@ -382,6 +502,7 @@ def main() -> None:
                         "expected_chunk_ids": sorted(expected_chunk_ids),
                         "expected_sections": list(example.get("expected_sections", [])),
                         "expected_pages": example.get("expected_pages", []),
+                        "latency_ms": latency_by_mode,
                         "stages": stages,
                     }
                 )
@@ -400,6 +521,7 @@ def main() -> None:
             "model_name": args.reranker_model,
         },
         "aggregate_metrics": finalize_aggregate(aggregate, k_values),
+        "aggregate_latency_ms": finalize_latency_aggregate(latency_aggregate),
         "per_question": per_question,
     }
     report_name = f"retrieval-eval-{args.mode}.json"
@@ -411,6 +533,16 @@ def main() -> None:
             f"{stage_name}: "
             f"Recall@5={metrics['chunk_recall_at_k']['5']:.3f} "
             f"MRR={metrics['mrr']:.3f}"
+        )
+    for mode_name, latency in summary["aggregate_latency_ms"].items():
+        total_metrics = latency["metrics"].get("total_ms")
+        if total_metrics is None:
+            continue
+        print(
+            f"{mode_name} latency: "
+            f"p50={total_metrics['p50_ms']:.3f}ms "
+            f"p95={total_metrics['p95_ms']:.3f}ms "
+            f"avg={total_metrics['avg_ms']:.3f}ms"
         )
 
 

@@ -5,6 +5,7 @@ import json
 import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from time import perf_counter
 from typing import Any
 
 from dotenv import load_dotenv
@@ -88,12 +89,28 @@ class SearchResult:
 
 
 @dataclass(frozen=True)
+class RetrievalLatency:
+    total_ms: float
+    doc_resolution_ms: float | None = None
+    keyword_search_ms: float | None = None
+    query_embedding_ms: float | None = None
+    vector_search_ms: float | None = None
+    fusion_ms: float | None = None
+    rerank_ms: float | None = None
+    embedding_cache_hit: bool | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
 class SearchBundle:
     doc_ids: list[str]
     keyword_results: list[SearchResult]
     vector_results: list[SearchResult]
     fused_results: list[SearchResult]
     reranked_results: list[SearchResult]
+    latency: RetrievalLatency
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -113,6 +130,10 @@ def vector_literal(values: list[float]) -> str:
 
 def normalize_text(value: str) -> str:
     return " ".join(value.strip().lower().split())
+
+
+def elapsed_ms(start_time: float) -> float:
+    return round((perf_counter() - start_time) * 1000.0, 3)
 
 
 def build_db_config() -> DbConfig:
@@ -172,6 +193,14 @@ class Retriever:
         return self._conn
 
     def resolve_doc_ids(self, request: RetrievalRequest) -> list[str]:
+        doc_ids, _ = self._resolve_doc_ids_with_latency(request)
+        return doc_ids
+
+    def _resolve_doc_ids_with_latency(
+        self,
+        request: RetrievalRequest,
+    ) -> tuple[list[str], float]:
+        started_at = perf_counter()
         make = normalize_text(request.make)
         model = normalize_text(request.model)
         with self.conn.cursor() as cur:
@@ -193,7 +222,7 @@ class Retriever:
                 f"No manuals found for make={request.make!r}, "
                 f"model={request.model!r}, year={request.year}"
             )
-        return doc_ids
+        return doc_ids, elapsed_ms(started_at)
 
     def keyword_search(
         self,
@@ -201,6 +230,19 @@ class Retriever:
         request: RetrievalRequest,
         doc_ids: list[str],
     ) -> list[SearchResult]:
+        results, _ = self._keyword_search_with_latency(
+            request=request,
+            doc_ids=doc_ids,
+        )
+        return results
+
+    def _keyword_search_with_latency(
+        self,
+        *,
+        request: RetrievalRequest,
+        doc_ids: list[str],
+    ) -> tuple[list[SearchResult], float]:
+        started_at = perf_counter()
         with self.conn.cursor() as cur:
             cur.execute(
                 """
@@ -255,9 +297,17 @@ class Retriever:
                     keyword_score=float(row[10]),
                 )
             )
-        return results
+        return results, elapsed_ms(started_at)
 
     def embed_query(self, question: str) -> list[float]:
+        vector, _, _ = self._embed_query_with_timing(question)
+        return vector
+
+    def _embed_query_with_timing(
+        self,
+        question: str,
+    ) -> tuple[list[float], float, bool]:
+        started_at = perf_counter()
         cache_key = (
             question,
             self.embedding_config.model,
@@ -265,7 +315,7 @@ class Retriever:
         )
         cached = self._query_cache.get(cache_key)
         if cached is not None:
-            return cached
+            return cached, elapsed_ms(started_at), True
         if self._client is None:
             load_dotenv()
             if not os.getenv("OPENAI_API_KEY"):
@@ -278,7 +328,7 @@ class Retriever:
         )
         vector = list(response.data[0].embedding)
         self._query_cache[cache_key] = vector
-        return vector
+        return vector, elapsed_ms(started_at), False
 
     def vector_search(
         self,
@@ -286,7 +336,23 @@ class Retriever:
         request: RetrievalRequest,
         doc_ids: list[str],
     ) -> list[SearchResult]:
-        query_vector = vector_literal(self.embed_query(request.question))
+        results, _, _, _ = self._vector_search_with_latency(
+            request=request,
+            doc_ids=doc_ids,
+        )
+        return results
+
+    def _vector_search_with_latency(
+        self,
+        *,
+        request: RetrievalRequest,
+        doc_ids: list[str],
+    ) -> tuple[list[SearchResult], float, float, bool]:
+        embedding, query_embedding_ms, embedding_cache_hit = self._embed_query_with_timing(
+            request.question
+        )
+        started_at = perf_counter()
+        query_vector = vector_literal(embedding)
         with self.conn.cursor() as cur:
             cur.execute(
                 """
@@ -337,7 +403,7 @@ class Retriever:
                     vector_score=1.0 - distance,
                 )
             )
-        return results
+        return results, query_embedding_ms, elapsed_ms(started_at), embedding_cache_hit
 
     def fuse(
         self,
@@ -345,6 +411,19 @@ class Retriever:
         keyword_results: list[SearchResult],
         vector_results: list[SearchResult],
     ) -> list[SearchResult]:
+        fused, _ = self._fuse_with_latency(
+            keyword_results=keyword_results,
+            vector_results=vector_results,
+        )
+        return fused
+
+    def _fuse_with_latency(
+        self,
+        *,
+        keyword_results: list[SearchResult],
+        vector_results: list[SearchResult],
+    ) -> tuple[list[SearchResult], float]:
+        started_at = perf_counter()
         combined: dict[str, SearchResult] = {}
         for result in keyword_results:
             combined[result.chunk_id] = SearchResult(**result.to_dict())
@@ -375,7 +454,7 @@ class Retriever:
                 item.chunk_index,
             ),
         )
-        return fused[: self.retrieval_config.fused_top_k]
+        return fused[: self.retrieval_config.fused_top_k], elapsed_ms(started_at)
 
     def get_reranker(self) -> Any:
         if self._reranker is not None:
@@ -419,8 +498,21 @@ class Retriever:
         request: RetrievalRequest,
         fused_results: list[SearchResult],
     ) -> list[SearchResult]:
+        reranked, _ = self._rerank_with_latency(
+            request=request,
+            fused_results=fused_results,
+        )
+        return reranked
+
+    def _rerank_with_latency(
+        self,
+        *,
+        request: RetrievalRequest,
+        fused_results: list[SearchResult],
+    ) -> tuple[list[SearchResult], float]:
+        started_at = perf_counter()
         if not fused_results:
-            return []
+            return [], elapsed_ms(started_at)
         reranker = self.get_reranker()
         pairs = [
             (
@@ -447,35 +539,69 @@ class Retriever:
         )
         for rank, result in enumerate(reranked, start=1):
             result.rerank_rank = rank
-        return reranked[: self.retrieval_config.rerank_top_k]
+        return (
+            reranked[: self.retrieval_config.rerank_top_k],
+            elapsed_ms(started_at),
+        )
 
     def keyword_only(self, request: RetrievalRequest) -> SearchBundle:
-        doc_ids = self.resolve_doc_ids(request)
-        keyword_results = self.keyword_search(request=request, doc_ids=doc_ids)
+        started_at = perf_counter()
+        doc_ids, doc_resolution_ms = self._resolve_doc_ids_with_latency(request)
+        keyword_results, keyword_search_ms = self._keyword_search_with_latency(
+            request=request,
+            doc_ids=doc_ids,
+        )
         return SearchBundle(
             doc_ids=doc_ids,
             keyword_results=keyword_results,
             vector_results=[],
             fused_results=[],
             reranked_results=[],
+            latency=RetrievalLatency(
+                total_ms=elapsed_ms(started_at),
+                doc_resolution_ms=doc_resolution_ms,
+                keyword_search_ms=keyword_search_ms,
+            ),
         )
 
     def vector_only(self, request: RetrievalRequest) -> SearchBundle:
-        doc_ids = self.resolve_doc_ids(request)
-        vector_results = self.vector_search(request=request, doc_ids=doc_ids)
+        started_at = perf_counter()
+        doc_ids, doc_resolution_ms = self._resolve_doc_ids_with_latency(request)
+        (
+            vector_results,
+            query_embedding_ms,
+            vector_search_ms,
+            embedding_cache_hit,
+        ) = self._vector_search_with_latency(request=request, doc_ids=doc_ids)
         return SearchBundle(
             doc_ids=doc_ids,
             keyword_results=[],
             vector_results=vector_results,
             fused_results=[],
             reranked_results=[],
+            latency=RetrievalLatency(
+                total_ms=elapsed_ms(started_at),
+                doc_resolution_ms=doc_resolution_ms,
+                query_embedding_ms=query_embedding_ms,
+                vector_search_ms=vector_search_ms,
+                embedding_cache_hit=embedding_cache_hit,
+            ),
         )
 
     def hybrid(self, request: RetrievalRequest) -> SearchBundle:
-        doc_ids = self.resolve_doc_ids(request)
-        keyword_results = self.keyword_search(request=request, doc_ids=doc_ids)
-        vector_results = self.vector_search(request=request, doc_ids=doc_ids)
-        fused_results = self.fuse(
+        started_at = perf_counter()
+        doc_ids, doc_resolution_ms = self._resolve_doc_ids_with_latency(request)
+        keyword_results, keyword_search_ms = self._keyword_search_with_latency(
+            request=request,
+            doc_ids=doc_ids,
+        )
+        (
+            vector_results,
+            query_embedding_ms,
+            vector_search_ms,
+            embedding_cache_hit,
+        ) = self._vector_search_with_latency(request=request, doc_ids=doc_ids)
+        fused_results, fusion_ms = self._fuse_with_latency(
             keyword_results=keyword_results,
             vector_results=vector_results,
         )
@@ -485,11 +611,21 @@ class Retriever:
             vector_results=vector_results,
             fused_results=fused_results,
             reranked_results=[],
+            latency=RetrievalLatency(
+                total_ms=elapsed_ms(started_at),
+                doc_resolution_ms=doc_resolution_ms,
+                keyword_search_ms=keyword_search_ms,
+                query_embedding_ms=query_embedding_ms,
+                vector_search_ms=vector_search_ms,
+                fusion_ms=fusion_ms,
+                embedding_cache_hit=embedding_cache_hit,
+            ),
         )
 
     def hybrid_with_rerank(self, request: RetrievalRequest) -> SearchBundle:
+        started_at = perf_counter()
         bundle = self.hybrid(request)
-        reranked_results = self.rerank(
+        reranked_results, rerank_ms = self._rerank_with_latency(
             request=request,
             fused_results=bundle.fused_results,
         )
@@ -499,4 +635,14 @@ class Retriever:
             vector_results=bundle.vector_results,
             fused_results=bundle.fused_results,
             reranked_results=reranked_results,
+            latency=RetrievalLatency(
+                total_ms=elapsed_ms(started_at),
+                doc_resolution_ms=bundle.latency.doc_resolution_ms,
+                keyword_search_ms=bundle.latency.keyword_search_ms,
+                query_embedding_ms=bundle.latency.query_embedding_ms,
+                vector_search_ms=bundle.latency.vector_search_ms,
+                fusion_ms=bundle.latency.fusion_ms,
+                rerank_ms=rerank_ms,
+                embedding_cache_hit=bundle.latency.embedding_cache_hit,
+            ),
         )

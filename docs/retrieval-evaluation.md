@@ -121,6 +121,7 @@ Each retrieval run should produce a machine-readable report containing:
 - top-k settings
 - whether reranking was enabled
 - aggregate metrics
+- aggregate latency by retrieval mode and stage
 - per-question results
 
 Per-question results should include:
@@ -132,6 +133,7 @@ Per-question results should include:
 - retrieved chunk IDs before reranking
 - retrieved chunk IDs after reranking
 - hit or miss labels
+- structured latency for the executed retrieval mode or modes
 
 ## Useful Error Buckets
 
