@@ -1,1 +1,1 @@
-"""Answer-context packaging and future answer-generation components."""
+"""Answer-context packaging and grounded answer-generation components."""

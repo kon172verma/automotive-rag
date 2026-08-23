@@ -280,6 +280,33 @@ Run hybrid retrieval and package QA-ready answer context:
   --max-evidence-chunks 5
 ```
 
+## Answer Generation
+
+Run retrieval plus grounded answer generation:
+
+```bash
+.venv/bin/python src/generation/cli.py \
+  --mode hybrid-rerank \
+  --make toyota \
+  --model camry \
+  --year 2023 \
+  --question "How do I check the engine oil?" \
+  --answer-model gpt-5-mini \
+  --max-evidence-chunks 5
+```
+
+Include the packaged answer context in the output:
+
+```bash
+.venv/bin/python src/generation/cli.py \
+  --mode hybrid-rerank \
+  --make toyota \
+  --model camry \
+  --year 2023 \
+  --question "How do I check the engine oil?" \
+  --include-answer-context
+```
+
 Run retrieval evaluation on one eval file:
 
 ```bash

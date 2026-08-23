@@ -77,6 +77,7 @@ Key documents:
 - [docs/architecture.md](./docs/architecture.md)
 - [docs/datastore.md](./docs/datastore.md)
 - [docs/retrieval.md](./docs/retrieval.md)
+- [docs/generation.md](./docs/generation.md)
 - [docs/reranking.md](./docs/reranking.md)
 - [docs/retrieval-evaluation.md](./docs/retrieval-evaluation.md)
 
@@ -91,6 +92,7 @@ Key documents:
 - [docs/evaluation.md](./docs/evaluation.md): answer quality and evaluation methodology
 - [docs/evaluation-dataset.md](./docs/evaluation-dataset.md): eval dataset shape, schema, and gold-label conventions
 - [docs/retrieval.md](./docs/retrieval.md): hybrid retrieval baseline, filtering, fusion, and retrieval outputs
+- [docs/generation.md](./docs/generation.md): grounded answer-generation plan, output schema, and model options
 - [docs/reranking.md](./docs/reranking.md): reranking role, candidate pool, and evaluation expectations
 - [docs/retrieval-evaluation.md](./docs/retrieval-evaluation.md): retrieval-only metrics and experiment structure
 

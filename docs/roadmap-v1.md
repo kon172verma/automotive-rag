@@ -46,7 +46,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Phase 2: Embeddings and datastore load | `Complete` | Embeddings and PostgreSQL load flow exist |
 | Phase 3: Retrieval baseline | `Complete` | Keyword, vector, fusion, and reranking are implemented |
 | Phase 4: Retrieval evaluation | `Complete` | Gold datasets and retrieval evaluation runner exist |
-| Phase 5: End-to-end answer generation | `Remaining` | No final answer generation layer yet |
+| Phase 5: End-to-end answer generation | `Partial` | Initial OpenAI-backed answer generation CLI now exists, but answer-quality evaluation and tuning remain |
 | Phase 6: Final answer evaluation | `Remaining` | No answer-quality evaluation pipeline yet |
 | Phase 7: Latency benchmarking and v1 release checks | `Partial` | Some components are measurable conceptually, but no complete benchmark workflow is in place |
 
@@ -60,6 +60,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Datastore | [datastore.md](./datastore.md) |
 | Embeddings | [embeddings.md](./embeddings.md) |
 | Retrieval | [retrieval.md](./retrieval.md) |
+| Answer generation | [generation.md](./generation.md) |
 | Reranking | [reranking.md](./reranking.md) |
 | Retrieval evaluation | [retrieval-evaluation.md](./retrieval-evaluation.md) |
 | Evaluation strategy | [evaluation.md](./evaluation.md) |
@@ -124,11 +125,11 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Task | Status | Notes |
 | --- | --- | --- |
-| Build a QA layer that consumes retrieved evidence | `Remaining` | Main missing feature for v1 |
-| Generate answers scoped to the requested vehicle | `Remaining` | Not implemented yet |
-| Return citations with page-aware evidence | `Remaining` | Not implemented yet |
-| Add abstention behavior when evidence is weak | `Remaining` | Not implemented yet |
-| Define answer output schema for evaluation and debugging | `Remaining` | Needed before answer eval |
+| Build a QA layer that consumes retrieved evidence | `Complete` | Implemented through `src/generation/context_builder.py`, `src/generation/answering.py`, and `src/generation/cli.py` |
+| Generate answers scoped to the requested vehicle | `Complete` | The initial generation flow consumes vehicle-scoped answer context |
+| Return citations with page-aware evidence | `Complete` | The answer layer resolves citations from retrieved chunk metadata |
+| Add abstention behavior when evidence is weak | `Partial` | Automatic abstention exists when evidence is missing; richer heuristics still need tuning |
+| Define answer output schema for evaluation and debugging | `Complete` | Implemented through the structured output objects in `src/generation/models.py` |
 
 ## Phase 6: Final Answer Evaluation
 
