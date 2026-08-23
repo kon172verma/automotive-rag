@@ -112,25 +112,25 @@ You can override the database values with `POSTGRES_DB`, `POSTGRES_USER`, `POSTG
 Run chunk generation for all manuals:
 
 ```bash
-.venv/bin/python src/ingestion/create_chunks.py
+.venv/bin/python src/chunking/create_chunks.py
 ```
 
 Run chunk generation for a single manual:
 
 ```bash
-.venv/bin/python src/ingestion/create_chunks.py --match 'filename'
+.venv/bin/python src/chunking/create_chunks.py --match 'filename'
 ```
 
 Example:
 
 ```bash
-.venv/bin/python src/ingestion/create_chunks.py --match '2026-toyota-corolla.pdf'
+.venv/bin/python src/chunking/create_chunks.py --match '2026-toyota-corolla.pdf'
 ```
 
 Tune chunk sizing:
 
 ```bash
-.venv/bin/python src/ingestion/create_chunks.py \
+.venv/bin/python src/chunking/create_chunks.py \
   --target-tokens 450 \
   --soft-max-tokens 650 \
   --hard-max-tokens 800
@@ -227,7 +227,7 @@ sed -n '1,240p' artifacts/chunks/2020-toyota-yaris.json
 Run keyword retrieval for one question:
 
 ```bash
-.venv/bin/python src/retrieval/search.py \
+.venv/bin/python src/vector_retrieval/search.py \
   --mode keyword \
   --make toyota \
   --model camry \
@@ -238,7 +238,7 @@ Run keyword retrieval for one question:
 Run hybrid retrieval for one question:
 
 ```bash
-.venv/bin/python src/retrieval/search.py \
+.venv/bin/python src/vector_retrieval/search.py \
   --mode hybrid \
   --make toyota \
   --model camry \
@@ -253,7 +253,7 @@ Run hybrid retrieval for one question:
 Run hybrid retrieval with reranking for one question:
 
 ```bash
-.venv/bin/python src/retrieval/search.py \
+.venv/bin/python src/vector_retrieval/search.py \
   --mode hybrid-rerank \
   --make toyota \
   --model camry \
@@ -270,7 +270,7 @@ Run hybrid retrieval with reranking for one question:
 Run retrieval evaluation on one eval file:
 
 ```bash
-.venv/bin/python src/retrieval/evaluate.py \
+.venv/bin/python src/evaluation/evaluate.py \
   --match 'eval-v1-camry.json' \
   --mode keyword
 ```
@@ -278,7 +278,7 @@ Run retrieval evaluation on one eval file:
 Run hybrid retrieval evaluation with reranking:
 
 ```bash
-.venv/bin/python src/retrieval/evaluate.py \
+.venv/bin/python src/evaluation/evaluate.py \
   --match 'eval-v1-camry.json' \
   --mode hybrid-rerank \
   --rerank-top-k 10 \
@@ -288,7 +288,7 @@ Run hybrid retrieval evaluation with reranking:
 Run all retrieval evaluation modes:
 
 ```bash
-.venv/bin/python src/retrieval/evaluate.py --mode all
+.venv/bin/python src/evaluation/evaluate.py --mode all
 ```
 
 Reports are written to:

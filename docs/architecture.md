@@ -12,6 +12,21 @@ We will divide the project into three parts:
 
 We will finalize these docs before making implementation changes.
 
+Current `src/` layout:
+
+- `src/chunking`: manual parsing and chunk creation
+- `src/ingestion`: embeddings and PostgreSQL loading
+- `src/keyword_retrieval`: keyword retrieval helpers
+- `src/vector_retrieval`: dense retrieval, fusion, reranking, and retrieval CLI
+- `src/generation`: future answer generation
+- `src/evaluation`: retrieval evaluation and future answer evaluation
+
+Implementation guideline:
+
+- keep Python modules near a `250` line soft limit
+- avoid going past a `350` line hard limit
+- split by responsibility, not by forcing one or two functions per file
+
 ## Recommended Starting Point
 
 Start directly with a hybrid RAG system and treat that as the baseline.

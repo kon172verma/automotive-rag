@@ -94,6 +94,24 @@ Key documents:
 - [docs/reranking.md](./docs/reranking.md): reranking role, candidate pool, and evaluation expectations
 - [docs/retrieval-evaluation.md](./docs/retrieval-evaluation.md): retrieval-only metrics and experiment structure
 
+## Source Layout
+
+The codebase is organized under `src/` with Python package names that use underscores:
+
+- `src/chunking`: Docling conversion and chunk artifact creation
+- `src/ingestion`: embedding generation and PostgreSQL loading
+- `src/keyword_retrieval`: lexical retrieval helpers
+- `src/vector_retrieval`: dense retrieval, fusion, reranking, and retrieval CLI
+- `src/generation`: future answer-generation layer
+- `src/evaluation`: retrieval evaluation and future answer evaluation
+
+We are also keeping a simple file-size guideline for Python modules:
+
+- soft limit: about `250` lines
+- hard limit: about `350` lines
+
+The goal is to split by responsibility without turning each feature into a pile of tiny files.
+
 ## Principles
 
 - keep every answer grounded in manufacturer documentation

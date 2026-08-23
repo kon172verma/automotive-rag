@@ -9,15 +9,15 @@ from typing import Any
 if __package__ in {None, ""}:
     sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.retrieval.common import (
+from src.vector_retrieval.models import (
     EmbeddingConfig,
     RerankerConfig,
     RetrievalConfig,
     RetrievalRequest,
-    Retriever,
     SearchBundle,
-    build_db_config,
 )
+from src.vector_retrieval.retriever import Retriever
+from src.vector_retrieval.runtime import build_db_config
 
 
 def parse_args() -> argparse.Namespace:
@@ -35,22 +35,13 @@ def parse_args() -> argparse.Namespace:
         help="Retrieval mode to run.",
     )
     parser.add_argument(
-        "--keyword-top-k",
-        type=int,
-        default=20,
-        help="Top-k for keyword retrieval.",
+        "--keyword-top-k", type=int, default=20, help="Top-k for keyword retrieval."
     )
     parser.add_argument(
-        "--vector-top-k",
-        type=int,
-        default=20,
-        help="Top-k for vector retrieval.",
+        "--vector-top-k", type=int, default=20, help="Top-k for vector retrieval."
     )
     parser.add_argument(
-        "--fused-top-k",
-        type=int,
-        default=20,
-        help="Top-k for fused retrieval output.",
+        "--fused-top-k", type=int, default=20, help="Top-k for fused retrieval output."
     )
     parser.add_argument(
         "--rrf-k",
@@ -59,10 +50,7 @@ def parse_args() -> argparse.Namespace:
         help="RRF denominator offset for hybrid fusion.",
     )
     parser.add_argument(
-        "--rerank-top-k",
-        type=int,
-        default=10,
-        help="Top-k to keep after reranking.",
+        "--rerank-top-k", type=int, default=10, help="Top-k to keep after reranking."
     )
     parser.add_argument(
         "--reranker-model",

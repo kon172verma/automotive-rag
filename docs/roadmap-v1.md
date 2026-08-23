@@ -79,7 +79,7 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Task | Status | Notes |
 | --- | --- | --- |
-| Convert PDFs into structured document artifacts | `Complete` | Implemented in `src/ingestion/create_chunks.py` |
+| Convert PDFs into structured document artifacts | `Complete` | Implemented in `src/chunking/create_chunks.py` |
 | Build section-aware hierarchical chunk records | `Complete` | Implemented |
 | Preserve page spans and heading paths | `Complete` | Implemented |
 | Store document, section, and chunk metadata in artifacts | `Complete` | Implemented |
@@ -106,7 +106,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Implement dense retrieval | `Complete` | Implemented |
 | Implement hybrid fusion | `Complete` | Implemented |
 | Implement reranking | `Complete` | Implemented |
-| Provide a CLI entry point for retrieval experiments | `Complete` | Implemented in `src/retrieval/search.py` |
+| Provide a CLI entry point for retrieval experiments | `Complete` | Implemented in `src/vector_retrieval/search.py` |
 | Add answer-context packaging for the future QA layer | `Remaining` | Needed for end-to-end RAG completion |
 
 ## Phase 4: Retrieval Evaluation
@@ -114,7 +114,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Task | Status | Notes |
 | --- | --- | --- |
 | Create curated evaluation datasets | `Complete` | Present in `data/eval/` |
-| Evaluate keyword, vector, hybrid, and hybrid-rerank modes | `Complete` | Implemented in `src/retrieval/evaluate.py` |
+| Evaluate keyword, vector, hybrid, and hybrid-rerank modes | `Complete` | Implemented in `src/evaluation/evaluate.py` |
 | Report Recall@k, MRR, section hit rate, and page hit rate | `Complete` | Implemented |
 | Save machine-readable retrieval reports | `Complete` | Implemented |
 | Add multi-chunk evidence coverage metrics | `Deferred to v1.1` | Current gold datasets only label one expected chunk per question, so v1 should stay any-hit based |
