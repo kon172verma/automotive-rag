@@ -3,9 +3,11 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from pydantic import BaseModel, Field
+
 DEFAULT_ANSWER_MODEL = "gpt-5-mini"
-DEFAULT_ANSWER_TEMPERATURE = 0.0
-DEFAULT_MAX_OUTPUT_TOKENS = 700
+DEFAULT_ANSWER_TEMPERATURE = 1.0
+DEFAULT_MAX_OUTPUT_TOKENS = 2048
 DEFAULT_PROMPT_VERSION = "answer_generation_v1"
 
 
@@ -48,6 +50,15 @@ class ModelAnswerDraft:
     citation_chunk_ids: list[str]
     used_chunk_ids: list[str]
     notes: str
+
+
+class ModelAnswerDraftPayload(BaseModel):
+    answerability: str
+    answer: str
+    confidence: str
+    citation_chunk_ids: list[str] = Field(default_factory=list)
+    used_chunk_ids: list[str] = Field(default_factory=list)
+    notes: str = ""
 
 
 @dataclass(frozen=True)

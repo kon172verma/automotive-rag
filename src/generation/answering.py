@@ -15,6 +15,7 @@ from src.generation.models import (
     GeneratedVehicle,
     GenerationConfig,
     ModelAnswerDraft,
+    ModelAnswerDraftPayload,
 )
 from src.generation.prompting import build_system_prompt, build_user_prompt
 from src.vector_retrieval.runtime import elapsed_ms
@@ -40,6 +41,23 @@ def extract_response_text(response: Any) -> str:
     if isinstance(content, str):
         return content.strip()
     raise ValueError("OpenAI response content was not a text string.")
+
+
+def extract_parsed_payload(response: Any) -> dict[str, Any] | None:
+    choices = getattr(response, "choices", None)
+    if not choices:
+        return None
+    message = getattr(choices[0], "message", None)
+    if message is None:
+        return None
+    parsed = getattr(message, "parsed", None)
+    if parsed is None:
+        return None
+    if hasattr(parsed, "model_dump"):
+        return parsed.model_dump()
+    if isinstance(parsed, dict):
+        return parsed
+    raise TypeError("Parsed model output was not an object.")
 
 
 def parse_json_object(text: str) -> dict[str, Any]:
@@ -227,7 +245,7 @@ def generate_answer(
 
     actual_client = client or build_generation_client()
     started_at = perf_counter()
-    response = actual_client.chat.completions.create(
+    response = actual_client.beta.chat.completions.parse(
         model=config.model_name,
         messages=[
             {"role": "system", "content": build_system_prompt()},
@@ -235,10 +253,14 @@ def generate_answer(
         ],
         temperature=config.temperature,
         max_completion_tokens=config.max_output_tokens,
-        response_format={"type": "json_object"},
+        response_format=ModelAnswerDraftPayload,
     )
-    text = extract_response_text(response)
-    draft = parse_draft(parse_json_object(text))
+    parsed_payload = extract_parsed_payload(response)
+    if parsed_payload is not None:
+        draft = parse_draft(parsed_payload)
+    else:
+        text = extract_response_text(response)
+        draft = parse_draft(parse_json_object(text))
     return finalize_answer(
         context=context, config=config, draft=draft, generation_ms=elapsed_ms(started_at)
     )
