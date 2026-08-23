@@ -18,6 +18,7 @@ from src.generation.models import (
     DEFAULT_MAX_OUTPUT_TOKENS,
     GenerationConfig,
 )
+from src.retrieval.retriever import Retriever
 from src.vector_retrieval.models import (
     DEFAULT_RERANKER_SERVICE_URL,
     EmbeddingConfig,
@@ -26,7 +27,6 @@ from src.vector_retrieval.models import (
     RetrievalRequest,
     SearchBundle,
 )
-from src.vector_retrieval.retriever import Retriever
 from src.vector_retrieval.runtime import build_db_config
 
 

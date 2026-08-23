@@ -1,1 +1,1 @@
-"""Vector retrieval and orchestration."""
+"""Vector retrieval primitives."""

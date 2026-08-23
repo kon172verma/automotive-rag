@@ -11,6 +11,7 @@ if __package__ in {None, ""}:
     sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from src.generation.context_builder import package_answer_context
+from src.retrieval.retriever import Retriever
 from src.vector_retrieval.models import (
     DEFAULT_RERANKER_SERVICE_URL,
     EmbeddingConfig,
@@ -19,7 +20,6 @@ from src.vector_retrieval.models import (
     RetrievalRequest,
     SearchBundle,
 )
-from src.vector_retrieval.retriever import Retriever
 from src.vector_retrieval.runtime import build_db_config
 
 

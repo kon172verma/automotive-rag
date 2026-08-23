@@ -21,6 +21,7 @@ from src.evaluation.retrieval_metrics import (
     parse_expected_pages,
     update_aggregate,
 )
+from src.retrieval.retriever import Retriever
 from src.vector_retrieval.models import (
     DEFAULT_RERANKER_SERVICE_URL,
     EmbeddingConfig,
@@ -28,7 +29,6 @@ from src.vector_retrieval.models import (
     RetrievalConfig,
     RetrievalRequest,
 )
-from src.vector_retrieval.retriever import Retriever
 from src.vector_retrieval.runtime import build_db_config, load_json, write_json
 
 DEFAULT_K_VALUES = (1, 3, 5, 10)

@@ -244,7 +244,7 @@ sed -n '1,240p' artifacts/chunks/2020-toyota-yaris.json
 Run keyword retrieval for one question:
 
 ```bash
-.venv/bin/python src/vector_retrieval/search.py \
+.venv/bin/python src/retrieval/search.py \
   --mode keyword \
   --make toyota \
   --model camry \
@@ -255,7 +255,7 @@ Run keyword retrieval for one question:
 Run hybrid retrieval for one question:
 
 ```bash
-.venv/bin/python src/vector_retrieval/search.py \
+.venv/bin/python src/retrieval/search.py \
   --mode hybrid \
   --make toyota \
   --model camry \
@@ -270,7 +270,7 @@ Run hybrid retrieval for one question:
 Run hybrid retrieval with reranking for one question:
 
 ```bash
-.venv/bin/python src/vector_retrieval/search.py \
+.venv/bin/python src/retrieval/search.py \
   --mode hybrid-rerank \
   --make toyota \
   --model camry \
@@ -288,7 +288,7 @@ Run hybrid retrieval with reranking for one question:
 Run hybrid retrieval and package QA-ready answer context:
 
 ```bash
-.venv/bin/python src/vector_retrieval/search.py \
+.venv/bin/python src/retrieval/search.py \
   --mode hybrid-rerank \
   --make toyota \
   --model camry \
