@@ -22,9 +22,9 @@ from src.evaluation.retrieval_metrics import (
 )
 from src.vector_retrieval.models import (
     EmbeddingConfig,
+    RerankerConfig,
     RetrievalConfig,
     RetrievalRequest,
-    RerankerConfig,
 )
 from src.vector_retrieval.retriever import Retriever
 from src.vector_retrieval.runtime import build_db_config, load_json, write_json
@@ -36,19 +36,37 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Evaluate retrieval quality on the curated eval dataset."
     )
-    parser.add_argument("--eval-dir", type=Path, default=Path("data/eval"), help="Directory containing eval dataset JSON files.")
-    parser.add_argument("--match", type=str, default="*.json", help="Glob for selecting eval files, e.g. 'eval-v1-camry.json'.")
+    parser.add_argument(
+        "--eval-dir",
+        type=Path,
+        default=Path("data/eval"),
+        help="Directory containing eval dataset JSON files.",
+    )
+    parser.add_argument(
+        "--match",
+        type=str,
+        default="*.json",
+        help="Glob for selecting eval files, e.g. 'eval-v1-camry.json'.",
+    )
     parser.add_argument(
         "--mode",
         choices=("keyword", "vector", "hybrid", "hybrid-rerank", "all"),
         default="all",
         help="Which retrieval mode to evaluate.",
     )
-    parser.add_argument("--keyword-top-k", type=int, default=20, help="Top-k for keyword retrieval.")
-    parser.add_argument("--vector-top-k", type=int, default=20, help="Top-k for vector retrieval.")
-    parser.add_argument("--fused-top-k", type=int, default=20, help="Top-k for fused retrieval.")
+    parser.add_argument(
+        "--keyword-top-k", type=int, default=20, help="Top-k for keyword retrieval."
+    )
+    parser.add_argument(
+        "--vector-top-k", type=int, default=20, help="Top-k for vector retrieval."
+    )
+    parser.add_argument(
+        "--fused-top-k", type=int, default=20, help="Top-k for fused retrieval."
+    )
     parser.add_argument("--rrf-k", type=int, default=60, help="RRF denominator offset.")
-    parser.add_argument("--rerank-top-k", type=int, default=10, help="Top-k to keep after reranking.")
+    parser.add_argument(
+        "--rerank-top-k", type=int, default=10, help="Top-k to keep after reranking."
+    )
     parser.add_argument(
         "--reranker-model",
         type=str,
@@ -138,7 +156,9 @@ def evaluate_example(
             k_values=k_values,
         )
         stages["keyword_candidates"] = {
-            "retrieved_chunk_ids": [result.chunk_id for result in bundle.keyword_results]
+            "retrieved_chunk_ids": [
+                result.chunk_id for result in bundle.keyword_results
+            ]
         }
         stages["vector_candidates"] = {
             "retrieved_chunk_ids": [result.chunk_id for result in bundle.vector_results]
@@ -166,7 +186,9 @@ def evaluate_example(
             k_values=k_values,
         )
         stages["keyword_candidates"] = {
-            "retrieved_chunk_ids": [result.chunk_id for result in bundle.keyword_results]
+            "retrieved_chunk_ids": [
+                result.chunk_id for result in bundle.keyword_results
+            ]
         }
         stages["vector_candidates"] = {
             "retrieved_chunk_ids": [result.chunk_id for result in bundle.vector_results]
