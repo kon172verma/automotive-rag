@@ -5,6 +5,7 @@ import os
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from time import perf_counter
 from typing import Any
 
 if __package__ in {None, ""}:
@@ -69,14 +70,23 @@ def write_json_response(
     handler.wfile.write(body)
 
 
+def log_event(message: str) -> None:
+    print(message, flush=True)
+
+
 def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
     class RerankerHandler(BaseHTTPRequestHandler):
-        def do_GET(self) -> None:  # noqa: N802
+        def do_GET(self) -> None:
+            started_at = perf_counter()
             if self.path != "/health":
                 write_json_response(
                     self,
                     status_code=404,
                     payload={"error": "Not found."},
+                )
+                log_event(
+                    f"GET {self.path} -> 404 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms"
                 )
                 return
             write_json_response(
@@ -84,13 +94,23 @@ def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
                 status_code=200,
                 payload=service.health_payload(),
             )
+            log_event(
+                f"GET /health -> 200 in "
+                f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                f"(model={service.model_name}, device={service.device})"
+            )
 
-        def do_POST(self) -> None:  # noqa: N802
+        def do_POST(self) -> None:
+            started_at = perf_counter()
             if self.path != "/rerank":
                 write_json_response(
                     self,
                     status_code=404,
                     payload={"error": "Not found."},
+                )
+                log_event(
+                    f"POST {self.path} -> 404 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms"
                 )
                 return
 
@@ -103,6 +123,11 @@ def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
                     self,
                     status_code=400,
                     payload={"error": "Request body must be valid JSON."},
+                )
+                log_event(
+                    f"POST /rerank -> 400 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                    "(invalid_json)"
                 )
                 return
 
@@ -118,6 +143,11 @@ def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
                         )
                     },
                 )
+                log_event(
+                    f"POST /rerank -> 400 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                    f"(model_mismatch requested={model_name!r})"
+                )
                 return
 
             question = payload.get("question")
@@ -128,6 +158,11 @@ def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
                     status_code=400,
                     payload={"error": "'question' must be a non-empty string."},
                 )
+                log_event(
+                    f"POST /rerank -> 400 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                    "(invalid_question)"
+                )
                 return
             if not isinstance(documents, list) or not all(
                 isinstance(document, str) for document in documents
@@ -137,9 +172,32 @@ def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
                     status_code=400,
                     payload={"error": "'documents' must be a list of strings."},
                 )
+                log_event(
+                    f"POST /rerank -> 400 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                    "(invalid_documents)"
+                )
                 return
 
-            scores = service.predict(question=question, documents=documents)
+            log_event(
+                f"POST /rerank <- question_chars={len(question)} "
+                f"documents={len(documents)} model={service.model_name} "
+                f"device={service.device}"
+            )
+            try:
+                scores = service.predict(question=question, documents=documents)
+            except (RuntimeError, TypeError, ValueError) as exc:
+                write_json_response(
+                    self,
+                    status_code=500,
+                    payload={"error": "Reranker prediction failed."},
+                )
+                log_event(
+                    f"POST /rerank -> 500 in "
+                    f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                    f"(documents={len(documents)} error={type(exc).__name__}: {exc})"
+                )
+                return
             write_json_response(
                 self,
                 status_code=200,
@@ -149,8 +207,13 @@ def build_handler(service: RerankerService) -> type[BaseHTTPRequestHandler]:
                     "scores": scores,
                 },
             )
+            log_event(
+                f"POST /rerank -> 200 in "
+                f"{(perf_counter() - started_at) * 1000.0:.1f}ms "
+                f"(documents={len(documents)} scores={len(scores)})"
+            )
 
-        def log_message(self, fmt: str, *args: object) -> None:
+        def log_message(self, format: str, *args: object) -> None:
             return
 
     return RerankerHandler

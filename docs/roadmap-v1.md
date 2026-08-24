@@ -48,7 +48,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Phase 4: Retrieval evaluation | `Complete` | Gold datasets and retrieval evaluation runner exist |
 | Phase 5: End-to-end answer generation | `Partial` | Initial OpenAI-backed answer generation CLI now exists, but answer-quality evaluation and tuning remain |
 | Phase 6: Final answer evaluation | `Remaining` | No answer-quality evaluation pipeline yet |
-| Phase 7: Latency benchmarking and v1 release checks | `Partial` | Some components are measurable conceptually, but no complete benchmark workflow is in place |
+| Phase 7: Latency benchmarking and v1 release checks | `Partial` | Retrieval and generation latency instrumentation exist, but the full repeatable benchmark and release-gate workflow is not finished |
 
 ## Reference Docs
 
@@ -146,12 +146,12 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Task | Status | Notes |
 | --- | --- | --- |
-| Measure keyword retrieval latency | `Remaining` | Not yet formalized as a benchmark |
-| Measure dense retrieval latency | `Remaining` | Not yet formalized as a benchmark |
-| Measure reranking latency | `Remaining` | Not yet formalized as a benchmark |
-| Measure answer generation latency | `Remaining` | Depends on Phase 5 |
-| Measure end-to-end latency | `Remaining` | Depends on end-to-end flow |
-| Produce a repeatable benchmark report | `Remaining` | Needed for v1 completion |
+| Measure keyword retrieval latency | `Complete` | Retrieval runs and evaluation reports already capture machine-readable keyword-stage latency |
+| Measure dense retrieval latency | `Complete` | Retrieval runs and evaluation reports already capture machine-readable embedding and vector-search latency |
+| Measure reranking latency | `Complete` | Retrieval runs and evaluation reports already capture reranker latency |
+| Measure answer generation latency | `Partial` | Per-request generation latency is captured, but no aggregate benchmark workflow exists yet |
+| Measure end-to-end latency | `Partial` | Retrieval and generation timings exist, but no formal end-to-end benchmark report is produced yet |
+| Produce a repeatable benchmark report | `Partial` | Retrieval evaluation reports include aggregate latency summaries, but there is no dedicated end-to-end benchmark workflow yet |
 | Define simple v1 release gate criteria | `Remaining` | Needed to call v1 done |
 
 ## What Is Already Done For v1
@@ -163,15 +163,15 @@ For component-specific design details, use the linked docs instead of this roadm
 | Retrieval pipeline | Keyword search, vector search, fusion, reranking |
 | Retrieval experimentation | CLI search flow |
 | Retrieval evaluation | Gold datasets plus retrieval evaluation reports |
+| Latency instrumentation | Structured retrieval-stage latency and per-request generation latency are captured |
 
 ## What Still Needs To Be Done For v1
 
 | Priority | Remaining Work |
 | --- | --- |
-| High | Build the end-to-end answer generation layer |
-| High | Add citations and abstention behavior |
 | High | Implement final answer evaluation |
-| High | Implement latency benchmark reporting |
+| High | Finish latency benchmarking and release-gate reporting |
+| Medium | Tune abstention behavior and citation quality |
 | Medium | Keep retrieval evaluation stable for any-hit based metrics in v1 |
 
 ## Suggested Definition Of Done For v1
@@ -188,8 +188,8 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Order | Next Step |
 | --- | --- |
-| 1 | Implement the answer-generation layer |
-| 2 | Define the final answer output format with citations |
-| 3 | Add answer-quality evaluation |
-| 4 | Add latency benchmark scripts or reports |
-| 5 | Add v1 release-gate criteria |
+| 1 | Add answer-quality evaluation |
+| 2 | Add end-to-end latency benchmark scripts or reports |
+| 3 | Define simple v1 release-gate criteria |
+| 4 | Tune abstention behavior and citation quality |
+| 5 | Keep retrieval evaluation stable for any-hit based metrics in v1 |

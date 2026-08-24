@@ -46,7 +46,7 @@ def rerank_scores(
 
     scores = response_payload.get("scores")
     if not isinstance(scores, list):
-        raise RuntimeError("Reranker service returned an invalid 'scores' payload.")
+        raise TypeError("Reranker service returned an invalid 'scores' payload.")
     if len(scores) != len(documents):
         raise RuntimeError(
             "Reranker service returned a score count that does not match candidates."
