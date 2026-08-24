@@ -69,31 +69,43 @@ For retrieval-only metrics and reporting, see:
 
 ## How Should We Evaluate Final Answers?
 
-Use a small rubric with human review.
+Recommendation: use a `machine-readable answer-eval pipeline` first, then spot-check with humans.
+
+The current Phase 6 direction is:
+
+- use `ragas` for answer correctness, grounding, and answer relevance
+- score citation quality with `ragas` plus explicit citation-hit checks
+- track answerability and abstention behavior separately
+- save one JSON report per evaluation run
 
 Recommended answer dimensions:
 
-- correctness
-- grounding
+- correctness relative to the gold reference answer
+- grounding / faithfulness to retrieved manual evidence
 - citation quality
-- completeness
-- vehicle specificity
-- clarity
-- abstention quality when evidence is missing
+- answer relevance to the user question
+- answerability / abstention behavior
 
-Simple scoring is enough at first, as long as it is consistent.
+Human review still matters, especially for:
+
+- borderline partial answers
+- citation usefulness
+- insufficient-evidence questions
 
 ## Should We Use LLM-as-Judge?
 
-Recommendation: `Only as a secondary aid`.
+Recommendation: `Yes, with guardrails`.
 
 Why:
 
-- it can help scale review
-- but it should not be the source of truth early on
-- human inspection matters a lot in a grounded QA project
+- it scales much better than pure manual review
+- `ragas` gives us consistent machine-readable answer metrics
+- we still keep reference answers, expected sections, and citation hits in the loop
 
-Use human-reviewed examples as the primary benchmark.
+The practical rule should be:
+
+- use `ragas` as the default scoring layer
+- use human spot checks for regressions, prompt changes, and surprising failures
 
 ## How Should We Compare Basic Hybrid vs Hierarchical Hybrid?
 

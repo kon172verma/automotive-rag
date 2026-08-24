@@ -325,6 +325,16 @@ Include the packaged answer context in the output:
   --include-answer-context
 ```
 
+Run answer evaluation on one eval file:
+
+```bash
+.venv/bin/python src/evaluation/evaluate_answers.py \
+  --match 'eval-v1-camry.json' \
+  --mode hybrid-rerank \
+  --answer-model gpt-5-mini \
+  --judge-model gpt-4o-mini
+```
+
 Run retrieval evaluation on one eval file:
 
 ```bash
@@ -353,12 +363,14 @@ Run all retrieval evaluation modes:
 Reports are written to:
 
 - `artifacts/retrieval-reports`
+- `artifacts/answer-eval-reports`
 
 Note:
 
 - reranking runs through the host reranker service in `src/reranking/service.py`
 - the reranker model downloads on first service startup and is then cached locally
 - on Apple Silicon Macs, the service can use `MPS` when `RERANKER_DEVICE=auto`
+- answer evaluation uses `ragas` with the configured OpenAI judge model
 
 ```bash
 sed -n '1,200p' artifacts/chunks/2020-toyota-yaris.json

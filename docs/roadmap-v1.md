@@ -47,7 +47,7 @@ For component-specific design details, use the linked docs instead of this roadm
 | Phase 3: Retrieval baseline | `Complete` | Keyword, vector, fusion, and reranking are implemented |
 | Phase 4: Retrieval evaluation | `Complete` | Gold datasets and retrieval evaluation runner exist |
 | Phase 5: End-to-end answer generation | `Partial` | Initial OpenAI-backed answer generation CLI now exists, but answer-quality evaluation and tuning remain |
-| Phase 6: Final answer evaluation | `Remaining` | No answer-quality evaluation pipeline yet |
+| Phase 6: Final answer evaluation | `Partial` | Ragas-backed answer evaluation now exists, but abstention coverage is still limited by the current datasets |
 | Phase 7: Latency benchmarking and v1 release checks | `Partial` | Retrieval and generation latency instrumentation exist, but the full repeatable benchmark and release-gate workflow is not finished |
 
 ## Reference Docs
@@ -135,12 +135,12 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Task | Status | Notes |
 | --- | --- | --- |
-| Evaluate final answers separately from retrieval | `Remaining` | Planned in docs, not implemented in code |
-| Score answer correctness | `Remaining` | Not implemented yet |
-| Score grounding / faithfulness | `Remaining` | Not implemented yet |
-| Score citation quality | `Remaining` | Not implemented yet |
-| Score abstention quality on insufficient-evidence questions | `Remaining` | Not implemented yet |
-| Produce machine-readable answer-eval reports | `Remaining` | Not implemented yet |
+| Evaluate final answers separately from retrieval | `Complete` | Implemented in `src/evaluation/evaluate_answers.py` |
+| Score answer correctness | `Complete` | Implemented with Ragas factual-correctness scoring against `reference_answer` |
+| Score grounding / faithfulness | `Complete` | Implemented with Ragas faithfulness scoring against retrieved evidence |
+| Score citation quality | `Complete` | Implemented with Ragas citation-quality scoring plus machine-readable citation hit checks |
+| Score abstention quality on insufficient-evidence questions | `Partial` | The report tracks answerability and abstention outcomes, but the current gold datasets have little or no insufficient-evidence coverage |
+| Produce machine-readable answer-eval reports | `Complete` | Answer-eval reports are written under `artifacts/answer-eval-reports` |
 
 ## Phase 7: Latency Benchmarks and v1 Release Checks
 
@@ -169,8 +169,8 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Priority | Remaining Work |
 | --- | --- |
-| High | Implement final answer evaluation |
 | High | Finish latency benchmarking and release-gate reporting |
+| Medium | Add stronger insufficient-evidence coverage for abstention evaluation |
 | Medium | Tune abstention behavior and citation quality |
 | Medium | Keep retrieval evaluation stable for any-hit based metrics in v1 |
 
@@ -188,8 +188,8 @@ For component-specific design details, use the linked docs instead of this roadm
 
 | Order | Next Step |
 | --- | --- |
-| 1 | Add answer-quality evaluation |
-| 2 | Add end-to-end latency benchmark scripts or reports |
-| 3 | Define simple v1 release-gate criteria |
+| 1 | Add end-to-end latency benchmark scripts or reports |
+| 2 | Define simple v1 release-gate criteria |
+| 3 | Add stronger insufficient-evidence coverage for abstention evaluation |
 | 4 | Tune abstention behavior and citation quality |
 | 5 | Keep retrieval evaluation stable for any-hit based metrics in v1 |

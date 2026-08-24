@@ -1,1 +1,1 @@
-"""Evaluation runners and metrics for retrieval and future generation work."""
+"""Evaluation runners and metrics for retrieval and answer quality."""
