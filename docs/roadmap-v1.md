@@ -193,3 +193,15 @@ For component-specific design details, use the linked docs instead of this roadm
 | 3 | Add stronger insufficient-evidence coverage for abstention evaluation |
 | 4 | Tune abstention behavior and citation quality |
 | 5 | Keep retrieval evaluation stable for any-hit based metrics in v1 |
+
+## Handoff To v1.1
+
+After the remaining benchmark and abstention work above is closed, the next milestone should be:
+
+- [roadmap-v1.1.md](./roadmap-v1.1.md)
+
+That milestone is where we should:
+
+- benchmark alternative embedding, reranker, fusion, keyword, and answer-model choices
+- compare structured retrieval and chunking variants
+- choose stronger defaults before moving into deployment-oriented `v2`

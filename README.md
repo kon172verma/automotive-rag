@@ -95,6 +95,10 @@ Key documents:
 - [docs/generation.md](./docs/generation.md): grounded answer-generation plan, output schema, and model options
 - [docs/reranking.md](./docs/reranking.md): reranking role, candidate pool, and evaluation expectations
 - [docs/retrieval-evaluation.md](./docs/retrieval-evaluation.md): retrieval-only metrics and experiment structure
+- [docs/roadmap-v1.md](./docs/roadmap-v1.md): current v1 completion status and remaining closeout work
+- [docs/roadmap-v1.1.md](./docs/roadmap-v1.1.md): post-v1 experimentation and benchmarking milestone
+- [docs/roadmap-ahead.md](./docs/roadmap-ahead.md): milestone sequence beyond v1
+- [docs/v2.md](./docs/v2.md): deployment-ready architecture target
 
 ## Source Layout
 
